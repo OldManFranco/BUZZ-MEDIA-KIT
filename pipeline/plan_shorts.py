@@ -11,7 +11,10 @@ This script:
     point to the quietest 10 ms of the source audio within +-60 ms (draft "snap_cuts": false turns it off) and
     warns on a cut louder than -35 dBFS (the first sound of a dropped word leaking through)
   - assigns output time t to every segment, overlay, "layout" range, "sfx_track" hit and "caption_layout.mute"
-    range, adds the ending hold (default 0.6 s)
+    range; layout and overlay times sit on frame boundaries, and an overlay edge within 3 frames of a picture
+    switch moves onto that switch's frame (promo-02/03: a panel 2 frames late showed bare ink)
+  - ends the reel ~0.1 s after the last word ("ending_tail_s"; promo-02/03: the old 0.6 s hold showed the speaker
+    looking away and was trimmed by hand every time). "ending_hold_s" still sets the hold explicitly
   - prints the words heard in 0-3 s, total length, visual changes (cuts, overlays, layout switches, hf_scene
     "beats"), longest hold
   - scans the spoken text for the client's exclusion keywords (kit.exclusions)
@@ -19,7 +22,9 @@ This script:
     inside a sentence (with the length if they're restored); an ending that isn't a sentence end or that the
     speaker talks on after; SFX closer than 3 s or on a number or name being said; on-screen text held too short
     to read (0.5 s + 0.3 s per word); interpolated words at a cut edge; length outside min_s-max_s
-    (default 15-60 s); a hold over 4 s without a visual change
+    (default 15-60 s); a hold over 4 s without a visual change; a bare anchor word that occurs more than once; a
+    "flash_in" scene that isn't covering the frame before the cut it hides; a punch-in under a graphic; a "matte"
+    that outlasts its A-roll segment
 Writes the timed EDL next to the draft (s<N>_edl.json).
 Draft needs "project_dir" (kit.Project); each segment's "clip" is a transcript stem in <project>\working\transcripts\
 (e.g. "promo-01" for raw\promo-01.mkv).
@@ -33,7 +38,8 @@ every audio fix. "anchor" (start) and "until" (end) take:
 They work on overlays, "layout" items (a layout item without an end runs to the next one), "sfx_track" hits and
 the two ends of each "caption_layout" "mute" range. An hf_scene can name word "cues" ({"upload": "upload"}: filled
 into the scene as {{cue_upload}}, seconds from the scene's start) and list its "beats" (seconds from its start,
-cue names or anchors: when its picture changes; they count as visual changes).
+cue names or anchors: when its picture changes; they count as visual changes). A scene with a subject cutout
+("matte": true) can end the cutout early with "matte_until" (an anchor): the face checks skip the cutout's span only.
 
 Usage:
   python pipeline/plan_shorts.py clients/<client>/projects/<project>/working/plans/s1_draft.json [...]
@@ -55,6 +61,15 @@ PAD_IN, PAD_OUT = 0.06, 0.08
 SR = 48000
 SNAP_WIN, SNAP_FRAME, LOUD_CUT_DB = 0.06, 0.010, -35.0
 SFX_MIN_GAP = 3.0
+FPS = 30
+TAIL = 0.1             # seconds of picture after the last word's end (its natural decay)
+SNAP_FRAMES = 3        # an overlay edge this close to a picture switch moves onto it
+
+
+def q(t):
+    """A time on a frame boundary, rounded down at 4 decimals so the renderer (round(t*30)) and HyperFrames (a
+    layer shows from its data-start) agree on the frame."""
+    return int(round(t * FPS) / FPS * 1e4) / 1e4
 FILLERS = {"uh", "um", "uhm", "ah", "er", "erm", "hmm", "like"}
 PICTURE = {"broll", "punch_in", "chip", "card", "title_card", "reframe", "hf_scene"}
 # exclusion keywords are per client now: kit.exclusions(edl)
@@ -225,7 +240,7 @@ def sentence_checks(ws, seg, keep, prev_src, k):
 
 # ---------------------------------------------------------------- anchors
 
-def make_resolver(seg_maps, spoken, total):
+def make_resolver(seg_maps, spoken, total, notes=None):
     def src_to_out(seg, src_t):
         for a, b, tt in seg_maps[seg]:
             if a - 0.3 <= src_t <= b + 0.3:
@@ -238,7 +253,7 @@ def make_resolver(seg_maps, spoken, total):
                 if [norm(s["w"]) for s in spoken[i:i + len(ph)]] == ph]
         if len(hits) < n:
             raise ValueError(f"anchor word '{phrase}'#{n} isn't in the spoken words")
-        return spoken[hits[n - 1]]["t"]
+        return spoken[hits[n - 1]]["t"], len(hits)
 
     def at(a):
         if isinstance(a, (int, float)):
@@ -248,9 +263,17 @@ def make_resolver(seg_maps, spoken, total):
         if isinstance(a, list):
             return src_to_out(*a)
         if isinstance(a, dict):
-            return round(word_at(a["word"], a.get("n", 1)) + a.get("offset", 0.0), 2)
+            t, k = word_at(a["word"], a.get("n", 1))
+            if k > 1 and "n" not in a and notes is not None:
+                notes.append(f"anchor '{a['word']}' occurs {k} times: it took the first ({t} s); add \"n\" or use "
+                             f"[seg, src_t]")
+            return round(t + a.get("offset", 0.0), 2)
         phrase, _, n = a.partition("#")
-        return word_at(phrase, int(n or 1))
+        t, k = word_at(phrase, int(n or 1))
+        if k > 1 and not n and notes is not None:
+            notes.append(f"anchor '{phrase}' occurs {k} times: it took the first ({t} s); write '{phrase}#2'... or "
+                         f"[seg, src_t]")
+        return t
     return at
 
 
@@ -362,9 +385,20 @@ def main(path):
             if next_src and next_src["start"] - keep[-1]["end"] < 0.6:
                 warnings.append(f"ending: the speaker goes on {next_src['start'] - keep[-1]['end']:.2f} s after the "
                                 f"out-point (\"{' '.join(after[:8])}...\"): does the thought close here?")
-    hold = d.get("ending_hold_s", 0.6)
+    last_end = spoken[-1]["e"]
+    tail = d.get("ending_tail_s", TAIL)
+    if "ending_hold_s" not in d and t - last_end > tail:     # the room-tone pad ran past the tail: trim the last piece
+        cut = t - last_end - tail
+        e = timeline[-1]
+        e["out"], e["dur"] = round(e["out"] - cut, 3), round(e["dur"] - cut, 2)
+        a, b, tt = seg_maps[-1][-1]
+        seg_maps[-1][-1] = (a, b - cut, tt)
+        t -= cut
+    hold = d["ending_hold_s"] if "ending_hold_s" in d else round(max(0.0, tail - (t - last_end)), 3)
     total = t + hold
-    at = make_resolver(seg_maps, spoken, total)
+    ending["tail_s"] = round(total - last_end, 3)
+    anchor_notes = []
+    at = make_resolver(seg_maps, spoken, total, anchor_notes)
 
     overlays = []
     for o in d.get("overlays", []):
@@ -373,9 +407,14 @@ def main(path):
             if "cues" in o:
                 o["cue_times"] = {n: round(at(a) - o["t"], 3) for n, a in o["cues"].items()}
             if "beats" in o:
+                cues = o.get("cue_times", {})
                 o["beat_times"] = [round(o["t"] + (b if isinstance(b, (int, float)) else
-                                                   o["cue_times"][b] if b in o.get("cue_times", {}) else at(b) - o["t"]), 2)
+                                                   cues[b] if isinstance(b, str) and b in cues else at(b) - o["t"]), 2)
                                    for b in o["beats"]]
+            if "matte_until" in o:
+                mu = o["matte_until"]
+                o["matte_until"] = (o.get("cue_times", {})[mu] if isinstance(mu, str) and mu in o.get("cue_times", {})
+                                    else mu if isinstance(mu, (int, float)) else round(at(mu) - o["t"], 3))
             # "orange_from" may be a cue name or an anchor too (promo-02); build_captions needs seconds from the start
             of = o.get("orange_from")
             if of is not None and not isinstance(of, (int, float)):
@@ -386,6 +425,40 @@ def main(path):
     layout = sorted((place(l, at, "end") for l in d.get("layout", [])), key=lambda l: l["t"])
     for l, nxt in zip(layout, layout[1:] + [None]):
         l.setdefault("t_out", nxt["t"] if nxt else "end")
+    seg_cuts = sorted({q(next(e["t"] for e in timeline if e["seg"] == k)) for k in {e["seg"] for e in timeline}})
+    synced = []
+
+    def on_cut(v, what):
+        """A layout edge within 3 frames of an A-roll cut moves onto the cut (promo-02: a switch 2 frames after
+        the cut gave those 2 frames the next layout's look)."""
+        v = q(v)
+        near = min(seg_cuts, key=lambda c: abs(c - v))
+        if 0 < abs(near - v) <= SNAP_FRAMES / FPS + 1e-6:
+            synced.append(f"layout {what} {v} -> {near} (A-roll cut)")
+            return near
+        return v
+    for l in layout:
+        l["t"] = on_cut(l["t"], f"{l['mode']} t")
+        if l["t_out"] != "end":
+            l["t_out"] = on_cut(l["t_out"], f"{l['mode']} t_out")
+    # picture switches: a new A-roll segment or a layout change (mode or punch); a graphic that dresses a switch
+    # starts and ends on the switch's frame, not on the word (promo-02: bare ink for 2 frames)
+    switches = sorted({q(e["t"]) for e in timeline if e is next(x for x in timeline if x["seg"] == e["seg"])}
+                      | {l["t"] for i, l in enumerate(layout)
+                         if i and (l["mode"], l.get("punch")) != (layout[i - 1]["mode"], layout[i - 1].get("punch"))})
+    for o in overlays:
+        for key in ("t", "t_out"):
+            v = o.get(key)
+            if not isinstance(v, (int, float)):
+                continue
+            v = q(v)
+            near = min(switches, key=lambda s_: abs(s_ - v), default=None)
+            if near is not None and key == "t" and o.get("flash_in"):
+                near = q(near - 1 / FPS)     # a covering flash is at full cover on the cut frame: start 1 frame early
+            if near is not None and 0 < abs(near - v) <= SNAP_FRAMES / FPS + 1e-6:
+                synced.append(f"{Path(o.get('src', o['kind'])).stem} {key} {v} -> {near} (picture switch)")
+                v = near
+            o[key] = v
     sfx_track = sorted((place(h, at, round(total, 2)) for h in d.get("sfx_track", [])), key=lambda h: h["t"])
     cap_layout = dict(d.get("caption_layout") or {})
     if "mute" in cap_layout:
@@ -408,6 +481,37 @@ def main(path):
         warnings.append(f"length {total:.1f}s outside {lo:g}-{hi:g} s")
     if longest > 4.0:
         warnings.append(f"longest hold without a visual change {longest:.1f}s (> 4 s)")
+
+    warnings += list(dict.fromkeys(anchor_notes))     # once each
+    seg_span = {k: (min(e["t"] for e in timeline if e["seg"] == k),
+                    max(e["t"] + e["dur"] for e in timeline if e["seg"] == k)) for k in {e["seg"] for e in timeline}}
+    cuts_out = sorted({q(a) for a, _ in seg_span.values()} - {0.0})
+    for o in overlays:
+        name = Path(o.get("src", o["kind"])).stem
+        # a covering transition is at full cover on the cut frame, so it starts at least 1 frame before it
+        if o.get("flash_in"):
+            cut = min(cuts_out + [l["t"] for l in layout], key=lambda c: abs(c - o["t"]), default=None)
+            if cut is not None and abs(cut - o["t"]) < 0.3 and o["t"] > cut - 1 / FPS + 1e-6:
+                warnings.append(f"{name}: flash_in starts at {o['t']} s but the cut it hides is at {cut} s: start it "
+                                f"at {q(cut - 1 / FPS)} s or earlier, at full cover on the cut frame")
+        # a cutout of the subject never runs past its A-roll segment (it would paint the old shot over the new one)
+        if o.get("matte"):
+            m_end = o["t"] + o["matte_until"] if "matte_until" in o else o.get("t_out", total)
+            seg = next((k for k, (a, b) in seg_span.items() if a <= o["t"] < b), None)
+            if seg is not None and q(m_end) > q(seg_span[seg][1]) + 1e-3:
+                warnings.append(f"{name}: the matte runs to {m_end:.2f} s, past its A-roll segment's end "
+                                f"({seg_span[seg][1]:.2f} s): end it (\"matte_until\") before the cut")
+        # a punch-in moves the face (eyes to 37 %): a graphic placed against the 1.0 framing ends up on the chin
+        if o["kind"] in ("hf_scene", "chip", "card") and not (o.get("background") or o.get("full_bleed")
+                                                             or o.get("matte") or o.get("placed_for_punch")):
+            o_end = o.get("t_out", total)
+            for l in layout:
+                l_end = total if l["t_out"] == "end" else l["t_out"]
+                if l["mode"] == "full" and l.get("punch", 1.0) > 1.0 and l["t"] < o_end and o["t"] < l_end:
+                    warnings.append(f"{name}: punch {l['punch']} at {l['t']}-{l_end} s under this graphic moves the "
+                                    f"face; drop the punch, or place the graphic for the punched frame "
+                                    f"(\"placed_for_punch\": true)")
+                    break
 
     # SFX against the same rules qa.py applies after the render
     sfx = sfx_hits(out)
@@ -437,7 +541,7 @@ def main(path):
     out.update({"status": "draft", "length_s": round(total, 1), "hook_words_0_3s": hook_words,
                 "spoken_text": text, "spoken_words": spoken, "exclusion_scan": hits or "clean",
                 "pacing": {"visual_changes": len(changes) - 1, "longest_hold_s": round(longest, 1)},
-                "checks": {"numbers": numbers, "mid_sentence": mid_sentence, "ending": ending,
+                "checks": {"numbers": numbers, "mid_sentence": mid_sentence, "ending": ending, "synced": synced,
                            "sfx": sfx, "loudest_cuts": sorted(cuts, key=lambda c: -c["db"])[:5]},
                 "warnings": warnings})
     dst = Path(path).with_name(Path(path).name.replace("_draft", "_edl"))
@@ -448,7 +552,10 @@ def main(path):
     for n in numbers:
         print(f"    '{n['w']}' seg {n['seg']} @{n['src_t']:.2f}: {n['dur']} s, gap after {n['gap_after']} s"
               + (f"  << {n['suspect']}" if n.get("suspect") else ""))
-    print(f"  ending: '{ending.get('last_word')}', then the speaker says: \"{ending.get('next_words')}\"")
+    print(f"  ending: '{ending.get('last_word')}' + {ending.get('tail_s')} s, then the speaker says: "
+          f"\"{ending.get('next_words')}\"")
+    for x in synced:
+        print(f"  synced: {x}")
     print(f"  SFX: {[(h['t'], Path(h['what']).stem) for h in sfx] or 'none'}")
     if cuts:
         c = max(cuts, key=lambda c: c["db"])

@@ -220,6 +220,8 @@ class Layer:
                 continue
             if near_next and fits(g + nxt[:1]) and len(nxt) != 2:
                 g.append(nxt.pop(0))
+                if not nxt:             # a one-word group was pulled in whole (promo-03): drop the empty list
+                    groups.pop(k + 1)
             k += 1
         return groups
 

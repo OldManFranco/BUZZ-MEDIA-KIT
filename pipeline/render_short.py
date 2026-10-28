@@ -11,7 +11,11 @@ Stages (each reuses the previous stage's files in <project>\working\render\<shor
             EDL "layout" (optional): [{"t", "t_out"|"end", "mode": "full"|"split"|"pip", "punch"}] picks the
             speaker framing per time range: full = 9:16 crop; split = speaker in the bottom half (an 8:7 crop,
             sharper on 1080p sources), ink top half for the graphics; pip = ink frame with the speaker
-            head-and-shoulders in the EDL "pip" rounded rectangle (graphics above clip a matching hole)
+            head-and-shoulders in the EDL "pip" rounded rectangle (graphics above clip a matching hole).
+            A layout item's "move_in": <seconds> turns a switch between full and split (either way, any punch)
+            into one camera move: the speaker's picture pulls back from the previous framing into the new one
+            (scale and eye position eased in-out, power3), starting exactly on the previous frame's eyes and face
+            size, while the panel slides in above (promo-02: a wipe over a hard cut read as rough)
   audio     voice spliced sample-exact from the raw clips (5 ms fades at splices, segment levels matched),
             cleaned (HPF 80 Hz, light de-noise, 2:1 comp) -> voice.wav; + B-roll natural sound + SFX
             (on overlay events, and the EDL "sfx_track": [{"t", "file", "db"}]) + the EDL "music" bed
@@ -22,7 +26,9 @@ Stages (each reuses the previous stage's files in <project>\working\render\<shor
             (~3 min, ~1 GB), so wrong words are caught before it. Fix the plan, or listen, decide the difference
             is transcription noise and go on with --stage rest (or --stage all --words-ok)
   graphics  "graphics_engine": "hyperframes" EDLs only: title cards, chips and data cards as a HyperFrames
-            project, checked and rendered transparent -> graphics.mov (build_graphics.py)
+            project, checked and rendered transparent -> graphics.mov (build_graphics.py), then frame_check.py on
+            every frame of it (face, safe zone, caption clearance, blank space). "all" and "rest" STOP here on a
+            failure: fix the graphic, or after looking at the frames go on with --stage final (or --frames-ok)
   rest      graphics + final
   final     picture.mp4 + graphics.mov (if any) + the Pillow layer (build_captions.py: karaoke captions, and
             the title card/chips for older "pillow" EDLs) + mix.wav
@@ -44,6 +50,7 @@ FPS, SR = 30, 48000
 OUT_W, OUT_H = 1080, 1920
 EYES_TARGET = 0.37            # eyes at 37% from the top on punch-ins (CLAUDE.md §6: 35-40%)
 INK = "0x121212"              # background of split / pip frames (Buzz Media ink; under the graphics anyway)
+MUSIC_BED_DB, MUSIC_GAP_DB = -21, -17   # under the voice / in gaps (promo-03: "perfect volume"; -26/-22 too low)
 SFX = {  # short names -> files inside the SFX library (catalogo_sfx.json entries, plus the synthesized _synth\)
     "ui_pop": "ui_pop/px_s_348820_pop_sfx_soft_subtle_ui.mp3",
     "whoosh": "whoosh/mk_s_166_fast_small_sweep_transition.wav",
@@ -160,12 +167,25 @@ def picture_plan(edl, faces):
             if frames[f]["kind"] == "aroll":
                 frames[f]["mode"] = l["mode"]
                 frames[f]["scale"] = l.get("punch", frames[f]["scale"])
+    lays = sorted(edl.get("layout", []), key=lambda l: l["t"])
+    for prev, l in zip(lays, lays[1:]):
+        if not l.get("move_in"):
+            continue
+        if {prev["mode"], l["mode"]} - {"full", "split"}:
+            print(f"  move_in at {l['t']} s skipped: it works between full and split only")
+            continue
+        f0 = fr(l["t"])
+        nm = max(2, fr(l["move_in"]))
+        for f in range(f0, min(f0 + nm, n)):
+            if frames[f]["kind"] == "aroll":
+                frames[f]["move"] = {"id": f0, "from": [prev["mode"], prev.get("punch", 1.0)],
+                                     "k": f - f0, "n": nm}
     # no visible shot shorter than 0.4 s: a sliver left by a punch-in or a B-roll edge takes its neighbor's look
     MIN = int(0.4 * FPS)
     for _ in range(3):
         runs = group(frames)
         for k, r in enumerate(runs):
-            if r["n"] >= MIN or len(runs) == 1:
+            if r["n"] >= MIN or len(runs) == 1 or r.get("move"):
                 continue
             prev = runs[k - 1] if k else None
             nxt = runs[k + 1] if k + 1 < len(runs) else None
@@ -186,11 +206,13 @@ def group(frames):
     """Consecutive frames with the same source piece and crop become one renderable run."""
     runs = []
     for f, x in enumerate(frames):
-        k = (x["piece"], round(x["xc"], 4), x["scale"], x.get("mode", "full"))
+        mv = x.get("move")
+        k = (x["piece"], round(x["xc"], 4), x["scale"], x.get("mode", "full"), mv and mv["id"])
         if runs and runs[-1]["k"] == k:
             runs[-1]["n"] += 1
         else:
             runs.append({"k": k, "f0": f, "n": 1, "mode": x.get("mode", "full"),
+                         **({"move": {"from": mv["from"], "k0": mv["k"], "n": mv["n"]}} if mv else {}),
                          **{a: x[a] for a in ("kind", "src", "t", "xc", "scale", "eyes_y")}})
     return runs
 
@@ -212,6 +234,63 @@ def crop_box(r, src_w, src_h, aspect, eyes_at):
     y = 0 if r["scale"] == 1.0 else min(max(r["eyes_y"] * src_h - eyes_at * h, 0), src_h - h)
     ev = lambda v: int(v) // 2 * 2
     return ev(w), ev(h), ev(x), ev(y)
+
+
+def frame_map(mode, scale, r, src_w, src_h):
+    """(s, ox, oy) with output = s * source + (ox, oy): where the renderer puts the source for this framing."""
+    rr = dict(r, scale=scale)
+    if mode == "split":
+        w, h, x, y = crop_box(rr, src_w, src_h, OUT_W / (OUT_H / 2), 0.30)
+        sc = (OUT_H / 2) / h
+        return sc, -sc * x, OUT_H / 2 - sc * y
+    w, h, x, y = crop_for(rr, src_w, src_h)
+    sc = OUT_H / h
+    return sc, -sc * x, -sc * y
+
+
+def ease_in_out(p):
+    return 4 * p ** 3 if p < 0.5 else 1 - (-2 * p + 2) ** 3 / 2
+
+
+def move_affine(r, k, src_w, src_h):
+    """The PIL affine (output -> source) for frame k of a move run: scale eased in log space, the eyes' output
+    position eased in a straight line, so the face never drifts sideways."""
+    m = r["move"]
+    p = ease_in_out((m["k0"] + k + 1) / m["n"])
+    a = frame_map(*m["from"], r, src_w, src_h)
+    b = frame_map(r["mode"], r["scale"], r, src_w, src_h)
+    ex, ey = r["xc"] * src_w, r["eyes_y"] * src_h
+    sc = float(np.exp(np.log(a[0]) + (np.log(b[0]) - np.log(a[0])) * p))
+    tx = (a[0] * ex + a[1]) + ((b[0] * ex + b[1]) - (a[0] * ex + a[1])) * p
+    ty = (a[0] * ey + a[2]) + ((b[0] * ey + b[2]) - (a[0] * ey + a[2])) * p
+    ox, oy = tx - sc * ex, ty - sc * ey
+    return (1 / sc, 0, -ox / sc, 0, 1 / sc, -oy / sc)
+
+
+def render_move(r, src, out, grade):
+    """A move run, frame by frame: decode the source, place it with move_affine on ink, encode."""
+    from PIL import Image
+    sw, sh = src_size(src)
+    dec = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", f"{r['t']:.4f}", "-i", str(src), "-an",
+                            "-frames:v", str(r["n"]), "-vf", f"fps={FPS}", "-pix_fmt", "rgb24", "-f", "rawvideo", "-"],
+                           stdout=subprocess.PIPE)
+    lut = f"lut3d={grade.as_posix()}," if grade else ""
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24",
+                            "-s", f"{OUT_W}x{OUT_H}", "-r", str(FPS), "-i", "-", "-vf", f"{lut}format=yuv420p",
+                            "-frames:v", str(r["n"]), "-c:v", "libx264", "-preset", "veryfast", "-crf", "12",
+                            "-r", str(FPS), "-video_track_timescale", "15360", str(out)], stdin=subprocess.PIPE)
+    ink = tuple(int(INK[2:][i:i + 2], 16) for i in (0, 2, 4))
+    last = None
+    for k in range(r["n"]):
+        buf = dec.stdout.read(sw * sh * 3)
+        if len(buf) == sw * sh * 3:
+            last = Image.frombytes("RGB", (sw, sh), buf)
+        im = last.transform((OUT_W, OUT_H), Image.AFFINE, move_affine(r, k, sw, sh),
+                            resample=Image.BICUBIC, fillcolor=ink)
+        enc.stdin.write(im.tobytes())
+    enc.stdin.close()
+    if enc.wait() != 0 or dec.wait() != 0:
+        sys.exit(f"move render failed at {r['f0']}")
 
 
 def pip_mask(edl, rd):
@@ -248,6 +327,12 @@ def stage_picture(edl, rd, inp):
                   f"zoompan=z='{z0}+({push})*on/{max(r['n'] - 1, 1)}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':"
                   f"d={r['n']}:s={OUT_W}x{OUT_H}:fps={FPS},format=yuv420p")
             cmd = ["ffmpeg", "-v", "error", "-y", "-i", str(src), "-vf", vf]
+        elif r.get("move"):
+            render_move(r, src, out, grade)
+            lst.append(f"file '{out.name}'")
+            print(f"  part {k:03d} f{r['f0']:5d}+{r['n']:3d} move  {r['move']['from'][0]}->{r['mode']} "
+                  f"{Path(r['src']).name} @{r['t']:.2f}", flush=True)
+            continue
         elif r.get("mode") == "split":
             # speaker in the bottom half: 1080x960 from an 8:7 crop, eyes ~30 % down it; ink top half
             w, h, x, y = crop_box(r, *src_size(src), OUT_W / (OUT_H / 2), 0.30)
@@ -344,7 +429,7 @@ def stage_audio(edl, rd, inp):
             # 0.26 s after "works."), so the voice ends at the segment's out with a 60 ms fade
             k = int(round((e["out"] - e["in"]) * SR))
             x = np.concatenate([fade(x[:k], 0, int(0.06 * SR)), np.zeros_like(x[k:])])
-        slices.append((e["seg"], f0 * SR // FPS, fade(x, 240, int(0.25 * SR) if last and not hold else 240)))
+        slices.append((e["seg"], f0 * SR // FPS, fade(x, 240, int(0.06 * SR) if last and not hold else 240)))
         t += dur
     # match levels between segments (speech RMS, ignoring quiet frames), max +-3 dB
     def speech_rms(x):
@@ -434,7 +519,8 @@ def music_bed(edl, voice, bus, total):
     speech = vr > 10 ** (-40 / 20)
     v_db = 20 * np.log10(np.sqrt((vr[speech] ** 2).mean()))
     m_db = 20 * np.log10(np.sqrt((mr[mr > 1e-4] ** 2).mean()))
-    target = np.where(speech, m["bed_db"], m["gap_db"]).astype(np.float64) + v_db - m_db
+    bed, gap = m.get("bed_db", MUSIC_BED_DB), m.get("gap_db", MUSIC_GAP_DB)
+    target = np.where(speech, bed, gap).astype(np.float64) + v_db - m_db
     g = np.empty_like(target)                                 # attack 50 ms (down), release 300 ms (up)
     g[0] = target[0]
     for i in range(1, len(target)):
@@ -445,7 +531,7 @@ def music_bed(edl, voice, bus, total):
     fo = int(m.get("fade_out", 1.0) * SR)                     # 0.3 s sounded abrupt (promo-01)
     gain[-fo:] *= np.linspace(1, 0, fo)
     place(bus, (x * gain[:, None]).astype(np.float32), 0)
-    return {"file": str(path), "in": m.get("in", 0.0), "bed_db": m["bed_db"], "gap_db": m["gap_db"],
+    return {"file": str(path), "in": m.get("in", 0.0), "bed_db": bed, "gap_db": gap,
             "voice_speech_dbfs": round(float(v_db), 1), "music_dbfs": round(float(m_db), 1)}
 
 
@@ -528,6 +614,8 @@ def main():
     ap.add_argument("--name", required=True, help="short-title slug for the output file name")
     ap.add_argument("--stage", default="all",
                     choices=["picture", "audio", "captions", "words", "graphics", "final", "rest", "all"])
+    ap.add_argument("--frames-ok", action="store_true",
+                    help="with --stage all/rest: go on to final even if the frame check fails")
     ap.add_argument("--words-ok", action="store_true",
                     help="with --stage all: go on to graphics + final even if the words check finds differences")
     ap.add_argument("--input", default=None, help="input folder (default: the EDL's project folder)")
@@ -556,7 +644,10 @@ def main():
                 sys.path.insert(0, str(Path(__file__).parent))
                 import build_graphics
                 n = json.loads((rd / "picture_runs.json").read_text(encoding="utf-8"))["frames"]
-                build_graphics.run(edl, rd, n)
+                mov = build_graphics.run(edl, rd, n)
+                if not build_graphics.check_render(edl, rd, mov) and a.stage in ("all", "rest") and not a.frames_ok:
+                    sys.exit("STOPPED before final: the frame check failed (above, and render\\<short>\\"
+                             "frame_check.json). Fix the graphics, or look at those frames and go on with --stage final")
             else:
                 print("  pillow graphics (drawn in the final stage)")
         else:
