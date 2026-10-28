@@ -2,18 +2,28 @@ r"""
 Buzz Media kit — step 6: render an approved EDL (CLAUDE.md §5 step 6). Paths come from kit.Project(edl).
 
   python pipeline/render_short.py clients/<client>/projects/<project>/working/plans/s1_edl.json --name <title-slug>
-         [--stage picture|audio|captions|graphics|final|all]
+         [--stage picture|audio|captions|words|graphics|final|rest|all] [--words-ok]
 
 Stages (each reuses the previous stage's files in <project>\working\render\<short>\):
   picture   frame-exact 30 fps timeline: A-roll cropped 9:16 around the speaker's eyes (faces.json from
             face_track.py; any source size), punch-ins, B-roll cut-ins; graded with the EDL's "grade" .cube
             (or <project>\working\grade\longform_match.cube if present; no grade otherwise) -> picture.mp4
+            EDL "layout" (optional): [{"t", "t_out"|"end", "mode": "full"|"split"|"pip", "punch"}] picks the
+            speaker framing per time range: full = 9:16 crop; split = speaker in the bottom half (an 8:7 crop,
+            sharper on 1080p sources), ink top half for the graphics; pip = ink frame with the speaker
+            head-and-shoulders in the EDL "pip" rounded rectangle (graphics above clip a matching hole)
   audio     voice spliced sample-exact from the raw clips (5 ms fades at splices, segment levels matched),
-            cleaned (HPF 80 Hz, light de-noise, 2:1 comp) -> voice.wav; + B-roll natural sound + SFX,
-            two-pass loudnorm to -14 LUFS / -1.5 dBTP -> mix.wav
+            cleaned (HPF 80 Hz, light de-noise, 2:1 comp) -> voice.wav; + B-roll natural sound + SFX
+            (on overlay events, and the EDL "sfx_track": [{"t", "file", "db"}]) + the EDL "music" bed
+            (ducked under speech), two-pass loudnorm to -14 LUFS / -1.5 dBTP -> mix.wav
   captions  WhisperX on voice.wav (the kit's tools\venv_whisperx) -> voice.words.json for the karaoke captions
+  words     the re-transcription vs the approved lines (qa.transcript_diff) and the plan's number/ending
+            warnings. "all" STOPS here unless the words match exactly: the graphics render is the slow part
+            (~3 min, ~1 GB), so wrong words are caught before it. Fix the plan, or listen, decide the difference
+            is transcription noise and go on with --stage rest (or --stage all --words-ok)
   graphics  "graphics_engine": "hyperframes" EDLs only: title cards, chips and data cards as a HyperFrames
             project, checked and rendered transparent -> graphics.mov (build_graphics.py)
+  rest      graphics + final
   final     picture.mp4 + graphics.mov (if any) + the Pillow layer (build_captions.py: karaoke captions, and
             the title card/chips for older "pillow" EDLs) + mix.wav
             -> <project>\output\<slug>-<short>_<name>.mp4 (1080x1920, 30 fps, H.264 yuv420p, AAC 48 kHz)
@@ -33,6 +43,7 @@ import kit  # noqa: E402
 FPS, SR = 30, 48000
 OUT_W, OUT_H = 1080, 1920
 EYES_TARGET = 0.37            # eyes at 37% from the top on punch-ins (CLAUDE.md §6: 35-40%)
+INK = "0x121212"              # background of split / pip frames (Buzz Media ink; under the graphics anyway)
 SFX = {  # short names -> files inside the SFX library (catalogo_sfx.json entries, plus the synthesized _synth\)
     "ui_pop": "ui_pop/px_s_348820_pop_sfx_soft_subtle_ui.mp3",
     "whoosh": "whoosh/mk_s_166_fast_small_sweep_transition.wav",
@@ -140,6 +151,15 @@ def picture_plan(edl, faces):
         for f in range(f0, f1):
             frames[f] = {"kind": "broll", "piece": f"b{f0}", "src": o["src"], "t": o.get("in", 0.0) + (f - f0) / FPS,
                          "xc": o.get("xc", 0.5), "scale": 1.0, "eyes_y": 0.5, "seg": None, "lock": True}
+    for f in range(n):
+        frames[f].setdefault("mode", "full")
+    for l in edl.get("layout", []):
+        f0 = fr(l["t"])
+        f1 = n if l["t_out"] == "end" else min(fr(l["t_out"]), n)
+        for f in range(f0, f1):
+            if frames[f]["kind"] == "aroll":
+                frames[f]["mode"] = l["mode"]
+                frames[f]["scale"] = l.get("punch", frames[f]["scale"])
     # no visible shot shorter than 0.4 s: a sliver left by a punch-in or a B-roll edge takes its neighbor's look
     MIN = int(0.4 * FPS)
     for _ in range(3):
@@ -158,7 +178,7 @@ def picture_plan(edl, faces):
                     base = frames[nb["f0"]]
                     frames[f] = dict(base, t=base["t"] + (f - nb["f0"]) / FPS)
                 else:
-                    frames[f] = dict(frames[f], xc=nb["xc"], scale=nb["scale"])
+                    frames[f] = dict(frames[f], xc=nb["xc"], scale=nb["scale"], mode=nb["mode"])
     return group(frames), n
 
 
@@ -166,11 +186,12 @@ def group(frames):
     """Consecutive frames with the same source piece and crop become one renderable run."""
     runs = []
     for f, x in enumerate(frames):
-        k = (x["piece"], round(x["xc"], 4), x["scale"])
+        k = (x["piece"], round(x["xc"], 4), x["scale"], x.get("mode", "full"))
         if runs and runs[-1]["k"] == k:
             runs[-1]["n"] += 1
         else:
-            runs.append({"k": k, "f0": f, "n": 1, **{a: x[a] for a in ("kind", "src", "t", "xc", "scale", "eyes_y")}})
+            runs.append({"k": k, "f0": f, "n": 1, "mode": x.get("mode", "full"),
+                         **{a: x[a] for a in ("kind", "src", "t", "xc", "scale", "eyes_y")}})
     return runs
 
 
@@ -183,6 +204,27 @@ def crop_for(r, src_w, src_h):
     return ev(w), ev(h), ev(x), ev(y)
 
 
+def crop_box(r, src_w, src_h, aspect, eyes_at):
+    """A crop of the given aspect (w/h) around the eyes: full height at punch 1.0, eyes at eyes_at otherwise."""
+    h = src_h / r["scale"]
+    w = h * aspect
+    x = min(max(r["xc"] * src_w - w / 2, 0), src_w - w)
+    y = 0 if r["scale"] == 1.0 else min(max(r["eyes_y"] * src_h - eyes_at * h, 0), src_h - h)
+    ev = lambda v: int(v) // 2 * 2
+    return ev(w), ev(h), ev(x), ev(y)
+
+
+def pip_mask(edl, rd):
+    """The EDL "pip" rounded rectangle as a grayscale mask (alphamerge input)."""
+    from PIL import Image, ImageDraw
+    p = edl["pip"]
+    m = Image.new("L", (p["w"], p["h"]), 0)
+    ImageDraw.Draw(m).rounded_rectangle((0, 0, p["w"] - 1, p["h"] - 1), p["r"], fill=255)
+    path = rd / "pip_mask.png"
+    m.save(path)
+    return path
+
+
 def stage_picture(edl, rd, inp):
     faces = json.loads((rd / "faces.json").read_text(encoding="utf-8"))
     runs, n = picture_plan(edl, faces)
@@ -190,6 +232,7 @@ def stage_picture(edl, rd, inp):
     shutil.rmtree(parts, ignore_errors=True)
     parts.mkdir(parents=True)
     grade = grade_file(edl)
+    mask = pip_mask(edl, rd) if edl.get("pip") else None
     lst = []
     for k, r in enumerate(runs):
         out = parts / f"p{k:03d}.mp4"
@@ -205,6 +248,29 @@ def stage_picture(edl, rd, inp):
                   f"zoompan=z='{z0}+({push})*on/{max(r['n'] - 1, 1)}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':"
                   f"d={r['n']}:s={OUT_W}x{OUT_H}:fps={FPS},format=yuv420p")
             cmd = ["ffmpeg", "-v", "error", "-y", "-i", str(src), "-vf", vf]
+        elif r.get("mode") == "split":
+            # speaker in the bottom half: 1080x960 from an 8:7 crop, eyes ~30 % down it; ink top half
+            w, h, x, y = crop_box(r, *src_size(src), OUT_W / (OUT_H / 2), 0.30)
+            lut = f"lut3d={grade.as_posix()}," if grade else ""
+            vf = (f"crop={w}:{h}:{x}:{y},scale={OUT_W}:{OUT_H // 2}:flags=lanczos,fps={FPS},{lut}"
+                  f"pad={OUT_W}:{OUT_H}:0:{OUT_H // 2}:color={INK},format=yuv420p")
+            cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{r['t']:.4f}", "-i", str(src), "-an", "-vf", vf]
+        elif r.get("mode") == "pip":
+            # ink frame, the speaker head-and-shoulders in the EDL "pip" rounded rectangle
+            p = edl["pip"]
+            sw, sh = src_size(src)
+            h = min(p["crop_h_src"], sh)
+            w = h * p["w"] / p["h"]
+            x = min(max(r["xc"] * sw - w / 2, 0), sw - w)
+            y = min(max(r["eyes_y"] * sh - 0.30 * h, 0), sh - h)
+            ev = lambda v: int(v) // 2 * 2
+            lut = f"lut3d={grade.as_posix()}," if grade else ""
+            fc = (f"[0:v]crop={ev(w)}:{ev(h)}:{ev(x)}:{ev(y)},scale={p['w']}:{p['h']}:flags=lanczos,fps={FPS},{lut}"
+                  f"format=rgba[f];[1:v]format=gray,scale={p['w']}:{p['h']}[m];[f][m]alphamerge[fm];"
+                  f"color=c={INK}:s={OUT_W}x{OUT_H}:r={FPS}[bg];[bg][fm]overlay={p['x']}:{p['y']}:shortest=1,"
+                  f"format=yuv420p")
+            cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{r['t']:.4f}", "-i", str(src),
+                   "-loop", "1", "-i", str(mask), "-an", "-filter_complex", fc]
         else:
             w, h, x, y = crop_for(r, *src_size(src))
             lut = f"lut3d={grade.as_posix()}," if grade else ""
@@ -214,8 +280,8 @@ def stage_picture(edl, rd, inp):
         run(cmd + ["-frames:v", str(r["n"]), "-c:v", "libx264", "-preset", "veryfast", "-crf", "12",
                    "-r", str(FPS), "-video_track_timescale", "15360", str(out)])
         lst.append(f"file '{out.name}'")
-        print(f"  part {k:03d} f{r['f0']:5d}+{r['n']:3d} {r['kind']:5s} {Path(r['src']).name} @{r['t']:.2f} "
-              f"xc={r['xc']:.2f} x{r['scale']}", flush=True)
+        print(f"  part {k:03d} f{r['f0']:5d}+{r['n']:3d} {r['kind']:5s} {r.get('mode', 'full'):5s} "
+              f"{Path(r['src']).name} @{r['t']:.2f} xc={r['xc']:.2f} x{r['scale']}", flush=True)
     (parts / "list.txt").write_text("\n".join(lst) + "\n", encoding="utf-8")
     run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(parts / "list.txt"),
          "-c", "copy", str(rd / "picture.mp4")])
@@ -321,6 +387,14 @@ def stage_audio(edl, rd, inp):
             lead = 0.12 if o["kind"] == "broll" else 0.0
             place(bus, load_audio(f) * db(level), int(round((o["t"] - lead) * SR)))
             sfx_log.append({"t": round(o["t"] - lead, 2), "sfx": name, "file": str(f), "db": level})
+    for h in edl.get("sfx_track", []):
+        f = sfx_file(edl, h["file"])
+        if not f:
+            print(f"  SFX '{h['file']}' not found in the library, skipped")
+            continue
+        place(bus, load_audio(f) * db(h["db"]), int(round(h["t"] * SR)))
+        sfx_log.append({"t": h["t"], "sfx": h["file"], "file": str(f), "db": h["db"]})
+    music_log = music_bed(edl, voice, bus, total)
     mixf = rd / "mix_pre.f32"
     bus.tofile(mixf)
     inp_args = ["-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", str(mixf)]
@@ -331,11 +405,48 @@ def stage_audio(edl, rd, inp):
           f"measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
     run(["ffmpeg", "-v", "error", "-y", *inp_args, "-af", ln + f",aresample={SR}", "-c:a", "pcm_s24le",
          str(rd / "mix.wav")])
-    (rd / "audio_log.json").write_text(json.dumps({"segment_gain_db": gains, "sfx": sfx_log,
+    (rd / "audio_log.json").write_text(json.dumps({"segment_gain_db": gains, "sfx": sfx_log, "music": music_log,
                                                     "loudnorm_first_pass": m}, indent=1), encoding="utf-8")
     raw_voice.unlink()
     mixf.unlink()
     print(f"voice.wav + mix.wav ({total / SR:.2f} s); segment gains {gains}; {len(sfx_log)} SFX")
+
+
+def music_bed(edl, voice, bus, total):
+    """EDL "music": {"file", "in", "bed_db", "gap_db", "fade_out"}: the track from "in", its level set relative to
+    the speech (bed_db under the voice's speech RMS while he talks, gap_db in pauses and the end hold), with a
+    50 ms / 300 ms duck envelope, faded out over the last fade_out seconds. The client's music folder first."""
+    m = edl.get("music")
+    if not m:
+        return None
+    path = next((lib / m["file"] for lib in (kit.Project(edl).library("music"), kit.ROOT / "music")
+                 if (lib / m["file"]).is_file()), None)
+    if not path:
+        print(f"  music '{m['file']}' not found, skipped")
+        return None
+    x = load_audio(path)[int(round(m.get("in", 0.0) * SR)):][:total]
+    x = np.pad(x, ((0, total - len(x)), (0, 0)))
+    hop = SR // 100                                           # 10 ms frames
+    def rms(a):
+        a = a[: len(a) // hop * hop].reshape(-1, hop, 2)
+        return np.sqrt((a ** 2).mean(axis=(1, 2)) + 1e-12)
+    vr, mr = rms(voice), rms(x)
+    speech = vr > 10 ** (-40 / 20)
+    v_db = 20 * np.log10(np.sqrt((vr[speech] ** 2).mean()))
+    m_db = 20 * np.log10(np.sqrt((mr[mr > 1e-4] ** 2).mean()))
+    target = np.where(speech, m["bed_db"], m["gap_db"]).astype(np.float64) + v_db - m_db
+    g = np.empty_like(target)                                 # attack 50 ms (down), release 300 ms (up)
+    g[0] = target[0]
+    for i in range(1, len(target)):
+        k = 0.2 if target[i] < g[i - 1] else 1 / 30
+        g[i] = g[i - 1] + (target[i] - g[i - 1]) * k
+    gain = np.repeat(10 ** (g / 20), hop)[:total]
+    gain = np.pad(gain, (0, total - len(gain)), mode="edge")
+    fo = int(m.get("fade_out", 1.0) * SR)                     # 0.3 s sounded abrupt (promo-01)
+    gain[-fo:] *= np.linspace(1, 0, fo)
+    place(bus, (x * gain[:, None]).astype(np.float32), 0)
+    return {"file": str(path), "in": m.get("in", 0.0), "bed_db": m["bed_db"], "gap_db": m["gap_db"],
+            "voice_speech_dbfs": round(float(v_db), 1), "music_dbfs": round(float(m_db), 1)}
 
 
 # ---------------------------------------------------------------- captions + final
@@ -346,6 +457,22 @@ def stage_captions(edl, rd):
         f.unlink()
     run([str(kit.WHISPERX_PY), "-I", str(kit.WHISPERX), str(rd / "voice.wav"), str(tdir)])
     print("wrote", tdir / "voice.words.json")
+
+
+def stage_words(edl, rd):
+    """True when the final voice says exactly the approved lines."""
+    import qa
+    words = json.loads((rd / "transcript" / "voice.words.json").read_text(encoding="utf-8"))["words"]
+    ratio, diffs = qa.transcript_diff(edl["spoken_text"], words)
+    print(f"  re-transcription vs approved lines: similarity {ratio:.3f}")
+    for op, a, b in diffs:
+        print(f"    {op:8s} approved \"{a}\" -> heard \"{b}\"")
+    for w in edl.get("warnings", []):
+        if w.startswith(("number", "ending", "seg")):
+            print(f"  plan warning: {w}")
+    if not diffs:
+        print("  words clean")
+    return not diffs
 
 
 def stage_final(edl, rd, name):
@@ -399,7 +526,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("edl")
     ap.add_argument("--name", required=True, help="short-title slug for the output file name")
-    ap.add_argument("--stage", default="all", choices=["picture", "audio", "captions", "graphics", "final", "all"])
+    ap.add_argument("--stage", default="all",
+                    choices=["picture", "audio", "captions", "words", "graphics", "final", "rest", "all"])
+    ap.add_argument("--words-ok", action="store_true",
+                    help="with --stage all: go on to graphics + final even if the words check finds differences")
     ap.add_argument("--input", default=None, help="input folder (default: the EDL's project folder)")
     a = ap.parse_args()
     edl = json.loads(Path(a.edl).read_text(encoding="utf-8"))
@@ -407,7 +537,8 @@ def main():
     inp = Path(a.input) if a.input else proj.input
     rd = proj.render_dir(edl["short"])
     rd.mkdir(parents=True, exist_ok=True)
-    stages = ["picture", "audio", "captions", "graphics", "final"] if a.stage == "all" else [a.stage]
+    stages = {"all": ["picture", "audio", "captions", "words", "graphics", "final"],
+              "rest": ["graphics", "final"]}.get(a.stage, [a.stage])
     for s in stages:
         print(f"== {s}", flush=True)
         if s == "picture":
@@ -416,6 +547,10 @@ def main():
             stage_audio(edl, rd, inp)
         elif s == "captions":
             stage_captions(edl, rd)
+        elif s == "words":
+            if not stage_words(edl, rd) and a.stage == "all" and not a.words_ok:
+                sys.exit("STOPPED before graphics: the words differ from the approved lines (above). Fix the plan "
+                         "and re-render picture/audio, or if it's transcription noise: --stage rest")
         elif s == "graphics":
             if edl.get("graphics_engine") == "hyperframes":
                 sys.path.insert(0, str(Path(__file__).parent))

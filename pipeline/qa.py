@@ -1,15 +1,21 @@
 r"""
 Buzz Media kit — step 7: automatic QA of a rendered short (CLAUDE.md §5 step 7).
 
-  python pipeline/qa.py <project>/output/<slug>-s1_<name>.mp4 <project>/working/plans/s1_edl.json
+  python pipeline/qa.py <project>/output/<slug>-s1_<name>.mp4 <project>/working/plans/s1_edl.json [--out <dir>]
+
+Runs WhisperX again (~1 min): start it in the background and run it once per render.
 
 Checks: specs (1080x1920, 30 fps, H.264 yuv420p, AAC 48 kHz stereo, the reel's min_s-max_s, default 15-60 s), loudness after AAC
 (-14 +-1 LUFS, TP <= -1 dBTP), first text on screen by 1.0 s, hook words in 0-3 s vs the EDL,
 re-transcription (WhisperX) vs the approved lines, the client's exclusion keywords, no word cut at a splice,
-captions (safe zone y 260-1440 / x <= 940, <= 4 words, no overlap, word timing +-0.08 s),
-graphics in the safe zone, black/flash frames, shots under 0.4 s, SFX spacing.
-Writes <output>/<slug>-<short>_qa.md with 8 frame grabs in <output>/qa_<short>/.
+every splice in a dip of the source audio (<= -35 dBFS: no leaked syllable), captions (safe zone y 260-1440 /
+x <= 940, <= 4 words, no overlap, word timing +-0.08 s), graphics in the safe zone (full-bleed cards and
+"background": true hf_scenes are full-frame artwork by design and skipped), black/flash frames, shots under 0.4 s,
+visual change <= 5 s (cuts, overlays, layout switches and hf_scene "beats", plan_shorts.visual_changes), SFX spacing.
+Writes <output>/<slug>-<short>_qa.md with 8 frame grabs in <output>/qa_<short>/ (--out: another folder, e.g. to
+re-check an approved reel without touching its report).
 """
+import argparse
 import difflib
 import json
 import re
@@ -21,9 +27,11 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 import kit  # noqa: E402
+import plan_shorts  # noqa: E402
 
 FPS = 30
 SAFE = {"y0": 260, "y1": 1440, "x1": 940}
+SPLICE_DB = -35.0
 
 
 def sh(cmd):
@@ -32,6 +40,16 @@ def sh(cmd):
 
 def norm(w):
     return re.sub(r"[^a-z0-9]", "", w.lower().replace("timu", "temu").replace("u.s.", "us"))
+
+
+def transcript_diff(spoken_text, words):
+    """Similarity and differences [(op, approved, heard)] between the approved lines and a transcript's words.
+    Shared with render_short.py's words stage."""
+    A = [norm(w) for w in spoken_text.split() if norm(w)]
+    B = [norm(w["w"]) for w in words if norm(w["w"])]
+    sm = difflib.SequenceMatcher(None, A, B)
+    return sm.ratio(), [(op, " ".join(A[i1:i2]), " ".join(B[j1:j2]))
+                        for op, i1, i2, j1, j2 in sm.get_opcodes() if op != "equal"]
 
 
 class Report:
@@ -43,9 +61,11 @@ class Report:
         print(f"{'PASS' if ok is True else 'FAIL' if ok is False else ok:5s} {name}: {detail}", flush=True)
 
 
-def main(mp4, edl_path):
+def main(mp4, edl_path, out_dir=None):
     mp4, edl = Path(mp4), json.loads(Path(edl_path).read_text(encoding="utf-8"))
     rd = kit.Project(edl).render_dir(edl["short"])
+    out_dir = Path(out_dir) if out_dir else mp4.parent
+    out_dir.mkdir(parents=True, exist_ok=True)
     R = Report()
 
     # ---- specs
@@ -80,13 +100,18 @@ def main(mp4, edl_path):
     R.add("captions <= 4 words", max(c["n_words"] for c in caps) <= 4, f"max {max(c['n_words'] for c in caps)}")
     ov = [(x["text"], y["text"]) for x, y in zip(caps, caps[1:]) if y["t0"] < x["t1"] - 1e-3]
     R.add("captions don't overlap", not ov, f"{len(ov)} overlaps")
-    # full-bleed data cards cover the frame by design; their text layout is audited by `hyperframes check`
-    badg = [o for o in ovs if not o.get("full_bleed") and o.get("bbox") and (
+    # full-bleed data cards and "background" hf_scenes cover the frame by design; their text layout is audited by
+    # `hyperframes check`. Older graphics_layout.json files lack the flag: match the EDL event by its start time
+    bg_t = [e["t"] for e in edl["events"] if e.get("background")]
+    full = lambda o: o.get("full_bleed") or o.get("background") or any(abs(o["t"] - t) < 0.02 for t in bg_t)
+    badg = [o for o in ovs if not full(o) and o.get("bbox") and (
         o["bbox"][1] < SAFE["y0"] or o["bbox"][3] > SAFE["y1"] or o["bbox"][2] > SAFE["x1"])]
-    R.add("graphics in safe zone", not badg, "; ".join(f"{o['kind']} '{o['text']}' {o['bbox']}" for o in ovs))
+    R.add("graphics in safe zone", not badg, "; ".join(f"{o['kind']} '{o['text']}' {o['bbox']}" for o in ovs
+                                                       if not full(o)) + f" ({sum(map(full, ovs))} full-frame skipped)"
+          + (f"; outside: {[o['text'] for o in badg]}" if badg else ""))
 
     # ---- re-transcribe the final file
-    qd = rd / "qa_transcript"
+    qd = out_dir / "qa_transcript" if out_dir != mp4.parent else rd / "qa_transcript"
     for f in qd.glob(f"{mp4.stem}.*"):
         f.unlink()
     r = sh([str(kit.WHISPERX_PY), "-I", str(kit.WHISPERX),
@@ -97,12 +122,9 @@ def main(mp4, edl_path):
     ratio = difflib.SequenceMatcher(None, [norm(w) for w in hook.split()],
                                     [norm(w) for w in edl["hook_words_0_3s"].split()]).ratio()
     R.add("hook words 0-3 s match EDL", ratio >= 0.85, f"heard \"{hook}\" vs EDL \"{edl['hook_words_0_3s']}\" ({ratio:.2f})")
-    A = [norm(w) for w in edl["spoken_text"].split() if norm(w)]
-    B = [norm(w["w"]) for w in words if norm(w["w"])]
-    sm = difflib.SequenceMatcher(None, A, B)
-    diffs = [(op, " ".join(A[i1:i2]), " ".join(B[j1:j2])) for op, i1, i2, j1, j2 in sm.get_opcodes() if op != "equal"]
-    R.add("transcript = approved lines", sm.ratio() >= 0.97 and not any(d[0] == "insert" for d in diffs),
-          f"similarity {sm.ratio():.3f}; differences: {diffs or 'none'}")
+    ratio, diffs = transcript_diff(edl["spoken_text"], words)
+    R.add("transcript = approved lines", ratio >= 0.97 and not any(d[0] == "insert" for d in diffs),
+          f"similarity {ratio:.3f}; differences: {diffs or 'none'}")
     excl = kit.exclusions(edl)
     hits = sorted({m.group(0) for pat in excl for m in re.finditer(pat, final_txt, re.I)})
     approved_hits = sorted({m.group(0) for pat in excl for m in re.finditer(pat, edl["spoken_text"], re.I)})
@@ -118,6 +140,19 @@ def main(mp4, edl_path):
         splices.append(round(t, 3))
     cut = [(s, w["w"]) for s in splices for w in words if w["start"] + 0.04 < s < w["end"] - 0.04]
     R.add("no word cut at a splice", not cut, f"{len(splices)} splices checked" + (f"; inside a word: {cut}" if cut else ""))
+    # every cut point (each A-roll piece's in and out) in a dip of the source audio: a cut on sound is the first or
+    # last syllable of a dropped word leaking through (promo-01: "th-" of "that", a stray "it")
+    loud = []
+    for x in arolls:
+        audio = plan_shorts.source_audio(edl, x["src"])
+        if audio is None:
+            continue
+        for edge, side in ((x["in"], "in"), (x["out"], "out")):
+            lv = plan_shorts.level_db(audio, edge)
+            if lv > SPLICE_DB:
+                loud.append(f"{x['src']} {side} {edge:.3f} ({lv} dBFS)")
+    R.add("every splice lands in a dip", not loud, f"{2 * len(arolls)} cut points, limit {SPLICE_DB:g} dBFS"
+          + (f"; on sound: {loud}" if loud else ""))
     # caption timing vs the final file
     cw = [w for c in caps for w in c["words"]]
     sm2 = difflib.SequenceMatcher(None, [norm(w["w"]) for w in cw], [norm(w["w"]) for w in words])
@@ -154,8 +189,9 @@ def main(mp4, edl_path):
     longest = max(n for _, n in shots) / FPS
     R.add("no shot under 0.4 s", not short, f"{len(shots)} shots, shortest {min(n for _, n in shots) / FPS:.2f} s"
           + (f"; short: {short}" if short else ""))
-    R.add("visual change <= 5 s", edl["pacing"]["longest_hold_s"] <= 5.0,
-          f"plan longest hold {edl['pacing']['longest_hold_s']} s (cuts, punch-ins, chips, B-roll); "
+    _, hold = plan_shorts.visual_changes(edl, edl["length_s"])
+    R.add("visual change <= 5 s", hold <= 5.0,
+          f"longest hold {hold:.1f} s (cuts, overlays, layout switches, hf_scene beats); "
           f"longest single camera shot {longest:.1f} s")
 
     # ---- SFX
@@ -168,7 +204,7 @@ def main(mp4, edl_path):
     R.add("no SFX on a number", not on_num, f"{on_num or 'none'}")
 
     # ---- frame grabs
-    gdir = mp4.parent / f"qa_{edl['short']}"
+    gdir = out_dir / f"qa_{edl['short']}"
     gdir.mkdir(exist_ok=True)
     times = [0.0, 0.5, 1.5, 3.0] + [round(3.0 + (dur - 3.5) * k / 4, 2) for k in range(1, 5)]
     grabs = []
@@ -196,11 +232,16 @@ def main(mp4, edl_path):
         f"- Segment level matching (dB): " + ", ".join(f"seg {k}: {v:+.1f}" for k, v in alog["segment_gain_db"].items()),
         "", "## Frame grabs", "", f"![sheet](qa_{edl['short']}/sheet.jpg)", ""]
     md += [f"- {g.name}" for g in grabs]
-    qa = mp4.parent / f"{edl['slug']}-{edl['short']}_qa.md"
+    qa = out_dir / f"{edl['slug']}-{edl['short']}_qa.md"
     qa.write_text("\n".join(md) + "\n", encoding="utf-8")
     print("wrote", qa)
 
 
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
-    main(sys.argv[1], sys.argv[2])
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("mp4")
+    ap.add_argument("edl")
+    ap.add_argument("--out", help="folder for the report, grabs and re-transcription (default: next to the mp4)")
+    a = ap.parse_args()
+    main(a.mp4, a.edl, a.out)

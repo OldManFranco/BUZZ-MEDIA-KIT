@@ -36,6 +36,10 @@ RENDER_NOTES = [
     "While an orange graphic is on screen (title card, orange chip), the caption's active-word plate turns ink "
     "with white text: one orange element at a time (a cream plate vanished over the cream shirt in s1).",
     "Captions mute under a chip that shows the same words (mute_captions).",
+    "Over full-frame artwork (an hf_scene with \"background\": true) readability wins over the one-accent rule: "
+    "the active word keeps its accent plate and a dark band sits behind the caption (promo-01, Franco's note on 0-4 s).",
+    "A number never stands alone: it joins the next word (\"10 clients\"), unless it's in the EDL's "
+    "\"caption_emphasis\" (promo-01: \"10\" alone was hard to read).",
 ]
 FIXES = {"u.s": "US"}   # kit-wide spellings only; per-reel fixes go in the EDL's "caption_fixes"
 UNITS = {"pesos", "us", "dollars", "minutes", "years", "times"}
@@ -107,9 +111,20 @@ class Layer:
             return fixes.get(w["w"], w["w"])
         self.words = [{"w": clean(fix(w)), "raw": fix(w), "s": w["start"], "e": w["end"]} for w in words]
         self.break_before = edl.get("caption_break_before", [])
+        self.emphasis = {w.upper() for w in edl.get("caption_emphasis", [])}   # single-word groups on purpose
         self.join = edl.get("caption_join", [])
+        # EDL "caption_layout": {"split_y": 990, "full_y": 1360, "mute": [[t0, t1|"end"], ...]} with the EDL's
+        # "layout" list: each caption group sits at the baseline of the picture layout live at its start
+        # (seam in split screen, lower third otherwise), and no captions inside the mute ranges
+        self.cap_layout = edl.get("caption_layout") or {}
+        self.layouts = edl.get("layout", [])
+        self.mutes = [(a, float("inf") if b == "end" else b) for a, b in self.cap_layout.get("mute", [])]
         self.groups = self._group()
         self._layout()
+        lone = [g["words"][0]["w"] for g in self.groups if len(g["words"]) == 1]
+        if lone:
+            self.layout_log["notes"] = self.layout_log["notes"] + [
+                f"One-word caption groups left: {lone} (planned emphasis, or check them in the self-review)."]
 
     # ------------------------------------------------------------ captions
     def _group(self):
@@ -160,6 +175,7 @@ class Layer:
             cur.append(w)
         if cur:
             groups.append(cur)
+        groups = self._no_lone_numbers(groups)
         out = []
         for k, g in enumerate(groups):
             nxt = groups[k + 1][0]["s"] if k + 1 < len(groups) else g[-1]["e"] + 0.6
@@ -167,13 +183,61 @@ class Layer:
                         "emph": any(emph(w) for w in g)})
         return out
 
+    def _no_lone_numbers(self, groups):
+        """No one-word groups unless planned (EDL "caption_emphasis"). A number joins what follows ("10 clients",
+        "$199 per month": the whole next group when it's 2 words, so its last word isn't left alone); any other
+        lone word joins the group before it (a sentence's last word), takes that group's last word when it's
+        full, or joins the one after. Only when the result still fits on one line and the words are less than
+        0.3 s apart. What's left alone is listed in the layout notes for the self-review."""
+        fits = lambda ws: len(ws) <= 4 and self._width([x["w"] for x in ws], CAP_MIN) <= CAP_MAXW
+        open_end = lambda g: not re.search(r"[.?!]$", g[-1]["raw"])
+        k = 0
+        while k < len(groups):
+            g = groups[k]
+            if len(g) != 1 or g[0]["w"].upper() in self.emphasis:
+                k += 1
+                continue
+            w = g[0]
+            nxt = groups[k + 1] if k + 1 < len(groups) else None
+            prev = groups[k - 1] if k else None
+            near_next = nxt and nxt[0]["s"] - w["e"] < 0.3 and open_end(g)
+            near_prev = prev and w["s"] - prev[-1]["e"] < 0.3 and open_end(prev)
+            if re.search(r"\d", w["w"]) and near_next:
+                take = nxt if len(nxt) <= 2 else nxt[:1]
+                if fits(g + take):
+                    g.extend(take)
+                    del nxt[:len(take)]
+                    if not nxt:
+                        groups.pop(k + 1)
+                    k += 1
+                    continue
+            if near_prev and fits(prev + g):
+                prev.extend(groups.pop(k))
+                continue
+            if near_prev and len(prev) >= 3 and fits(prev[-1:] + g):   # "it up to | business owners"
+                g.insert(0, prev.pop())
+                k += 1
+                continue
+            if near_next and fits(g + nxt[:1]) and len(nxt) != 2:
+                g.append(nxt.pop(0))
+            k += 1
+        return groups
+
     @staticmethod
     def _width(ws, size):
         f = font(FONT_XB, size)
         return sum(f.getlength(w) for w in ws) + (f.getlength(" ") + WORD_GAP) * (len(ws) - 1)
 
+    def _base_y(self, t):
+        if not self.cap_layout:
+            return CAP_BASE_Y
+        mode = next((l["mode"] for l in self.layouts
+                     if l["t"] <= t < (float("inf") if l["t_out"] == "end" else l["t_out"])), "full")
+        return int(self.cap_layout.get("split_y" if mode == "split" else "full_y", CAP_BASE_Y))
+
     def _layout(self):
         for g in self.groups:
+            g["base"] = self._base_y(g["t0"])
             size = int(CAP_SIZE * 1.1) if g["emph"] else CAP_SIZE
             ws = [w["w"] for w in g["words"]]
             floor = 50 if len(ws) == 1 else CAP_MIN
@@ -186,7 +250,7 @@ class Layer:
             f = font(FONT_XB, size)
             sp = f.getlength(" ") + WORD_GAP
             lh = int(size * 1.15)
-            base0 = CAP_BASE_Y - (len(lines) - 1) * lh
+            base0 = g["base"] - (len(lines) - 1) * lh
             boxes, k = [], 0
             for li, line in enumerate(lines):
                 x = W / 2 - self._width(line, size) / 2
@@ -247,16 +311,31 @@ class Layer:
         x0, y0, x1, y1 = g["boxes"][k]["box"]
         return (x0 - 14, y0 - 10, x1 + 14, y1 + 10)
 
-    def _captions(self, canvas, t, orange_busy, muted):
+    @lru_cache(None)
+    def _band(self, gi):
+        """A soft dark band behind a caption group, for captions over busy full-frame artwork."""
+        x0, y0, x1, y1 = self.groups[gi]["bbox"]
+        oy = self.groups[gi]["base"] - 360
+        a = Image.new("L", (W, 520), 0)
+        ImageDraw.Draw(a).rectangle((0, y0 - 50 - oy, W, y1 + 50 - oy), fill=150)
+        a = a.filter(ImageFilter.GaussianBlur(24))
+        band = Image.new("RGBA", (W, 520), INK + (0,))
+        band.putalpha(a)
+        return band
+
+    def _captions(self, canvas, t, orange_busy, muted, busy_bg=False):
         gi = next((i for i, g in enumerate(self.groups) if g["t0"] <= t < g["t1"]), None)
         if gi is None or muted:
             return
         g = self.groups[gi]
         ws = [b["word"] for b in g["boxes"]]
         k = max([i for i, w in enumerate(ws) if w["s"] <= t] or [0])
-        style = "ink" if orange_busy else "orange"
-        oy = CAP_BASE_Y - 360                                    # local band: 360 above the baseline, 160 below
+        # readability wins over busy artwork: keep the accent plate and darken the band behind the words
+        style = "ink" if orange_busy and not busy_bg else "orange"
+        oy = g["base"] - 360                                     # local band: 360 above the baseline, 160 below
         layer = Image.new("RGBA", (W, 520))
+        if busy_bg:
+            layer.alpha_composite(self._band(gi))
         sh, (sx, sy) = self._shadow(gi)
         layer.alpha_composite(sh, (sx, sy - oy))
         # plate slides from the previous word over 80 ms
@@ -393,12 +472,16 @@ class Layer:
         t = f / FPS
         canvas = Image.new("RGBA", (W, H))
         live = [i for i, o in enumerate(self.overlays) if o["t"] <= t < o["t_out"]]
+        # an hf_scene's "orange_from" (s after its start) says when its accent element appears; before that the
+        # captions keep their accent plate
         orange = any(self.overlays[i]["kind"] == "title_card" or "orange" in self.overlays[i].get("style", "")
-                     or self.overlays[i].get("has_orange")
+                     or (self.overlays[i].get("has_orange")
+                         and t >= self.overlays[i]["t"] + self.overlays[i].get("orange_from", 0.0))
                      for i in live) or any(a <= t < b for a, b in self.orange_spans)
         muted = any(self.overlays[i].get("mute_captions") or self.overlays[i]["kind"] == "card"
-                    or self.overlays[i].get("full_bleed") for i in live)
-        self._captions(canvas, t, orange, muted)
+                    or self.overlays[i].get("full_bleed") for i in live) or any(a <= t < b for a, b in self.mutes)
+        busy_bg = any(self.overlays[i].get("background") for i in live)
+        self._captions(canvas, t, orange, muted, busy_bg)
         for i in (live if self.draw_overlays else []):
             if self.overlays[i]["kind"] == "title_card":
                 self._title_card(canvas, i, t)
