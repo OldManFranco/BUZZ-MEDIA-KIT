@@ -3,11 +3,15 @@ Buzz Media kit — step 1 inventory (CLAUDE.md §5 step 1).
 
 ffprobes every video in a project (raw\ + broll\, plus a long-form if there is one), lists the stills in
 assets\ and broll\, and writes <project>\working\inventory.json with duration, resolution, fps, orientation,
-audio, plus flags: vertical, under 1080p, variable frame rate, no audio.
+audio, plus flags: vertical, under 1080p, variable frame rate, no audio, a narrow 9:16 crop (landscape footage whose
+crop is under 1080 px wide: 1080p gives 606 px, scaled up 1.78x), and a likely screen-recorder copy (written by an
+ffmpeg-based recorder such as OBS: .mkv/.flv, "Lavf" encoder, "Track1" audio, no camera metadata). Each flag adds a
+line to "ask_client": what to request in the first reply (the camera original, 4K, or vertical).
 
 Usage:
   python pipeline/inventory.py --project clients/<client>/projects/<project>
   (archived layout: --input "input/el hueco" --slug el-hueco --longform "....mp4" --script "....docx")
+  --out <file>: write the inventory somewhere else (default <project>\working\inventory.json)
 """
 import argparse
 import json
@@ -60,6 +64,24 @@ def probe(path: Path) -> dict:
             flags.append("possible_vfr")
         if v.get("color_transfer") in ("arib-std-b67", "smpte2084"):
             flags.append("hdr_or_log_transfer")
+        if w > h:
+            crop_w = int(h * 9 / 16) // 2 * 2
+            info["crop_9x16_w"] = crop_w
+            if crop_w < 1080:
+                flags.append(f"narrow_9x16_crop_{crop_w}px")
+        tags = {k.lower(): str(val) for k, val in d["format"].get("tags", {}).items()}
+        a_titles = [str(s.get("tags", {}).get("title", "")) for s in a]
+        camera = any(k in tags for k in ("com.apple.quicktime.make", "make", "model", "com.android.manufacturer")) \
+            or any("handler_name" in s.get("tags", {}) and "core media" in str(s["tags"]["handler_name"]).lower()
+                   for s in d["streams"])
+        recorder = [why for why, hit in (
+            (f"{path.suffix} container", path.suffix.lower() in (".mkv", ".flv")),
+            (f"encoder {tags.get('encoder')}", any(x in tags.get("encoder", "").lower() for x in ("lavf", "obs"))),
+            ("audio track 'Track1'", any(t.lower().startswith("track") for t in a_titles)),
+            ("no camera metadata", not camera)) if hit]
+        if len(recorder) >= 2 and not camera:
+            flags.append("screen_recorder_copy?")
+            info["recorder_signs"] = recorder
     else:
         flags.append("no_video")
     info["audio"] = [{"codec": s.get("codec_name"), "channels": s.get("channels"),
@@ -70,6 +92,24 @@ def probe(path: Path) -> dict:
     return info
 
 
+def ask_client(i):
+    """What to request in the first reply for a flagged file (CLAUDE.md §5 step 1)."""
+    name, out = Path(i["file"]).name, []
+    narrow = next((f for f in i.get("flags", []) if f.startswith("narrow_9x16_crop")), None)
+    if "screen_recorder_copy?" in i.get("flags", []):
+        out.append(f"{name}: looks like a screen-recorder copy ({', '.join(i['recorder_signs'])}). Ask for the camera's "
+                   f"original file (straight off the card or phone), which is usually 4K and sharper.")
+    if narrow:
+        out.append(f"{name}: {i['width']}x{i['height']} landscape, so the 9:16 crop is only {i['crop_9x16_w']} px wide "
+                   f"(scaled up {1080 / i['crop_9x16_w']:.2f}x, soft; punch-ins cost more). Ask for 4K or vertical "
+                   f"footage; meanwhile prefer split-screen layouts and keep punch-ins <= 1.08.")
+    if "under_1080p" in i.get("flags", []):
+        out.append(f"{name}: under 1080p. Ask for a higher-resolution copy.")
+    if "no_audio" in i.get("flags", []):
+        out.append(f"{name}: no audio track. Ask whether there's a separate audio recording.")
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--project", help="clients/<client>/projects/<project>")
@@ -77,6 +117,7 @@ def main():
     ap.add_argument("--slug", help="archived layout only")
     ap.add_argument("--longform", default="longform.mp4")
     ap.add_argument("--script", default="script.md")
+    ap.add_argument("--out", help="write the inventory here instead of <project>\\working\\inventory.json")
     a = ap.parse_args()
 
     proj = kit.Project(project_dir=a.project) if a.project else kit.Project({"input_dir": a.input}, slug=a.slug)
@@ -101,7 +142,8 @@ def main():
     for sub in ("sfx", "music"):
         inv[sub] = str(proj.library(sub)) if a.project else (root / sub).is_dir()
 
-    out = proj.working / "inventory.json"
+    inv["ask_client"] = [x for sub in ("raw", "broll") for i in inv[sub] for x in ask_client(i)]
+    out = Path(a.out) if a.out else proj.working / "inventory.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(inv, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -121,6 +163,7 @@ def main():
             print(line(i))
     print(f"stills: {len(inv['stills'])}", *inv["stills"], sep="\n  ")
     print("missing:", inv["missing"] or "nothing")
+    print("ask the client (first reply):", *(inv["ask_client"] or ["nothing"]), sep="\n  ")
     print("wrote", out)
 
 

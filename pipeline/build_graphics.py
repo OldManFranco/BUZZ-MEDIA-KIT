@@ -133,14 +133,20 @@ def custom_scene(o, cid, dur, brand, proj):
     """A one-off HyperFrames scene made for this short (any animation, map, chart, kinetic type, registry block).
     The EDL event names its source file; this copies it in under the mount id and inlines the brand tokens.
     The file follows the HyperFrames scene contract with "{{id}}" wherever the scene id goes, and may use
-    {{brand_css}} and {{dur}}. Assets it needs go in its "assets" list (copied to the project's assets/)."""
+    {{brand_css}} and {{dur}}, and {{cue_<name>}} for each of the EDL event's "cue_times" (seconds from the scene's
+    start to a spoken word, from plan_shorts.py "cues"), so beats inside the scene follow the A-roll instead of
+    being typed as numbers. Assets it needs go in its "assets" list (copied to the project's assets/)."""
     src = Path(o["src"])
     for a in o.get("assets", []):
         dst = proj / "assets" / Path(a).name
         shutil.copy(a, dst)
     tpl = src.read_text(encoding="utf-8")
-    return fill(tpl, **{k: v for k, v in {"id": cid, "brand_css": brand, "dur": f"{dur:.3f}"}.items()
-                        if "{{" + k + "}}" in tpl})
+    slots = {"id": cid, "brand_css": brand, "dur": f"{dur:.3f}",
+             **{f"cue_{n}": f"{v:.3f}" for n, v in o.get("cue_times", {}).items()}}
+    missing = sorted(set(re.findall(r"\{\{(cue_\w+)\}\}", tpl)) - set(slots))
+    if missing:
+        sys.exit(f"{src.name} uses {missing} but the EDL event has no such cue (plan_shorts.py \"cues\")")
+    return fill(tpl, **{k: v for k, v in slots.items() if "{{" + k + "}}" in tpl})
 
 
 def brand_css(edl, proj):
@@ -192,7 +198,8 @@ def build(edl, rd, n_frames):
             f'           data-start="{start}" data-duration="{dur}" data-track-index="{k}" data-track-kind="graphics"\n'
             f'           data-width="{W}" data-height="{H}" style="z-index: {k}"></div>')
         plan.append({"id": cid, "kind": o["kind"], "text": o.get("text") or o.get("note"), "t": start,
-                     "t_out": round(end, 3), "full_bleed": o["kind"] == "card" or bool(o.get("full_bleed"))})
+                     "t_out": round(end, 3), "full_bleed": o["kind"] == "card" or bool(o.get("full_bleed")),
+                     "background": bool(o.get("background"))})
     index = (
         "<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n"
         '    <script src="assets/gsap.min.js"></script>\n  </head>\n  <body>\n'
@@ -206,7 +213,7 @@ def build(edl, rd, n_frames):
     return proj, plan
 
 
-def check(proj):
+def check(proj, edl=None):
     r = subprocess.run(hf_cli() + ["check", "--json"], cwd=proj, capture_output=True, text=True,
                        encoding="utf-8", errors="replace")
     (proj / "check.json").write_text(r.stdout, encoding="utf-8")
@@ -224,13 +231,19 @@ def check(proj):
             f.get("code") == "line_unread" and re.match(r'^"\d" \(1 word\)', f.get("message", "")))
     errors = [f for f in found if f.get("severity") == "error"]
     warns = [f for f in found if f.get("severity") == "warning" and not is_expected(f)]
+    # text on screen too short to read is a fix, not noise (promo-01: "BACK IN 48 H" held 0.76 s): hold it
+    # 0.5 s + 0.3 s per word, or list the exact message text in the EDL's "unread_ok" after Franco agrees
+    ok = set(edl.get("unread_ok", [])) if edl else set()
+    unread = [f for f in warns if f.get("code") == "line_unread" and not any(x in f.get("message", "") for x in ok)]
     for f in errors + warns:
-        print(f"  {f.get('severity')}: {f.get('code')}: {f.get('message', '')[:200]}")
+        print(f"  {'FIX' if f in unread else f.get('severity')}: {f.get('code')}: {f.get('message', '')[:200]}")
     if rep.get("browserSkipped"):
         print("  note: check skipped its browser audits (runtime/layout/contrast)")
     print(f"check: {len(errors)} errors, {len(warns)} warnings (full report: {proj / 'check.json'})")
     if errors or rep.get("ok") is False:
         sys.exit("hyperframes check failed")
+    if unread:
+        sys.exit(f"{len(unread)} on-screen text(s) too short to read: hold them longer (0.5 s + 0.3 s per word)")
     return rep
 
 
@@ -266,7 +279,7 @@ def render(proj, plan, rd):
 def run(edl, rd, n_frames, stages=("build", "check", "render")):
     proj, plan = build(edl, rd, n_frames)
     if "check" in stages:
-        check(proj)
+        check(proj, edl)
     if "snapshot" in stages:
         snapshot(proj, plan)
     if "render" in stages:
