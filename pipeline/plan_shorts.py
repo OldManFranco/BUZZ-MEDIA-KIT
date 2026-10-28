@@ -376,6 +376,11 @@ def main(path):
                 o["beat_times"] = [round(o["t"] + (b if isinstance(b, (int, float)) else
                                                    o["cue_times"][b] if b in o.get("cue_times", {}) else at(b) - o["t"]), 2)
                                    for b in o["beats"]]
+            # "orange_from" may be a cue name or an anchor too (promo-02); build_captions needs seconds from the start
+            of = o.get("orange_from")
+            if of is not None and not isinstance(of, (int, float)):
+                cue = o.get("cue_times", {}).get(of) if isinstance(of, str) else None
+                o["orange_from"] = cue if cue is not None else round(at(of) - o["t"], 3)
         overlays.append(o)
     overlays.sort(key=lambda o: o["t"])
     layout = sorted((place(l, at, "end") for l in d.get("layout", [])), key=lambda l: l["t"])
