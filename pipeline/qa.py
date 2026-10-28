@@ -103,7 +103,9 @@ def main(mp4, edl_path, out_dir=None):
     # full-bleed data cards and "background" hf_scenes cover the frame by design; their text layout is audited by
     # `hyperframes check`. Older graphics_layout.json files lack the flag: match the EDL event by its start time
     bg_t = [e["t"] for e in edl["events"] if e.get("background")]
-    full = lambda o: o.get("full_bleed") or o.get("background") or any(abs(o["t"] - t) < 0.02 for t in bg_t)
+    # a split-screen top panel (exactly the ink top half, y 0-960) is a background by design too (promo-01/02)
+    full = lambda o: (o.get("full_bleed") or o.get("background") or any(abs(o["t"] - t) < 0.02 for t in bg_t)
+                      or o.get("bbox") == [0, 0, 1080, 960])
     badg = [o for o in ovs if not full(o) and o.get("bbox") and (
         o["bbox"][1] < SAFE["y0"] or o["bbox"][3] > SAFE["y1"] or o["bbox"][2] > SAFE["x1"])]
     R.add("graphics in safe zone", not badg, "; ".join(f"{o['kind']} '{o['text']}' {o['bbox']}" for o in ovs

@@ -37,6 +37,11 @@
 /_benchmark/kallaway-transcripts/audio/
 /_benchmark/*.log
 /_benchmark/kallaway-reels/*.log
+# promo-02 references (pacing + before/after shorts): scan.json and sheets tracked, downloads and metadata not
+/_benchmark/promo-02-refs/*.mp4
+/_benchmark/promo-02-refs/*.webm
+/_benchmark/promo-02-refs/*.part
+/_benchmark/promo-02-refs/*.info.json
 
 # --- Waiting for Franco to delete by hand ---
 /_to_delete/
@@ -76,6 +81,7 @@
 *.jpg
 *.png
 !/_benchmark/kallaway/sheets/*.jpg
+!/_benchmark/promo-02-refs/sheets/*.jpg
 !/_archive_medellin_buzz/_benchmark/hooks_all.jpg
 
 # --- Kit tools: scripts tracked; venvs (copied from Alejo's kit, ~8.4 GB) and model files not ---

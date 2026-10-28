@@ -231,13 +231,17 @@ class Layer:
     def _base_y(self, t):
         if not self.cap_layout:
             return CAP_BASE_Y
-        mode = next((l["mode"] for l in self.layouts
-                     if l["t"] <= t < (float("inf") if l["t_out"] == "end" else l["t_out"])), "full")
-        return int(self.cap_layout.get("split_y" if mode == "split" else "full_y", CAP_BASE_Y))
+        item = next((l for l in self.layouts
+                     if l["t"] <= t < (float("inf") if l["t_out"] == "end" else l["t_out"])), {"mode": "full"})
+        if "caption_y" in item:     # a layout item can move its captions (promo-02: under the hook's chest graphic)
+            return int(item["caption_y"])
+        return int(self.cap_layout.get("split_y" if item["mode"] == "split" else "full_y", CAP_BASE_Y))
 
     def _layout(self):
         for g in self.groups:
-            g["base"] = self._base_y(g["t0"])
+            # +0.1 s: a group that starts on the word a layout switches on (promo-02 "Volume") can begin a few ms
+            # before the switch; it belongs to the new layout
+            g["base"] = self._base_y(g["t0"] + 0.1)
             size = int(CAP_SIZE * 1.1) if g["emph"] else CAP_SIZE
             ws = [w["w"] for w in g["words"]]
             floor = 50 if len(ws) == 1 else CAP_MIN
