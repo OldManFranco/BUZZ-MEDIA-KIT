@@ -14,8 +14,14 @@ Project:  <project>\working\render\<short>\hf\  (index.html + compositions\g<NN>
 
   build     write the project (no browser)
   check     npx hyperframes check --json; stops on errors
-  snapshot  PNG frames at each graphic's midpoint -> hf\.hyperframes\artifacts\snapshots\ (look before rendering)
+  snapshot  Gate 1, before anything renders: exact-alpha frames at every graphic's in/out, every 0.5 s, its beats
+            and every layout switch (snapshot_rgba: one pass over black, one over white, so shadows and soft edges
+            keep their real alpha) -> frame_check.py (face, safe zone with shadows and pop-up scale, caption
+            clearance, blank space) and the Gate 1 mockup (graphics_mockup.py: real framing + real captions)
+            -> working\plans\<short>_graphics_mockup.jpg. Works before the picture render: without
+            picture_runs.json the length comes from the EDL
   render    transparent MOV -> render\<short>\graphics.mov, then graphics_layout.json (measured boxes, for qa.py)
+            and frame_check.py on every frame of it (render_short.py stops before the final stage on a failure)
 
 Only EDLs with "graphics_engine": "hyperframes" use this; older EDLs keep the Pillow title card and chips.
 """
@@ -172,7 +178,7 @@ def brand_css(edl, proj):
                 label_family=label["family"], label_weight=label.get("weight", 500))
 
 
-def build(edl, rd, n_frames):
+def build(edl, rd, n_frames, bg=None):
     proj = rd / "hf"
     # rewrite only what this script generates; .hyperframes\ (project history, snapshots) is never deleted
     (proj / "compositions").mkdir(parents=True, exist_ok=True)
@@ -184,9 +190,11 @@ def build(edl, rd, n_frames):
     total = n_frames / FPS
     hosts, plan = [], []
     for k, o in enumerate(overlays(edl), 1):
-        start = round(o["t"], 3)
+        # 4 decimals: plan_shorts puts times on frame boundaries (rounded down), and 3 decimals would round some
+        # of them up past their frame, so a layer would start 1 frame late
+        start = round(o["t"], 4)
         end = min(o.get("t_out", o["t"] + 2.5), total)
-        dur = round(end - start, 3)
+        dur = round(end - start, 4)
         cid = f"g{k:02d}-{o['kind'].replace('_', '-')}"
         if o["kind"] == "hf_scene":
             html_ = custom_scene(o, cid, dur, brand, proj)
@@ -204,7 +212,8 @@ def build(edl, rd, n_frames):
         "<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n"
         '    <script src="assets/gsap.min.js"></script>\n  </head>\n  <body>\n'
         f'    <div id="root" data-composition-id="main" data-start="0" data-duration="{total:.3f}"\n'
-        f'         data-width="{W}" data-height="{H}">\n' + "\n".join(hosts) + "\n    </div>\n"
+        f'         data-width="{W}" data-height="{H}"{f" style=\"background: {bg}\"" if bg else ""}>\n'
+        + "\n".join(hosts) + "\n    </div>\n"
         '    <script>\n      window.__timelines["main"] = gsap.timeline({ paused: true });\n    </script>\n'
         "  </body>\n</html>\n")
     (proj / "index.html").write_text(index, encoding="utf-8")
@@ -247,9 +256,70 @@ def check(proj, edl=None):
     return rep
 
 
-def snapshot(proj, plan):
-    ats = ",".join(f"{(p['t'] + min(p['t_out'], p['t'] + 1.6)) / 2:.2f}" for p in plan)
-    subprocess.run(hf_cli() + ["snapshot", "--at", ats], cwd=proj, check=True)
+def n_frames(edl, rd):
+    """The reel's length in frames: the picture render's, or the plan's before anything has rendered (Gate 1)."""
+    pr = rd / "picture_runs.json"
+    if pr.exists():
+        return json.loads(pr.read_text(encoding="utf-8"))["frames"]
+    return int(round(edl["length_s"] * FPS))
+
+
+def sample_times(edl, n):
+    """Frames worth checking: every graphic's first frames and last frame, every 0.5 s inside it, its beats, and
+    every layout switch (1 frame before to 2 after)."""
+    fr = lambda t: int(round(t * FPS))
+    fs = set()
+    for o in overlays(edl):
+        a, b = fr(o["t"]), fr(min(o.get("t_out", o["t"] + 2.5), n / FPS))
+        fs.update({a, a + 1, a + 5, b - 1}, range(a, b, 15))
+        fs.update(fr(x) + d for x in o.get("beat_times", []) for d in (-1, 0, 2))
+    for l in edl.get("layout", []):
+        fs.update(fr(l["t"]) + d for d in (-1, 0, 1, 2))
+    return [f / FPS for f in sorted(x for x in fs if 0 <= x < n)]
+
+
+def snapshot_rgba(edl, rd, n, times):
+    """[(t, RGBA uint8 1080x1920)] at the given times, with exact alpha: the project is snapshotted once over black
+    and once over white; alpha = 1 - (white - black) / 255. HyperFrames snapshots are opaque, so one pass can't
+    tell a shadow from the picture under it."""
+    from PIL import Image
+    shots = {}
+    for bg in ("#000000", "#ffffff"):
+        proj, _ = build(edl, rd, n, bg=bg)
+        d = proj / "check_frames" / bg[1:]
+        r = subprocess.run(hf_cli() + ["snapshot", "--at", ",".join(f"{t + 1e-4:.4f}" for t in times), "--no-end",
+                                       "--output", str(d.resolve())], cwd=proj, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        if r.returncode != 0:
+            sys.exit(f"hyperframes snapshot failed:\n{r.stdout[-1500:]}\n{r.stderr[-1500:]}")
+        for f in d.glob("*.png"):
+            m = re.search(r"at-([\d.]+)s", f.name)
+            if m:
+                shots.setdefault(min(times, key=lambda t: abs(t - float(m.group(1)))), {})[bg] = f
+    build(edl, rd, n)                      # leave the project as the render will use it
+    frames = []
+    for t in sorted(shots):
+        if len(shots[t]) < 2:
+            continue
+        b = np.asarray(Image.open(shots[t]["#000000"]).convert("RGB"), np.float32)
+        w = np.asarray(Image.open(shots[t]["#ffffff"]).convert("RGB"), np.float32)
+        a = np.clip(1 - (w - b).mean(axis=2) / 255, 0, 1)
+        rgb = np.clip(b / np.maximum(a, 1e-3)[..., None], 0, 255)
+        frames.append((t, np.dstack([rgb, a * 255]).round().astype(np.uint8)))
+    print(f"snapshots: {len(frames)} exact-alpha frames")
+    return frames
+
+
+def snapshot(edl, rd, n):
+    """Gate 1: frame checks and the mockup sheet from exact-alpha snapshots, no render."""
+    import frame_check
+    import graphics_mockup
+    frames = snapshot_rgba(edl, rd, n, sample_times(edl, n))
+    faces = frame_check.load_faces(edl)
+    found, count = frame_check.check(edl, frames, faces, gap=0.55)     # samples are up to 0.5 s apart
+    ok = frame_check.report(found, count, rd / "frame_check_snapshot.json")
+    graphics_mockup.mockup(edl, frames, faces, kit.Project(edl).plans / f"{edl['short']}_graphics_mockup.jpg")
+    return ok
 
 
 def measure(mov, plan):
@@ -276,12 +346,19 @@ def render(proj, plan, rd):
     return mov
 
 
+def check_render(edl, rd, mov):
+    """frame_check.py on every frame of the rendered layer; True when nothing fails."""
+    import frame_check
+    found, count = frame_check.check(edl, frame_check.mov_frames(mov), frame_check.load_faces(edl), scale=0.5)
+    return frame_check.report(found, count, rd / "frame_check.json")
+
+
 def run(edl, rd, n_frames, stages=("build", "check", "render")):
     proj, plan = build(edl, rd, n_frames)
     if "check" in stages:
         check(proj, edl)
     if "snapshot" in stages:
-        snapshot(proj, plan)
+        return snapshot(edl, rd, n_frames)
     if "render" in stages:
         return render(proj, plan, rd)
     return None
@@ -296,7 +373,7 @@ def main():
     edl = json.loads(Path(a.edl).read_text(encoding="utf-8"))
     rd = kit.Project(edl).render_dir(edl["short"])
     rd.mkdir(parents=True, exist_ok=True)
-    n = a.frames or json.loads((rd / "picture_runs.json").read_text(encoding="utf-8"))["frames"]
+    n = a.frames or n_frames(edl, rd)
     stages = {"build": ("build",), "check": ("build", "check"), "snapshot": ("build", "check", "snapshot"),
               "render": ("build", "check", "render"), "all": ("build", "check", "render")}[a.stage]
     run(edl, rd, n, stages)

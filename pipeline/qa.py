@@ -42,11 +42,36 @@ def norm(w):
     return re.sub(r"[^a-z0-9]", "", w.lower().replace("timu", "temu").replace("u.s.", "us"))
 
 
+NUMBER_WORDS = set(" ".join(plan_shorts.ONES + plan_shorts.TENS[2:]).split()) | {"hundred", "thousand", "million"}
+
+
+def said(tokens):
+    """Normalised words as spoken: digits become number words ("10" -> "ten", "$199" -> "one hundred ninety
+    nine", "20,000" -> "twenty thousand"), "a hundred" -> "one hundred", hyphens split. WhisperX writes the same
+    word either way between two runs (promo-03: "ten" approved, "10" heard)."""
+    out = []
+    for w in tokens:
+        for part in re.split(r"[-\s]+", w):
+            n = norm(part)
+            if not n:
+                continue
+            if n.isdigit() and len(n) <= 12:
+                out += plan_shorts.say(int(n)).split()
+            else:
+                out.append(n)
+    for i in range(len(out) - 1):
+        if out[i] == "a" and out[i + 1] in ("hundred", "thousand", "million"):
+            out[i] = "one"
+    # "one hundred and ten": the "and" inside a number isn't a difference
+    return [x for i, x in enumerate(out) if not (x == "and" and 0 < i < len(out) - 1
+                                                 and out[i - 1] in NUMBER_WORDS and out[i + 1] in NUMBER_WORDS)]
+
+
 def transcript_diff(spoken_text, words):
     """Similarity and differences [(op, approved, heard)] between the approved lines and a transcript's words.
     Shared with render_short.py's words stage."""
-    A = [norm(w) for w in spoken_text.split() if norm(w)]
-    B = [norm(w["w"]) for w in words if norm(w["w"])]
+    A = said(spoken_text.split())
+    B = said([w["w"] for w in words])
     sm = difflib.SequenceMatcher(None, A, B)
     return sm.ratio(), [(op, " ".join(A[i1:i2]), " ".join(B[j1:j2]))
                         for op, i1, i2, j1, j2 in sm.get_opcodes() if op != "equal"]
@@ -104,8 +129,11 @@ def main(mp4, edl_path, out_dir=None):
     # `hyperframes check`. Older graphics_layout.json files lack the flag: match the EDL event by its start time
     bg_t = [e["t"] for e in edl["events"] if e.get("background")]
     # a split-screen top panel (exactly the ink top half, y 0-960) is a background by design too (promo-01/02)
-    full = lambda o: (o.get("full_bleed") or o.get("background") or any(abs(o["t"] - t) < 0.02 for t in bg_t)
-                      or o.get("bbox") == [0, 0, 1080, 960])
+    # an hf_scene with "matte": true lays a cutout of the speaker over his own picture (promo-03 orbit opener),
+    # so its box is the whole frame by design
+    bg_t += [e["t"] for e in edl["events"] if e.get("matte")]
+    full = lambda o: (o.get("full_bleed") or o.get("background") or o.get("matte")
+                      or any(abs(o["t"] - t) < 0.02 for t in bg_t) or o.get("bbox") == [0, 0, 1080, 960])
     badg = [o for o in ovs if not full(o) and o.get("bbox") and (
         o["bbox"][1] < SAFE["y0"] or o["bbox"][3] > SAFE["y1"] or o["bbox"][2] > SAFE["x1"])]
     R.add("graphics in safe zone", not badg, "; ".join(f"{o['kind']} '{o['text']}' {o['bbox']}" for o in ovs
@@ -174,10 +202,30 @@ def main(mp4, edl_path, out_dir=None):
     st = sh(["ffprobe", "-v", "error", "-f", "lavfi", "-i", f"movie={mp4.as_posix()},signalstats",
              "-show_entries", "frame_tags=lavfi.signalstats.YAVG", "-of", "csv=p=0"]).stdout.split()
     y = [float(x.strip(",")) for x in st if x.strip(",")]
+    # an hf_scene with "flash_in": true opens on a planned flash wipe (promo-03 T2): a flash within 0.15 s of its
+    # start is the transition, not a glitch
+    planned = [e["t"] for e in edl["events"] if e.get("flash_in")]
     flashes = [round(i / FPS, 2) for i in range(1, len(y) - 1)
-               if abs(y[i] - y[i - 1]) > 50 and abs(y[i] - y[i + 1]) > 50]
+               if abs(y[i] - y[i - 1]) > 50 and abs(y[i] - y[i + 1]) > 50
+               and not any(-0.05 <= i / FPS - t <= 0.15 for t in planned)]
     R.add("no black frames", not blacks, f"{blacks or 'none'}")
     R.add("no single-frame flashes", not flashes, f"{flashes or 'none'} ({len(y)} frames scanned)")
+    # bare ink at a transition: half the frame flat and dark for a moment around a switch, but not 0.3 s later
+    # (promo-02: 2 bare-ink frames at a layout switch that nothing caught)
+    import review_frames
+    bare = []
+    flat = lambda half: half.std() < 2.5 and half.mean() < 45
+    for tt in review_frames.transitions(edl):
+        win = review_frames.window(mp4, max(tt - 0.3, 0), 19, 108, 192)
+        if not win:
+            continue
+        after = win[-1]
+        for i, fr in enumerate(win[:-1]):
+            for name, half, ref in (("top", fr[:96], after[:96]), ("bottom", fr[96:], after[96:])):
+                if flat(half) and not flat(ref):
+                    bare.append(f"{name} half at {max(tt - 0.3, 0) + i / FPS:.2f} s")
+    R.add("no bare ink at transitions", not bare, f"{len(review_frames.transitions(edl))} transitions checked"
+          + (f"; {bare[:8]}" if bare else ""))
     runs = pr["runs"]
     shots = []
     for k, rr in enumerate(runs):

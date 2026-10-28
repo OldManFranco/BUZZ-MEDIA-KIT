@@ -1,8 +1,8 @@
-# Buzz Media Kit — Editing Engine (v0.2)
+# Buzz Media Kit — Editing Engine (v0.3)
 
 **What this is:** the procedure Claude follows to turn a client's phone footage into finished vertical reels (Instagram Reels, YouTube Shorts, TikTok, Facebook) for **Buzz Media**. When Franco asks for a reel for any client, follow this doc.
 
-**Status:** v0.2 (2026-10-27). Forked from the Medellin Buzz Shorts Kit v0.5 (3 approved shorts; everything channel-specific is in `_archive_medellin_buzz\`, see `ARCHIVED.md` there). First Buzz Media reel: **promo-01 "Who edits my videos", approved at v2 (35.9 s)**. Its two render rounds were almost all about audio, flow, pacing and context, not design; v0.2 turns each of those fixes into a check that runs before Franco sees a render (§13). Rules marked `[DRAFT]` haven't been tested on a Buzz Media render.
+**Status:** v0.3 (2026-10-28). Forked from the Medellin Buzz Shorts Kit v0.5 (3 approved shorts; everything channel-specific is in `_archive_medellin_buzz\`, see `ARCHIVED.md` there). Buzz Media's three launch promos are approved (promo-01 "Who edits my videos", promo-02 "Your competitor posts every day", promo-03 "Do the math"). v0.2 turned promo-01's audio and flow fixes into checks; v0.3 does the same for promo-02/03's frame-level problems (transitions, blank space, the face, safe zones; §13). Rules marked `[DRAFT]` haven't been tested on a Buzz Media render.
 
 **Language:** Franco works in English. Chat, reports and generated files in English. On-screen text in the client's language (English unless `_instructions\` says otherwise).
 
@@ -163,6 +163,11 @@ Write `working\plans\s<N>_draft.json`, run `pipeline\plan_shorts.py` on it (→ 
   - **SFX:** ≥ 3 s apart, never on a number or a name being said (the same rules `qa.py` applies after the render).
   - **text on screen:** at least 0.5 s + 0.3 s per word.
   - **pacing:** visual changes count cuts, overlays, layout switches and `hf_scene` `"beats"` (list them: when the scene's picture changes).
+  - **synced:** layout and graphic times sit on frame boundaries; a layout switch within 3 frames of an A-roll cut moves onto the cut, and a graphic's start or end within 3 frames of a picture switch moves onto that frame (a `"flash_in"` scene to 1 frame before it). Each move is printed.
+  - **anchors:** a bare word anchor that occurs more than once took its first use; say which (`"you#3"`, `{"word", "n"}`, `[seg, src_t]`).
+  - **flash_in:** a covering transition that doesn't start at least 1 frame before the cut it hides.
+  - **punch under a graphic:** a punch-in moves the face (eyes to 37 %) onto a graphic placed for the 1.0 framing; drop the punch, or mark the graphic `"placed_for_punch": true`.
+  - **matte:** a subject cutout that runs past its A-roll segment; end it with `"matte_until"`.
 
 **Body rules:**
 - **Cut on ideas, not words.** Never mid-sentence. Remove "uh/um", false starts, repeats. Gaps inside a thought 0.10–0.30 s, never right after a number.
@@ -177,27 +182,52 @@ Write `working\plans\s<N>_draft.json`, run `pipeline\plan_shorts.py` on it (→ 
   6. **No chip that repeats a spoken word.** A graphic adds what the caption doesn't (a counter, a source, a before/after).
   7. **No still that's only roughly right.** Stay on the speaker with a punch-in instead.
   8. **Reusing a clip across reels of the same client is OK;** flag it so they post on different days.
+- **Transitions** (promo-02/03):
+  1. **A picture switch and the graphic that dresses it share the same frame,** at the start and at the end. Time graphics to the frame the picture switches on, not to the spoken word (`plan_shorts.py` snaps them).
+  2. **A covering transition starts before the cut it hides:** a flash or full-frame cover starts ≥ 1 frame before the picture cut and is at full cover on the cut frame (`"flash_in": true`).
+  3. **When the subject stays visible through a switch into or out of split screen, move the subject; don't wipe a graphic across them.** Put `"move_in": 0.45` on the layout item: the renderer pulls the subject's picture from the old framing into the new one in one eased camera move, starting exactly on the previous frame's eyes and face size, while the panel slides in above. A full-frame flash or a full-frame scene sliding over the whole picture is fine (it hides the cut completely).
+- **No dead or blank space.** Every region that should hold picture or graphics does, at every frame: a split's top half, everything outside a pip, and the whole frame under a `"background"` scene. A zoom or pan inside a full-frame scene keeps its artwork covering the frame at its smallest scale (promo-03 showed an empty strip at the top).
+- **Don't reframe the subject to make room for a graphic.** Move or shrink the graphic; the subject's framing stays (promo-02: shifting the picture down left a black band and pushed the face under the graphic). A punch-in counts as a reframe: no punch while a graphic sits against the face, unless the graphic is placed for the punched frame.
+- **Video inside video plays, muted,** never as stills (a still reads as fake). A clip that carries the voice is lip-synced; a muted one needn't be. Crop footage to 9:16 with face tracking.
+- **A graded "after" needs a grade you can see on a phone.** When the point is raw vs. finished, a gentle grade looks identical in stills.
 - **Creative-license clause (B-roll substitution).** When the instructions call for footage the client didn't provide (e.g. "shot of me and Alejo working at a computer"), **substitute creatively instead of refusing to proceed**: profile pictures, channel screenshots, screen recordings, animated text cards, HyperFrames motion graphics (a name card, a counter over a screenshot, a scrolling wall of thumbnails). **Propose every substitution in the EDL plan for Franco's approval before rendering**, saying what was asked, what we use instead and why. A substitution never pretends to be the real thing (a profile picture is shown as a profile picture, not as a "working" shot).
-- **Endings close the thought.** Read 20–30 s of transcript past the planned out-point (`plan_shorts.py` prints the next words). A line with a "but…" coming isn't an ending, and neither is a comma: promo-01 v1 ended on "comment EDIT below," and Andrew went on "…and I'll send you all the information in a DM." **The CTA line keeps its tail.** Default end hold 0.6 s, music fade-out 1.0 s. Personal last line → end on the face; place/product → end on B-roll.
+- **Endings close the thought.** Read 20–30 s of transcript past the planned out-point (`plan_shorts.py` prints the next words). A line with a "but…" coming isn't an ending, and neither is a comma: promo-01 v1 ended on "comment EDIT below," and Andrew went on "…and I'll send you all the information in a DM." **The CTA line keeps its tail.** Personal last line → end on the face; place/product → end on B-roll.
+- **The reel ends right after the last word:** ~0.1 s after its end (`"ending_tail_s"`, default 0.1), enough for its natural decay. The old 0.6 s hold showed the speaker looking away and reaching for the mouse; Franco trimmed 15–20 frames by hand on every reel. The music's 1.0 s fade starts before the last word and still lands on the final frame. `"ending_hold_s"` still forces a hold.
 - **CTA:** only the client's own CTA (from their line or `_instructions\`), **one per reel**, said and shown. On-screen CTA text matches the brief exactly ("Comment EDIT"). No invented "link in bio".
-- **HyperFrames graphics pass (every reel).** Go through the script line by line and decide where a card, counter, chart, map, kinetic phrase or transition makes it clearer. Simplest first: library (title card, chip, data card with rolling counter) → HyperFrames registry block (search before hand-building) → a one-off `hf_scene`. Restraint: a graphic never covers the speaker's face or repeats the caption; one accent-color element at a time; "no graphic here" is a valid decision. Gate 1 shows each graphic (time, what, engine piece) and a still mockup for anything new (`build_graphics.py --stage snapshot`, `graphics_mockup.py`).
+- **HyperFrames graphics pass (every reel).** Go through the script line by line and decide where a card, counter, chart, map, kinetic phrase or transition makes it clearer. Simplest first: library (title card, chip, data card with rolling counter) → HyperFrames registry block (search before hand-building) → a one-off `hf_scene`. Restraint: a graphic never covers the speaker's face or repeats the caption; one accent-color element at a time; "no graphic here" is a valid decision. Gate 1 shows each graphic (time, what, engine piece) and the mockup sheet from `build_graphics.py --stage snapshot` (below).
+- **Gate 1 mockups and frame checks, before anything renders:**
+  ```
+  python pipeline/build_graphics.py <project>\working\plans\s<N>_edl.json --stage snapshot
+  ```
+  Needs `faces.json` first (`face_track.py`, Step 6). It takes exact-alpha frames of the graphics (one pass over black, one over white) at every graphic's in/out, every 0.5 s, its beats and every layout switch, runs `frame_check.py` on them (face, safe zone, captions, blank space: §7), and writes `working\plans\s<N>_graphics_mockup.jpg`: each frame over the renderer's own picture (real framing, punch, layout) with the real captions from the plan's words. ~2–3 min for a 30 s reel: run it in the background. Fix every FAIL before Gate 1.
 
-**→ GATE 1: Franco sees** a table per reel (hook words, hook type, length, why it works, risks, exclusion notes, **substitutions**, **planned graphics**, **music + SFX plan** with the SFX check result, **the number tokens and the ending** as `plan_shorts.py` printed them, and **both length options** when the cap forces trims) + one EDL each. Nothing renders before his OK.
+**→ GATE 1: Franco sees** a table per reel (hook words, hook type, length, why it works, risks, exclusion notes, **substitutions**, **planned graphics**, **music + SFX plan** with the SFX check result (each SFX file named per transition with a one-word reason), **the number tokens and the ending** as `plan_shorts.py` printed them, and **both length options** when the cap forces trims) + one EDL each. Nothing renders before his OK.
 
 ### Step 6: Render (after Gate 1)
-- **Reframe 16:9 → 9:16** around the face (`face_track.py`, run with `tools\venv_render\Scripts\python.exe -I`), eyes at ~35–40 % from the top. Any source size works. Vertical footage as-is. No blurred-background letterboxing.
+- **Commands** (from the kit folder; long ones in the background):
+  ```
+  tools\venv_render\Scripts\python.exe -I pipeline\face_track.py <project>\working\plans\s<N>_edl.json
+  python pipeline\render_short.py <project>\working\plans\s<N>_edl.json --name <title-slug>
+  python pipeline\review_frames.py <project>\output\<slug>-s<N>_<title-slug>.mp4 <project>\working\plans\s<N>_edl.json
+  python pipeline\qa.py <project>\output\<slug>-s<N>_<title-slug>.mp4 <project>\working\plans\s<N>_edl.json
+  ```
+  `render_short.py` options: `--stage picture|audio|captions|words|graphics|final|rest|all`, `--words-ok`, `--frames-ok`.
+- **Reframe 16:9 → 9:16** around the face (`face_track.py`, run with `tools\venv_render\Scripts\python.exe -I`; it records every face sample, not just the medians, for the face checks), eyes at ~35–40 % from the top. Any source size works. Vertical footage as-is. No blurred-background letterboxing.
 - **1080p landscape sources** (Buzz Media's desk footage): a full-height 9:16 crop is 606×1080 scaled up 1.78×, so keep punch-ins ≤ 1.08 and prefer the split-screen layout for the speaker (it needs a wider, sharper crop). Ask clients for 4K or vertical footage.
 - **Grade:** consistent across takes. Phone footage: a gentle correction only (exposure, white balance, mild contrast). `match_grade.py` when there's a finished reference to match.
 - **Captions** (§7). **Motion graphics** = HyperFrames (§7, `pipeline\graphics\README.md`). **Sound** (§8).
 - **Render order: words before graphics.** `render_short.py --stage all` runs picture → audio → captions (WhisperX on the final voice) → **words**: it diffs that transcript against the approved lines and repeats the plan's number/ending warnings, and **stops** unless they match exactly. The graphics render is the slow part (~3 min, ~1 GB), and the re-transcription is what caught promo-01's cut number, leaked syllable and open ending. Fix the plan, or listen, decide it's transcription noise and continue with `--stage rest` (graphics + final).
 - **Long stages run in the background** (`run_in_background`), never in a blocking shell: the graphics stage, `--stage all`, and `qa.py` (WhisperX again). A ten-minute render was cut short by a blocking shell on promo-01. Run `qa.py` once per render.
+- **Frame check after the graphics render:** `frame_check.py` runs on every frame of `graphics.mov` (same checks as Gate 1) and `--stage all`/`rest` **stop before final** on a failure (`render\<short>\frame_check.json`). Fix the graphic, or look at those frames and go on with `--stage final` (or `--frames-ok`).
+- **Subject cutouts** (graphics passing behind the subject): `tools\venv_render\Scripts\python.exe -I pipeline\matte.py <edl> --scene <scene stem>` writes `working\graphics\assets\<stem>_matte.webm` (VP9 with alpha) on the renderer's own framing; `--preview <t>` writes one PNG. It's a new video file: Franco approves the scene at Gate 1 first. Everything behind the cutout is gone before the cutout ends, and the cutout never runs past its A-roll segment.
 - **HyperFrames check:** a `line_unread` warning (text on screen too short to read) now stops the graphics stage. Hold the text 0.5 s + 0.3 s per word; only if Franco accepts a fast flash, list its text in the EDL's `"unread_ok"`.
+- **Check every transition frame by frame.** `review_frames.py` writes one strip per transition (every frame from 0.3 s before to 0.3 s after each layout switch, graphic start/end, cut and transition SFX) plus a 1 fps `overview.jpg`. Look at every strip: promo-03's 2-frame face overlap was only seen because a 1 fps sheet happened to land on it. **After any fix, check full-size frames across the whole span, including the subject's most extreme position** (promo-02: a graphic was "moved off the mouth" three times without checking the frames where he leaned in). Look at the last 10 frames for the subject breaking eye line.
 - **Self-review before sending v1** (frame at every picture change, look at all of them; on promo-01 this caught a one-word caption and a too-short tag): everything named has its picture; B-roll on sentence starts and literal; no chip repeats a word; captions in the safe zone and off the mouth; stills not badly cropped; the hook works with sound off; the last frame is strong; the ending closes; caption text matches the speech (caption traps below); every substitution is the approved one; SFX land on the planned frames.
 - **Caption text traps** (fix in the EDL with `caption_fixes`, `caption_join`, `caption_break_before`, never by hand): currency symbols on non-dollar amounts; dropped words (`"of@51.48": "of the"`); spoken numbers shown as digits ("a hundred" → `100`: show the words; digits are for prices and figures); foreign phrases split or missing ¿?; payoff phrases split across groups; a single word left alone (`build_captions.py` now joins a lone number to the next word and a lone word to its neighbour when it fits; what's left is listed in the QA notes; `"caption_emphasis"` keeps a planned single word).
-- The ending hold is picture only (voice stops at the last word, 60 ms fade).
+- The voice stops at the last word with a 60 ms fade; any hold after it is picture only.
 
 ### Step 7: QA (`pipeline\qa.py`)
-Spec (size, fps, length vs. the reel's limit, −14 ±1 LUFS, TP ≤ −1 dBTP) · first word or title card by 1.0 s · hook words match the EDL · WhisperX re-transcription contains only approved lines and no client-excluded words · no mid-word cuts · **every splice in a dip** of the source audio (≤ −35 dBFS) · captions in the safe zone, ≤ 4 words, timing median ≤ 30 ms · graphics in the safe zone (full-bleed cards and `"background": true` scenes skipped) · visual change ≤ 5 s (counting layout switches and scene `"beats"`) · SFX spacing and not on a number · no black/flash at splices · no shot under 0.4 s unless intended · 8 frame grabs in `_qa.md`. `--out <dir>` writes the report somewhere else (re-checking an approved reel without overwriting its report). **A false failure is a bug in the kit:** fix the check or the EDL flag, don't train everyone to ignore QA.
+Spec (size, fps, length vs. the reel's limit, −14 ±1 LUFS, TP ≤ −1 dBTP) · first word or title card by 1.0 s · hook words match the EDL · WhisperX re-transcription contains only approved lines and no client-excluded words (number words and digits count as the same: "ten" = "10", "a hundred" = "100"; also in the render's words stage) · **no bare ink at transitions** (half the frame flat and dark for a moment around a switch) · no mid-word cuts · **every splice in a dip** of the source audio (≤ −35 dBFS) · captions in the safe zone, ≤ 4 words, timing median ≤ 30 ms · graphics in the safe zone (full-bleed cards and `"background": true` scenes skipped) · visual change ≤ 5 s (counting layout switches and scene `"beats"`) · SFX spacing and not on a number · no black/flash at splices · no shot under 0.4 s unless intended · 8 frame grabs in `_qa.md`. `--out <dir>` writes the report somewhere else (re-checking an approved reel without overwriting its report). **A false failure is a bug in the kit:** fix the check or the EDL flag, don't train everyone to ignore QA.
 
 ### Step 8: GATE 2 + package
 Send the master **and** a phone copy (`working\review\<…>_v<k>_phone.mp4`, H.264 4 Mb/s, AAC 160k, `+faststart`; Remote Control can't send files over 30 MB). After approval write `_package.md`: 3 titles (≤50 chars, client's voice), caption per platform (Reels / Shorts / TikTok / Facebook) with 3–5 hashtags (never #fyp, #viral), cover frame time + why, posting note (spread out; 3+ the same day costs reach), music/SFX license lines, CC BY credits.
@@ -225,11 +255,23 @@ In order of preference:
 - **3–4 words on screen max**, one line preferred, two at most.
 - **Bold** (the brand's heavy weight) **with a text shadow** (soft drop shadow, plus a thin dark outline on busy footage) so it reads on any picture.
 - **Phone-safe zone:** inside y 260–1440 and x 140–940. Default baseline **y 1360** (top of the lower third, below the chin in a talking-head crop); in a split-screen layout, on the seam (y ≈ 960, §9). Never lower than y 1440: the apps' username/caption layer covers it (where Opus puts its captions).
+- **The caption floor is fixed: `caption_y` 1404 is the lowest a caption can go** (its active-word plate then reaches y 1439). When a graphic needs more room, the space comes from the graphic (make it shorter at the bottom), never from moving captions down. A layout item can set `"caption_y"`.
+- **Nothing sits on top of graphic text, and nothing goes between a graphic and the captions:** the band between a graphic's bottom (shadow included) and the caption plate stays empty, ≥ ~20 px. Fine print (a source line) goes inside the graphic or into the package (promo-03).
 - Active word: accent-colored text, or an accent plate with dark text. While another accent graphic is on screen, the active word drops to white/plate so only one accent element shows (an `hf_scene`'s `"orange_from"` says when its accent appears). **Readability beats that rule over busy artwork:** while an `hf_scene` with `"background": true` (full-frame artwork) is up, the captions keep the accent plate and a dark band sits behind them (Franco's note on promo-01 0–4 s).
 - **Where the look comes from:** `build_captions.py` and `build_graphics.py` read the client's `_brand\brand.json` (falling back to `_brand_assets\brand.json`). In EDLs and in the code, `"orange"` means **the brand's accent color** (a leftover name from Medellin Buzz): `"orange": "200+"` paints that word in Buzz Yellow, `"style": "orange plate"` is an accent plate with `accent_text` lettering.
 - **Buzz Media's own reels:** Schibsted Grotesk ExtraBold, white, sentence case, Buzz Yellow `#FFC629` active-word plate with ink text (see `_brand_assets\brand-notes.md` §4). Fonts in `_brand_assets\fonts\` (OFL). Title cards and chips print the EDL's text as written: write them in sentence case for Buzz Media (brand rule), uppercase only for brands that use it.
 
 **Title card** `[DRAFT]`: a text layer over the first shot from frame 0 (not a separate intro), 2–6 words, the key word in the accent color, y ≈ 300–600 (clear of the face and the captions). In: masked reveal 0.2–0.3 s ease-out with a hit SFX. Out: hard cut on the next shot, or 0.2 s. Says something the spoken line doesn't.
+
+**Graphics never cover the subject's face** (promo-02/03):
+- Graphics go between the chin and the caption line, or above the head; never over the face, forehead to chin. **Measure, don't estimate:** the face zone differs by ~100 px between takes, and one mockup frame misses where the subject leans. `frame_check.py` reads `face_track`'s samples (forehead and chin per moment, through the renderer's framing, punch, split, pip and moves) over each graphic's whole span; fixed pixel values in a plan are never the method.
+- **Moving elements may pass the lower face briefly** (≤ 0.5 s; Franco, 2026-10-28). No static graphic over the face, and nothing over the eyes or forehead.
+- **Anything behind the subject (a matte) is gone before the cutout ends;** the cutout never runs past its A-roll segment (it would paint the old shot over the new one).
+- **Pictures of the subject inside cards or tiles follow the same rule:** labels go outside the tile, or become a small icon on its corner.
+
+**Safe zones count everything drawn:** drop shadows and the largest scale an element pops up to (promo-02: a shadow and a 1.12× pop pushed a row of graphics to x 955, under the like/comment buttons). They're checked at the snapshot stage, before rendering.
+
+**Text is sized for its smallest on-screen scale:** readable text ≥ 28 px at the smallest scale its container reaches (a scene zooming out to 0.8× shrinks 26 px labels to 21 px). Decorative text (timecodes, frame numbers) carries `data-layout-ignore`.
 
 **Motion graphics = HyperFrames.** Library in `pipeline\graphics\` (title card, chip, data card + rolling counter, `hf_scene` for one-offs), rendered transparent and stacked picture → graphics → captions. Motion: ease-out 0.2–0.5 s; no bounce/elastic/glitch unless the client's brand calls for it. Install and gotchas: `_setup\hyperframes-install-notes.md`. Use the `/hyperframes:hyperframes` skill before writing any new scene.
 
@@ -238,9 +280,10 @@ In order of preference:
 ## 8. Audio
 
 - **Voice first.** High-pass 80 Hz, gentle de-noise (phone/room audio), light compression 2:1, consistent level across takes.
-- **Music bed:** usually yes for promo/business reels, low (−22 to −26 dB under voice, can rise in gaps), ducked under speech. Pick tempo and mood to the script; cuts can land on its beats (§9). **License note required, and it must cover every platform the reel goes to.** Most tracks in `music\catalogo_musica.json` are YouTube Audio Library: cleared for YouTube, **not guaranteed for Instagram/TikTok/Facebook**; check the license field or add music in-app.
+- **Music bed:** usually yes for promo/business reels, **−21 dB under the voice, −17 dB in gaps** (the EDL `"music"` defaults; promo-03 "perfect volume", −26/−22 was too low on promo-01/02), ducked under speech. A client brief can override. Pick tempo and mood to the script; cuts can land on its beats (§9). **License note required, and it must cover every platform the reel goes to.** Most tracks in `music\catalogo_musica.json` are YouTube Audio Library: cleared for YouTube, **not guaranteed for Instagram/TikTok/Facebook**; check the license field or add music in-app.
 - **SFX library:** client `sfx\` if non-empty, else shared `sfx\`: catalogued folders (`catalogo_sfx.json`: Mixkit / Pixabay licenses), `_synth\` (synthesized, no license issue). `_uncatalogued\` holds 16 Pixabay-style files with no license logged yet: **don't use until they're added to the catalog** (2 of them duplicate catalog entries). New outside sources need Franco's OK.
 - **SFX use:** see the craft rules (§9) for placement. Never on top of a number or name being said.
+- **Sound effects are chosen for the edit, not copied from the last reel.** Pick each one for what's on screen at that moment (the kind of transition, pop or hit). Reusing a sound is fine when it's the right one; defaulting to the previous reel's set isn't (promo-02 reused promo-01's exact set and it felt like autopilot).
 - **Master:** −14 LUFS integrated, true peak ≤ −1 dBTP after AAC.
 
 ---
@@ -255,7 +298,7 @@ Andrew set Kallaway as the quality bar for cuts, beat-syncing and SFX. The study
 - **Captions:** on the seam in split screen, at y 1360 full-frame; 1–3 words usually, 4 max; quiet in split screen; one big accent-colored emphasis word on the face shots, max one per ~8 s; data reveals sit on the picture.
 - **Structure:** hook + twist → proof → (re-hook if the client says one) → offer/takeaway → CTA. One analogy gets its own picture. Lists build item by item.
 - **Endings:** no outro or logo sting; keyword CTA said and shown on the brand end card; no CTA → end on the takeaway, last word large.
-- **Sound** `[EAR]`: SFX as accents (headline hit, whoosh into full-frame/cards, counter ticks, pop on the big word), ~1 per 3–4 s, never every cut; music bed −24 to −28 dB, 100–130 bpm, from frame 0; big moments (headline, layout switches, emphasis words) nudged ≤ 2 frames onto downbeats, routine swaps follow speech.
+- **Sound** `[EAR]`: SFX as accents (headline hit, whoosh into full-frame/cards, counter ticks, pop on the big word), ~1 per 3–4 s, never every cut; music bed −21 dB under the voice / −17 dB in gaps (§8), 100–130 bpm, from frame 0; big moments (headline, layout switches, emphasis words) nudged ≤ 2 frames onto downbeats, routine swaps follow speech.
 - **Not copied:** his fonts, red/yellow plate, set, catchphrases, 85 s length, script formula.
 
 ---
@@ -297,18 +340,22 @@ What was checked 2026-10-27 without writing any video: both venvs run from `tool
 | `tools\transcribir_whisperx.py` | 🟢 | Step 2, WhisperX (`tools\README.md`) |
 | `scene_detect.py` | ✅ (Medellin Buzz) | Shots → `shots.json` |
 | `map_longform_raw.py --project <p>` | 🟢 | Step 3, only when there's a long-form |
-| `plan_shorts.py <draft>` | ✅ (promo-01) | Steps 4–5: draft → timed EDL; gaps > 0.30 s tightened to 0.15 s (draft `gap_max`/`gap_new`) except after numbers; cuts snapped to the quietest 10 ms; word anchors for overlays, layout, SFX, caption mutes, scene cues and beats; Gate 1 checks (numbers, cut levels, mid-sentence trims + full-line length, ending, SFX rules, text read time, pacing, exclusions, length) |
-| `face_track.py <edl>` | 🟢 | Eye position per A-roll piece (run with `tools\venv_render`) |
+| `plan_shorts.py <draft>` | ✅ | Steps 4–5: draft → timed EDL; gaps > 0.30 s tightened to 0.15 s (draft `gap_max`/`gap_new`) except after numbers; cuts snapped to the quietest 10 ms; word anchors for overlays, layout, SFX, caption mutes, scene cues and beats (any anchor form); times on frame boundaries, layout and graphics snapped to picture switches; ends 0.1 s after the last word; Gate 1 checks (numbers, cut levels, mid-sentence trims + full-line length, ending, SFX rules, text read time, pacing, ambiguous anchors, flash_in, punch under a graphic, matte span, exclusions, length) |
+| `face_track.py <edl>` | ✅ | Eye position per A-roll piece (run with `tools\venv_render`), plus every sample's eyes, forehead and chin for the face checks; `--out` |
 | `match_grade.py --project <p>` | 🟢 | Long-form-matched `.cube` (only with a long-form) |
-| `render_short.py <edl>` | ✅ (promo-01) | Picture (any source size; `layout` full/split/pip, `pip`; optional grade) → audio (SFX by short name or library path, client `sfx\` first; `sfx_track`; `music` bed ducked under speech, 1.0 s fade) → captions (kit WhisperX) → **words** (stops on a diff) → graphics → final MP4 in `<p>\output\` |
+| `render_short.py <edl> --name <slug>` | ✅ | Picture (any source size; `layout` full/split/pip, `pip`, `move_in` pull-back between full and split; optional grade) → audio (SFX by short name or library path, client `sfx\` first; `sfx_track`; `music` bed −21/−17 dB ducked under speech, 1.0 s fade) → captions (kit WhisperX) → **words** (stops on a diff) → graphics (+ frame check, stops on a failure) → final MP4 in `<p>\output\` |
 | `build_captions.py` | ✅ (promo-01) | Karaoke layer in the client's brand; `caption_layout` (baseline per layout, mutes), `orange_from`; no lone numbers or words; accent plate + dark band over `background` scenes |
-| `build_graphics.py` + `graphics\` | ✅ (promo-01) | HyperFrames layer from `brand.json`; scene `{{cue_<name>}}` from `cue_times`; `line_unread` stops the stage (`unread_ok` to accept) |
-| `qa.py` | ✅ (promo-01) | Step 7: + splice-in-a-dip check, `background` scenes skipped in the safe zone, beats and layout switches in the pacing check, `--out` |
-| `broll_strips.py`, `graphics_mockup.py`, `build_contact_sheet.py` | 🟢 | Take explicit paths; unchanged apart from docs |
+| `build_graphics.py` + `graphics\` | ✅ | HyperFrames layer from `brand.json`; scene `{{cue_<name>}}` from `cue_times`; `line_unread` stops the stage (`unread_ok` to accept); `--stage snapshot` = exact-alpha frames + frame checks + Gate 1 mockup, without picture_runs.json |
+| `frame_check.py <edl>` | 🟢 new | Face (face_track samples through the renderer's framing; brief lower-face passes allowed), safe zone with shadows and pop scale, caption clearance ≥ 20 px, blank space (split top, around a pip, background scenes and their edges); on snapshots or every frame of `graphics.mov` (~10 s) |
+| `graphics_mockup.py <edl>` | 🟢 rewritten | Gate 1 mockup: exact-alpha graphics over the renderer's own picture with the real caption layer (one shared script; replaces the per-reel copies) |
+| `review_frames.py <mp4> <edl>` | 🟢 new | One strip per transition (every frame ±0.3 s) + 1 fps overview, for the self-review |
+| `matte.py <edl> --scene <stem>` | 🟢 new | Subject cutout (VP9 with alpha) on the renderer's framing, cut at its segment end; `--preview` PNG (run with `tools\venv_render`) |
+| `qa.py <mp4> <edl>` | ✅ | Step 7: + splice-in-a-dip check, `background`/`matte` scenes skipped in the safe zone, `flash_in` flashes, beats and layout switches in the pacing check, bare ink at transitions, number words = digits, `--out` |
+| `broll_strips.py`, `build_contact_sheet.py` | 🟢 | Take explicit paths; unchanged apart from docs |
 | `benchmark_scan.py`, `beat_sync_scan.py` | ⚪ | Benchmark analysis (used on Kallaway) |
 | `graphics\scenes\towns_map.py` | ⚪ | El Hueco map; kept as an `hf_scene` generator example |
 
-promo-01 s1 (2026-10-27) was the first Buzz Media render; the scripts marked ✅ ran on it, and the v0.2 checks were tested on its EDL and its approved v2 file without writing any video (§13). Still known gaps: stacked cards and a big emphasis word aren't renderer features yet (promo-01 drew them as `hf_scene`s). Build them as `hf_scene`s or renderer options when the first reel needs them, and add them to `pipeline\graphics\`. The data-card counter spaces the comma wide on 6-character numbers (`20,000`): check the snapshot. HyperFrames needs short paths (Windows 260-character limit): keep projects under `clients\`.
+promo-01/02/03 (2026-10-27/28) were rendered with this kit; the scripts marked ✅ ran on them. The v0.3 additions were tested on their plans and approved files without writing any video (§13); the `move_in` pull-back and `matte.py`'s video output haven't run in a render yet. Still known gaps: stacked cards and a big emphasis word aren't renderer features yet (promo-01 drew them as `hf_scene`s). Build them as `hf_scene`s or renderer options when the first reel needs them, and add them to `pipeline\graphics\`. The data-card counter spaces the comma wide on 6-character numbers (`20,000`): check the snapshot. HyperFrames needs short paths (Windows 260-character limit): keep projects under `clients\`.
 
 Python 3.12 (system) has PySceneDetect, OpenCV, Pillow, librosa 1.0. ffmpeg 9.0.2 on PATH. HyperFrames 0.8.186 plugin (`_setup\hyperframes-install-notes.md`). yt-dlp: `pipeline\bin\yt-dlp.exe` (gitignored). Buzz Media fonts: `_brand_assets\fonts\` (Schibsted Grotesk variable 400–900, IBM Plex Mono 400/500/600/700, OFL licenses alongside).
 
@@ -316,6 +363,25 @@ Python 3.12 (system) has PySceneDetect, OpenCV, Pillow, librosa 1.0. ffmpeg 9.0.
 
 ## 13. Version history
 
+- **v0.3 (2026-10-28):** lessons from promo-02 and promo-03 (both approved), mechanics only:
+  - **Transitions:** times on frame boundaries; layout switches snap to A-roll cuts and graphics to picture switches within 3 frames (a `flash_in` scene to 1 frame before the cut); `move_in` pull-back between full and split in the renderer (one eased camera move, starting on the previous frame's eyes and face size).
+  - **Ending:** ~0.1 s after the last word (`ending_tail_s`), 60 ms voice fade.
+  - **Frame checks** (`frame_check.py`, new): face (from `face_track` samples, any framing; brief lower-face passes allowed, Franco 2026-10-28), safe zone with shadows and pop scale, ≥ 20 px between graphics and captions, blank space. They run at the Gate 1 snapshot (exact alpha from a black + white pass) and on every frame after the graphics render (`render_short.py` stops before final on a failure).
+  - **Gate 1 tools:** `graphics_mockup.py` rewritten as one shared script (real framing + real captions from the plan's words); `build_graphics.py --stage snapshot` works before the picture render.
+  - **Review and QA:** `review_frames.py` (new; every frame ±0.3 s around each transition); `qa.py` checks bare ink at transitions and treats number words and digits as the same (also in the render's words stage).
+  - **Cutouts:** `matte.py` (new, from promo-03's `make_assets.py`).
+  - **Plan checks:** ambiguous anchor words, `flash_in` timing, a punch under a graphic, a matte past its segment; `"beats": [[seg, src_t]]` no longer crashes.
+  - **Audio:** music defaults −21 dB under the voice / −17 dB in gaps.
+  - **Kept from the promo-03 session:** an empty caption group no longer crashes `build_captions.py`; QA accepts `"matte"` scenes in the safe-zone check and planned `"flash_in"` flashes.
+  - **CLAUDE.md:** the transition, blank-space, reframing, face, caption-floor, safe-zone, text-size, SFX-choice and review rules; the full command lines.
+  - **Checked without rendering video** (on promo-01/02/03's plans and approved files):
+    - `plan_shorts.py` on all three drafts;
+    - the pull-back geometry on promo-02's split switch (a PNG strip);
+    - `frame_check.py` on all three `graphics.mov` files, and on 157 exact-alpha snapshots of promo-03 (same 3 failures as the full check, alpha identical to the render);
+    - the mockup sheet, review strips and a `matte.py` preview on promo-03;
+    - the bare-ink QA check on promo-02/03;
+    - `qa.py` on promo-03's master.
+  - **What the checks found in the approved reels:** promo-02/03's end-card switches (bare ink for 4–9 frames, a graphic on the face for a frame), promo-02's 2-frame lag at 10.37 s, a chip popping to x 1035, chest graphics touching the chin, and promo-01's end card dropping on its last frame.
 - **v0.2 (2026-10-27):** lessons from promo-01 (approved at v2, 35.9 s), so the next reel needs fewer rounds. Fixed in the process, not the design:
   - `plan_shorts.py`: never tightens the gap after a number (the cut "200"), snaps every cut to the quietest 10 ms and warns on loud cuts (leaked syllables), flags mid-sentence trims with the full-line length, ending checks, SFX rules at plan time, text read time, word anchors for everything timed (`anchor`/`until` on layout, `sfx_track`, caption mutes; scene `cues` and `beats`).
   - `render_short.py`: the `words` stage stops `--stage all` before the slow graphics render unless the re-transcription matches; `--stage rest`; music fade-out 1.0 s. Kept from the promo-01 session: `layout`, `pip`, `sfx_track`, `music`.
