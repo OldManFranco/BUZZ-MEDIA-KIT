@@ -254,7 +254,7 @@ Andrew set Kallaway as the quality bar for cuts, beat-syncing and SFX. The study
 - **The kit is self-contained.** Its tools live in `tools\` (copied from Alejo's kit 2026-10-27, Franco: "no borrowing"). Never point a script at Alejo's kit (`E:\FRANCO\MEDELLIN_BUZZ CLAUDE KIT\`), and never write into it.
 - **This kit is the engine, not a project.** A session that builds or changes the kit doesn't edit, cut or render client footage. Reels are made in their own sessions, one project at a time.
 - **Never delete files.** Move what should go into `_to_delete\` with a line in its README; Franco deletes by hand.
-- Git: commit only when Franco asks; work on a branch, merge into `main`. **Never create or push to a remote without asking.** Never commit footage, renders, audio, `working\` (except `working\plans\`) or `output\`.
+- Git: `origin` = `https://github.com/OldManFranco/BUZZ-MEDIA-KIT` (private). The repo is **the kit only**: `clients\` is never committed (gitignored; Franco, 2026-10-27), and neither are footage, renders, audio or venvs. Commit only when Franco asks; work on a branch, merge into `main`, push. Never create a new remote without asking. The pre-GitHub local history (it had client files) is kept on the local-only branch `local-history-with-clients`: never push it.
 - Don't get stuck: if a path blocks, find another legitimate route. Never bypass CAPTCHAs or log into anything for downloads.
 
 ---
