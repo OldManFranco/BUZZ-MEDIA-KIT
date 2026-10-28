@@ -1,0 +1,20 @@
+{
+  "name": "Buzz Media",
+  "source": "Buzz-Media-Brand-Kit.pdf v1.0 (Oct 2026), see brand-notes.md",
+  "colors": {
+    "ink": "#121212",
+    "cream": "#F4F1EA",
+    "accent": "#FFC629",
+    "accent_text": "#121212",
+    "gray": "#6B6B6B",
+    "white": "#FFFFFF",
+    "logo": "#D7263D"
+  },
+  "fonts": {
+    "heavy": {"file": "fonts/SchibstedGrotesk[wght].ttf", "weight": 800, "family": "Schibsted Grotesk"},
+    "bold": {"file": "fonts/SchibstedGrotesk[wght].ttf", "weight": 700, "family": "Schibsted Grotesk"},
+    "label": {"file": "fonts/IBMPlexMono-Medium.ttf", "weight": 500, "family": "IBM Plex Mono"}
+  },
+  "caption_case": "sentence",
+  "notes": "accent = Buzz Yellow, the one accent. accent_text = text color on an accent plate (ink: white on yellow is unreadable). logo red is never a background or a caption color."
+}

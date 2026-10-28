@@ -1,0 +1,99 @@
+# Buzz Media kit — v0.1
+# Tracked: CLAUDE.md, README.md, .claude/settings.json, pipeline/, tools/ scripts, _setup/, _brand_assets/
+# (PDF, notes, brand.json, fonts), _benchmark/ analysis (md, json, transcripts, sheets), catalogs, and the
+# text/code of _archive_medellin_buzz/. Never clients/, footage, renders, audio or venvs.
+
+# --- Clients: never in the repo. The repo is the kit (how the agent works); client folders are per-job data
+# (Franco, 2026-10-27). The rules below stay as a second guard if a client folder is ever force-added. ---
+/clients/
+
+# --- Client footage, renders and working files ---
+/clients/*/projects/*/raw/
+/clients/*/projects/*/broll/
+/clients/*/projects/*/output/
+/clients/*/projects/*/working/*
+!/clients/*/projects/*/working/plans/
+/clients/*/projects/*/assets/*
+!/clients/*/projects/*/assets/*.md
+/clients/*/sfx/*
+!/clients/*/sfx/*.json
+!/clients/*/sfx/*.md
+/clients/*/music/*
+!/clients/*/music/*.json
+!/clients/*/music/*.md
+
+# --- Shared libraries: catalogs tracked, audio not ---
+/sfx/*.wav
+/sfx/*.mp3
+/music/*.wav
+/music/*.mp3
+
+# --- Benchmark: analysis tracked, downloads not ---
+/_benchmark/kallaway-reels/*.mp4
+/_benchmark/kallaway-reels/*.webm
+/_benchmark/kallaway-reels/*.part
+# yt-dlp metadata is ~10 MB per file; the fields we use are copied into _benchmark/kallaway/scan.json
+/_benchmark/kallaway-reels/*.info.json
+/_benchmark/kallaway-transcripts/audio/
+/_benchmark/*.log
+/_benchmark/kallaway-reels/*.log
+
+# --- Waiting for Franco to delete by hand ---
+/_to_delete/
+
+# --- Archive: keep docs/code for diffing, drop footage and renders ---
+/_archive_medellin_buzz/2026-10-22 El Hueco Medellin/
+/_archive_medellin_buzz/input/
+/_archive_medellin_buzz/output/
+/_archive_medellin_buzz/working/
+/_archive_medellin_buzz/_benchmark/opus-clip-samples/*.mp4
+/_archive_medellin_buzz/_benchmark/opus-clip-samples/*.info.json
+/_archive_medellin_buzz/_benchmark/transcripts/audio/
+/_archive_medellin_buzz/_benchmark/*.log
+/_archive_medellin_buzz/_archive_the_standard/J J Watt/
+/_archive_medellin_buzz/_archive_the_standard/Jon Jones/
+/_archive_medellin_buzz/_archive_the_standard/Kobe Bryant/
+/_archive_medellin_buzz/_archive_the_standard/Michael Jordan/
+/_archive_medellin_buzz/_archive_the_standard/Tom Brady/
+/_archive_medellin_buzz/_archive_the_standard/outbox/
+/_archive_medellin_buzz/_archive_the_standard/working/
+/_archive_medellin_buzz/_archive_the_standard/pipeline/models/
+/_archive_medellin_buzz/_archive_the_standard/Assets/trending_sounds/downloads/
+/_archive_medellin_buzz/_archive_the_standard/Assets/trending_sounds/sounds.txt
+/_archive_medellin_buzz/_archive_the_standard/pipeline/graphics/node_modules/
+
+# --- Media and binaries anywhere ---
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.m4a
+*.ogg
+*.flac
+*.exe
+*.jpeg
+*.jpg
+*.png
+!/_benchmark/kallaway/sheets/*.jpg
+!/_archive_medellin_buzz/_benchmark/hooks_all.jpg
+
+# --- Kit tools: scripts tracked; venvs (copied from Alejo's kit, ~8.4 GB) and model files not ---
+/tools/models/
+
+# --- Python caches / virtual environments / ML models ---
+__pycache__/
+*.pyc
+venv*/
+*.onnx
+node_modules/
+
+# --- Claude Code local settings ---
+.claude/settings.local.json
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

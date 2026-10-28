@@ -1,0 +1,15 @@
+[0:00:00.17] Google just released Gemini 4 Argonne.
+[0:00:02.65] If you're trying to use AI for complex work tasks, this model offers frontier intelligence to help you get more done.
+[0:00:08.79] And it's especially good at engineering and knowledge work.
+[0:00:11.38] Now, big reason why Argonne is so good at these complex tasks is because it was specifically designed to work with more depth and precision.
+[0:00:18.56] This gives it a huge advantage in completing very sophisticated tasks start to finish without losing any context or reasoning.
+[0:00:25.26] For example, I wanted to design a custom cup holder for my son's stroller.
+[0:00:29.12] All I did was describe the make and model of the stroller and how I wanted the design to look, and Argon was able in one shot to fully 3D model the exact piece so I could 3D print it.
+[0:00:39.03] I also tried giving Argon everything about my Callaway Marketing YouTube channel, scripts,
+[0:00:43.05] My knowledge base, my channel strategy, and it was able to build this YouTube dashboard that is now my HQ for everything.
+[0:00:49.16] And seeing these workflows complete in a single step is pretty mind blowing when you're watching it.
+[0:00:53.14] Argon is so capable that Google has also been using it internally to solve their own problems as well.
+[0:00:58.55] A team of Argon agents freed up
+[0:01:02.09] Argonne was also able to rewrite 32,000 lines of code in one of Google's video decoders to make it 2.7 times faster.
+[0:01:11.67] So whether it's your complex task or optimizing Google's own data centers, Argonne has just set the new frontier.
+[0:01:18.38] If you want to try it out, Gemini 4 Argonne is now available to Google AI Pro and Ultra subscribers in the Gemini app.

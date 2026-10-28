@@ -1,0 +1,46 @@
+# The Standard — v2.4 kit
+# Tracked: CLAUDE.md, templates (Anton-Regular.ttf, standard.cube, signoff_card.mp4),
+# hook_log.md, pipeline/ (scripts + bin), _archive/
+
+# --- Subject folders (multi-GB speech recordings, scene packs, music) ---
+/Jon Jones/
+/Kobe Bryant/
+/Michael Jordan/
+/Tom Brady/
+/J J Watt/
+
+# --- Build artifacts ---
+/outbox/
+/working/
+
+# --- Python caches / virtual environments ---
+__pycache__/
+*.pyc
+venv/
+venv_render/
+venv_lp/
+
+# --- ML models ---
+*.onnx
+sherpa-onnx-*/
+whisperx*/
+*whisperx*model*/
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# --- v3.0 assets ---
+# SFX audio: Pixabay/Mixkit licenses forbid redistributing the files (README.md is tracked)
+/assets/sfx/**/*.wav
+/assets/sfx/**/*.mp3
+/assets/sfx/**/*.ogg
+/assets/sfx/**/*.flac
+# Trending sounds: copyrighted, never committed (only _README.md is tracked)
+/assets/trending_sounds/downloads/
+/assets/trending_sounds/sounds.txt
+# HyperFrames build output
+node_modules/

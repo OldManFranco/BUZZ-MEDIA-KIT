@@ -1,0 +1,18 @@
+[0:00:00.07] ChatGPT can now automatically edit your videos with GPT-6 Astra.
+[0:00:04.24] And if you make video content of any kind, the people that learn how to use this are gonna have a massive advantage.
+[0:00:09.74] What you're watching is GPT-6 Astra in codecs, controlling DaVinci Resolve using an MCP.
+[0:00:15.37] In layman's terms, ChatGPT can now control your editing timeline for you.
+[0:00:19.52] It can make cuts, delete bad takes, find B-roll, add text and graphics, create custom animations, and mix the sound and audio all automatically.
+[0:00:28.78] All you have to do as the human is creative direct by talking.
+[0:00:32.16] Now, as a creator and someone who used to spend eight hours per video editing, this is one of the wildest things I've ever seen.
+[0:00:37.90] It literally feels like self-editing alien technology has just been given to the content world.
+[0:00:42.98] And this works for short-form video, long-form video, 3D animations in Blender, motion graphics in After Effects.
+[0:00:49.01] It's pretty wild.
+[0:00:49.61] Now, I'll be the first to admit,
+[0:00:50.73] Edits and workflow here are not perfect yet.
+[0:00:52.97] It'd be very tough to make a video like this automatically without any mistakes.
+[0:00:56.88] But this feels like a seminal moment because we have just broken the four-minute mile of automated video editing.
+[0:01:02.26] And so in just a few years, most of the editing workflow will be fully programmable and directable.
+[0:01:07.21] Now, all this is only possible because of GPT-6 Astra.
+[0:01:10.65] OpenAI has essentially crossed the threshold into the early stages of what feels like AGI.
+[0:01:15.94] So if you make content, I really recommend trying this out because it will only get better and better from here.

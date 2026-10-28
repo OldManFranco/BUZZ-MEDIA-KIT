@@ -1,0 +1,31 @@
+<template>
+  <style>
+    #nc-root { position: absolute; inset: 0; background: #0b0b0b; overflow: hidden; }
+    #nc-paper {
+      position: absolute; left: 110px; top: 470px; width: 860px; height: 640px; padding: 46px 54px;
+      background: radial-gradient(ellipse at 30% 20%, #F4EFE2 0%, #E6DFCC 60%, #D6CDB5 100%);
+      box-shadow: 0 40px 90px rgba(0,0,0,0.85); color: #141414;
+    }
+    #nc-mast { font-family: "Playfair Display", serif; font-size: 44px; font-weight: 700; letter-spacing: 0.06em; text-align: center; }
+    #nc-dateline { margin-top: 10px; padding: 8px 0; border-top: 3px solid #141414; border-bottom: 1px solid #141414;
+      font-family: "IBM Plex Mono", monospace; font-size: 30px; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
+    #nc-headline { margin-top: 44px; font-family: "Playfair Display", serif; font-weight: 900; font-size: 116px; line-height: 1; text-align: center; }
+    #nc-deck { margin-top: 30px; font-family: "Playfair Display", serif; font-style: italic; font-size: 38px; line-height: 1.25; text-align: center; color: #2a2a2a; }
+  </style>
+  <div id="nc-root" data-composition-id="newspaper_clipping" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"masthead","type":"string","label":"Generic masthead","default":"THE SPORTS DESK"},{"id":"dateline","type":"string","label":"Dateline","default":"MARCH 14, 1994"},{"id":"headline","type":"string","label":"Real headline","default":"BAG IT, MICHAEL!"},{"id":"deck","type":"string","label":"Real deck","default":"Jordan and the White Sox are embarrassing baseball"}]'>
+    <div id="nc-paper">
+      <div id="nc-mast" data-var-text="masthead">THE SPORTS DESK</div>
+      <div id="nc-dateline" data-var-text="dateline">MARCH 14, 1994</div>
+      <div id="nc-headline" data-var-text="headline">BAG IT, MICHAEL!</div>
+      <div id="nc-deck" data-var-text="deck">Jordan and the White Sox are embarrassing baseball</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#nc-paper", { y: 260, rotation: 6, opacity: 0 }, { y: 0, rotation: -2, opacity: 1, duration: 0.45, ease: "power3.out" }, 0);
+    tl.fromTo("#nc-paper", { scale: 1.0 }, { scale: 1.06, duration: 4, ease: "none" }, 0.45);
+    tl.fromTo("#nc-headline", { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: "power4.out" }, 0.35);
+    window.__timelines["newspaper_clipping"] = tl;
+  </script>
+</template>

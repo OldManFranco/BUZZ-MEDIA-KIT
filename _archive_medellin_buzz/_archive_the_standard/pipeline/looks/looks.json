@@ -1,0 +1,6 @@
+{
+  "_comment": "Era looks (CLAUDE.md v3.0 Step 7) as ffmpeg filter chains. Applied by apply_look.py to archival/still sources. Grain uses allf=t so it moves on video; on a still it is a fixed grain.",
+  "era_70s": "colorbalance=rs=0.06:gs=0.02:bs=-0.06:rm=0.04:bm=-0.04,curves=all='0/0.06 0.5/0.52 1/0.94',eq=saturation=0.85,noise=alls=8:allf=t+u,vignette=PI/5",
+  "era_90s": "colorbalance=rs=-0.02:bs=0.04:bm=0.02,eq=saturation=0.78:contrast=1.04,gblur=sigma=0.6,noise=alls=6:allf=t+u,vignette=PI/6",
+  "bw_film": "hue=s=0,eq=contrast=1.15:brightness=-0.02,curves=all='0/0.03 0.5/0.48 1/0.96',noise=alls=10:allf=t+u,vignette=PI/5"
+}

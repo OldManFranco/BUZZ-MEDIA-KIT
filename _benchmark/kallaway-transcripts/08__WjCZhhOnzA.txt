@@ -1,0 +1,24 @@
+[0:00:00.11] Google Gemini just integrated their agentic capabilities in Gemini Live.
+[0:00:04.59] And there's a way of using this, not many people have tried yet, that is insanely valuable for creators and marketers.
+[0:00:09.99] With this integration, you can now have voice control over your personal AI agent.
+[0:00:14.50] It can access docs, drives, slides, sheets, Gmail, and even YouTube.
+[0:00:18.78] As a creator, I used this new update to build out an entire content pipeline for brand partnerships.
+[0:00:23.96] All I had to do was open Gemini Live and verbally describe the workflow I wanted.
+[0:00:28.56] And it built this whole thing out for me automatically.
+[0:00:31.08] First, it scans my email daily looking for any communication with brands for upcoming partnerships.
+[0:00:36.15] When it finds one, it extracts all the campaign information shared by the brand
+[0:00:39.69] And then it searches all of my best content on YouTube to find the narratives that have worked well for similar stories in the past.
+[0:00:46.15] Then it uses all that information to automatically create a folder in Google drive with a doc inside specifically for that campaign with ideas, power phrases, and formats that worked
+[0:00:56.02] Previously, when I go to make the video, I just open that doc and all the notes I already need are in there ready to go.
+[0:01:01.77] I call this flow data enabled creativity.
+[0:01:04.15] It's using the data and examples from previous winning videos to guide my creativity for the new campaign.
+[0:01:09.75] And that whole thing is just one single creator workflow.
+[0:01:12.11] There are dozens of other ones you can run.
+[0:01:13.97] For example, I also asked Gemini to build out an invoice tracking pipeline to keep track of all my brand partnership payments.
+[0:01:20.43] I also built an idea repurposer that scans my Google Drive for old script documents and notes that can be turned into new ideas.
+[0:01:27.24] And the reason all these are so easy to build is because of the new agenda capabilities in Gemini Live.
+[0:01:32.28] By being able to fully describe the exact vision I have for the workflow, easily interrupt, change my mind, course correct, I can flow much easier than typing.
+[0:01:40.98] And because Gemini Live can connect across my entire Google Suite, it has all the context and resources it needs to build out the most complex workflows.
+[0:01:48.97] I'm telling you, once you use this, it is clear Gemini Live is a huge productivity enhancer.
+[0:01:53.50] This flow is now available for pro and ultra users.
+[0:01:56.37] Comment Gemini and I'll send through the links to get all of this set up.

@@ -1,0 +1,21 @@
+[0:00:00.15] This is a brand new type of military aircraft from Andrew.
+[0:00:03.69] Its name is Thunder.
+[0:00:04.89] And the crazy part is that it can fly autonomously with no pilot and no cockpit.
+[0:00:08.95] Now, Thunder's job is like something straight out of Top Gun.
+[0:00:11.69] It flies right next to an Apache helicopter as its robotic wingman.
+[0:00:15.49] Think of it like the bodyguard flying shotgun, which takes the most dangerous job away so the crew doesn't have to.
+[0:00:20.82] But the coolest part about Thunder isn't that it flies autonomously, it's that it can fly in two different ways.
+[0:00:25.88] Thunder is what's called a tilt rail.
+[0:00:27.56] Which means the rotors can tilt forwards and backwards.
+[0:00:30.48] On takeoff, they point straight at the sky, so Thunder can lift off like a helicopter.
+[0:00:34.48] Then, once airborne, they tilt forward like propellers, so it can fly like a plane.
+[0:00:38.89] This single innovation is why Thunder can fly full speed with an Apache helicopter, while a normal drone would get left behind.
+[0:00:44.73] Now, there's one thing about Thunder's design that is super surprising.
+[0:00:47.84] Even though there's no pilot in the sky, it's also not being controlled manually by humans on the ground either.
+[0:00:53.55] This will sound like sci-fi, but there's actually no person in control of flying this thing.
+[0:00:58.01] A soldier gives Thunder a task, and then it figures out the route, the formation, and the timing.
+[0:01:02.66] So the military is going from flying aircraft to coaching them.
+[0:01:06.34] Now, the Apache helicopter has been the king of attack aviation since the 1980s.
+[0:01:10.57] And Andrew says one Apache flying with three thunders can carry three times more weapons into a fight, while the crew can stay out of the most dangerous airspace.
+[0:01:18.55] It's early, but this feels like the beginning of the autonomous military era.
+[0:01:22.86] Fall for more stories like this on tech, AI, and robotics.

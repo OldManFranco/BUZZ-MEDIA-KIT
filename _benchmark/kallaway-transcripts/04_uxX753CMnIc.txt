@@ -1,0 +1,24 @@
+[0:00:00.11] DoorDash is completely reinventing the food delivery space.
+[0:00:03.48] And I don't think people fully realize what they're actually working on under the hood.
+[0:00:07.56] Last week, they announced a ton of new features at their annual event.
+[0:00:10.80] Now, the biggest one to me was their ultra quiet food delivery drone DoorDash Air.
+[0:00:14.99] This thing can fly straight from a restaurant to your yard over top of all the traffic and dramatically reduces delivery times.
+[0:00:21.35] But it turns out this drone program is only a small piece of their overall master plan.
+[0:00:26.40] So to learn more, I sat down with Stanley Tang, one of the original co-founders and head of labs at DoorDash.
+[0:00:31.58] He is the mastermind behind the air launch and he runs their R&D lab.
+[0:00:35.12] And what he said really surprised me.
+[0:00:37.07] And a large part of what we built, we would call it the autonomous delivery platform.
+[0:00:40.99] Think of it as the orchestration layer, the brains behind the scenes that actually does all the coordination.
+[0:00:46.19] Is it a dasher?
+[0:00:47.11] Is it a drone?
+[0:00:47.93] Is it a dot?
+[0:00:48.77] That's what's magical about working with someone like DoorDash.
+[0:00:51.37] We handle all that complexity.
+[0:00:52.91] So the secret sauce at DoorDash isn't just the drones, it's the entire delivery operating system layer they've built to sit underneath.
+[0:00:59.90] Because DoorDash now has lots of different ways to deliver your food.
+[0:01:03.24] They've got dashers, the human drivers, DOT, the autonomous robot, and now AIR, the delivery drones.
+[0:01:08.62] So when an order comes in, they're able to intelligently route and deliver it in the fastest and most cost-efficient way possible.
+[0:01:14.91] And as they build more and more methods for delivery, including things like drones and autonomous vehicles, this will increase their ability to serve customers.
+[0:01:22.17] That orchestration layer underneath is the secret sauce behind why they're so effective.
+[0:01:26.40] Stanley also broke down how they're using AI in the new text DoorDash feature, as well as how he runs the R&D lab to drive new breakthroughs.
+[0:01:33.70] And it's clear they're doing everything they can to pioneer the future of delivery.

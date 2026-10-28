@@ -1,0 +1,23 @@
+/* Medellin Buzz brand tokens for HyperFrames graphics (_brand/brand-notes.md §2, approved 2026-10-27).
+   build_graphics.py inlines this file into every generated scene (scene styles must sit inside <template>)
+   and copies the font files from brand\fonts\ into the project's assets/fonts/. */
+@font-face { font-family: "MB Poppins"; font-weight: 800; src: url("assets/fonts/Poppins-ExtraBold.ttf"); }
+@font-face { font-family: "MB Poppins"; font-weight: 600; src: url("assets/fonts/Poppins-SemiBold.ttf"); }
+@font-face { font-family: "MB Poppins"; font-weight: 500; src: url("assets/fonts/Poppins-Medium.ttf"); }
+
+:root {
+  --mb-ink: #1D1D1D;
+  --mb-cream: #F4EFE2;
+  --mb-orange: #D95633;
+  --mb-gray: #8C857A;
+  --mb-white: #FFFFFF;
+  --brand: #D95633;            /* registry components read --brand for their accent */
+}
+
+.mb-xb { font-family: "MB Poppins"; font-weight: 800; }
+.mb-md { font-family: "MB Poppins"; font-weight: 500; }
+.mb-orange { color: var(--mb-orange); }
+.mb-eyebrow {
+  font-family: "MB Poppins"; font-weight: 500;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--mb-gray);
+}

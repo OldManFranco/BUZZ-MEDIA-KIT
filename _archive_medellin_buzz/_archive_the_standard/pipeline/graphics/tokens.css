@@ -1,0 +1,22 @@
+/* The Standard — graphics design tokens (CLAUDE.md v3.0 §16b)
+   Monochrome. Accent is white: emphasis comes from size, weight and underline. */
+
+@font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf"); }
+@font-face { font-family: "Playfair Display"; src: url("assets/fonts/PlayfairDisplay-Regular.ttf"); }
+@font-face { font-family: "IBM Plex Mono"; src: url("assets/fonts/IBMPlexMono-Regular.ttf"); }
+
+:root {
+  --bg: #000000;
+  --ink: #F2F0EB;          /* off-white body text */
+  --accent: #FFFFFF;       /* LOCKED: white */
+  --muted: rgba(242, 240, 235, 0.55);
+
+  --font-head: "Anton", sans-serif;
+  --font-quote: "Playfair Display", serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* 1080x1920 canvas. Watermark at y=300, captions at y=1380. */
+  --safe-top: 380px;
+  --safe-bottom: 1180px;
+  --safe-side: 80px;
+}

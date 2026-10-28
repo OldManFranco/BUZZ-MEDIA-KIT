@@ -1,0 +1,31 @@
+[0:00:00.11] This company built a data center floating in the Pacific Ocean.
+[0:00:03.33] They're called Pantelassa, and they might be pioneering a whole new category of data center technology.
+[0:00:08.82] See, a data center is really just thousands of computer chips that only need two things, electricity to think and water to cool.
+[0:00:15.08] On land, they compete with actual towns for both of those resources, which is why these projects keep getting blocked.
+[0:00:20.73] But the ocean has no towns, no permits, and no grids to constrain.
+[0:00:25.15] Of course, there is just one problem with an ocean-based data center.
+[0:00:28.05] There are no plugs to plug in for electricity.
+[0:00:30.39] So this floating data center was designed to make its own power.
+[0:00:33.20] Here's how it works.
+[0:00:34.06] Picture a giant floating lollipop in the sea with a round buoy on top and a long tube underneath.
+[0:00:39.76] Waves only move at the top of the surface, so underneath, it's actually very calm.
+[0:00:43.19] And that means the buoy rides up and down while the tube stays still.
+[0:00:46.91] Every wave that passes by squeezes seawater through its herbine.
+[0:00:50.02] Think of it like a bike pump, except the ocean waves is what's pushing the handle up and down.
+[0:00:54.54] That same seawater is also great for cooling the chips in the data center, so it accomplishes both tasks required.
+[0:01:00.45] Now, you'd think calm weather and no waves in the ocean would prevent this from running.
+[0:01:04.31] But it actually works a lot more like a battery.
+[0:01:06.43] The sun heats the air, the air makes wind, and the wind pushes the waves.
+[0:01:10.16] And those waves keep rolling long after the breeze stops.
+[0:01:12.72] So it's solar power that also works at night.
+[0:01:15.04] But there's just one more problem.
+[0:01:15.94] How do they get all that power back to the land to use?
+[0:01:18.62] And it turns out, they don't.
+[0:01:20.05] These things have no anchor, no fuel, and no cable to shore.
+[0:01:23.67] Instead, your AI query hits them, goes straight up to a satellite, and then goes straight back down to the data center.
+[0:01:29.44] The real problem making this tough is that the ocean typically destroys everything.
+[0:01:33.00] The salt eats metal, the barnacles grow out everything, and storms do what storms do.
+[0:01:37.23] And that's really the bet that Pantelassa's making, that they can figure out how to make this in a way the ocean can't destroy it.
+[0:01:42.26] The first full-size versions of this go live in the ocean later this year.
+[0:01:45.41] If they survive, your AI queries might start being powered by a floating data center in the ocean.
+[0:01:50.23] Call for more stories like this about tech, AI, and robotics.

@@ -1,0 +1,31 @@
+<template>
+  <style>
+    @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf"); }
+    #eb-root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #eb-photo { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    #eb-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,0.7) 65%, rgba(0,0,0,0.35) 100%); }
+    #eb-block { position: absolute; left: 80px; right: 80px; top: 560px; text-align: center; }
+    #eb-year { font-family: "Anton", sans-serif; font-size: 300px; line-height: 0.95; color: #fff; }
+    #eb-rule { width: 520px; height: 6px; margin: 30px auto 34px; background: #fff; transform-origin: 50% 50%; }
+    #eb-line { font-family: "IBM Plex Mono", monospace; font-size: 46px; letter-spacing: 0.14em; color: #F2F0EB; text-transform: uppercase; }
+  </style>
+  <div id="eb-root" data-composition-id="era_banner" data-width="1080" data-height="1920"
+       data-composition-variables='[{"id":"photo","type":"string","label":"Photo","default":"assets/img/i95_north_carolina_bw_film.jpg"},{"id":"year","type":"string","label":"Year","default":"1993"},{"id":"line","type":"string","label":"Line","default":"JULY · LUMBERTON, NC"}]'>
+    <img id="eb-photo" class="clip" data-start="0" data-duration="30" data-track-index="1"
+         data-var-src="photo" src="assets/img/i95_north_carolina_bw_film.jpg" alt="" />
+    <div id="eb-shade"></div>
+    <div id="eb-block">
+      <div id="eb-year" data-var-text="year">1993</div>
+      <div id="eb-rule"></div>
+      <div id="eb-line" data-var-text="line">JULY · LUMBERTON, NC</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#eb-photo", { scale: 1.12 }, { scale: 1.0, duration: 6, ease: "power1.out" }, 0);
+    tl.fromTo("#eb-year", { opacity: 0, y: 40, scale: 1.08 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, 0.1);
+    tl.fromTo("#eb-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.inOut" }, 0.4);
+    tl.fromTo("#eb-line", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 0.65);
+    window.__timelines["era_banner"] = tl;
+  </script>
+</template>

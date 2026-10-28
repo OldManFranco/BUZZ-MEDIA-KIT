@@ -1,0 +1,24 @@
+<template>
+  <style>
+    @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.ttf"); }
+    #bl-root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #bl-block { position: absolute; left: 80px; right: 80px; top: 600px; text-align: center; }
+    #bl-line1, #bl-line2 { font-family: "Anton", sans-serif; font-size: 190px; line-height: 0.98; color: #fff; }
+    #bl-rule { width: 760px; height: 12px; margin: 30px auto 0; background: #fff; }
+  </style>
+  <div id="bl-root" data-composition-id="brand_lockup" data-width="1080" data-height="1920">
+    <div id="bl-block">
+      <div id="bl-line1">HOLD THE</div>
+      <div id="bl-line2">STANDARD.</div>
+      <div id="bl-rule"></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bl-line1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power4.out" }, 0);
+    tl.fromTo("#bl-line2", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power4.out" }, 0.25);
+    tl.fromTo("#bl-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.inOut" }, 0.45);
+    tl.fromTo("#bl-block", { scale: 1 }, { scale: 1.03, duration: 2.5, ease: "none" }, 0);
+    window.__timelines["brand_lockup"] = tl;
+  </script>
+</template>

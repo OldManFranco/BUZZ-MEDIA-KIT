@@ -1,0 +1,31 @@
+{
+ "client": "medellin-buzz (archived)",
+ "note": "Medellin Buzz channel exclusions (old CLAUDE.md \u00a71.5), as regexes. Not used by the Buzz Media kit.",
+ "patterns": [
+  "\\bvisas?\\b",
+  "deport",
+  "\\bscams?\\b",
+  "tinder",
+  "\\bdating\\b",
+  "\\broi\\b",
+  "\\byields?\\b",
+  "\\breturns?\\b",
+  "\\bmerch\\b",
+  "donat",
+  "\\bcharity\\b",
+  "\\brent(al|ing)?\\b",
+  "propert",
+  "invest",
+  "pickpocket",
+  "\\brob",
+  "papaya",
+  "ripped off",
+  "masterclass",
+  "sponsor",
+  "\\btax",
+  "apartment",
+  "\\bsubscrib",
+  "knock-?offs?",
+  "\\bsteal"
+ ]
+}

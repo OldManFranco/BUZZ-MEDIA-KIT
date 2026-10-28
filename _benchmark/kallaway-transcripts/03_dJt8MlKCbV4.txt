@@ -1,0 +1,17 @@
+[0:00:00.07] This company built one of the most advanced AI satellites in the world.
+[0:00:03.63] These satellites can detect the model of the car in your driveway from space.
+[0:00:08.34] The company behind these is called Planet Labs, and their Pelican 4 satellites can do something extremely unique.
+[0:00:13.98] See, a normal satellite takes a photo from space and then beams it back down to Earth for processing.
+[0:00:18.88] But Planet satellites have AI chips on board, so they can read and process the images while still in orbit.
+[0:00:24.68] And this gives them some extreme advantages.
+[0:00:26.57] For example, they could take a single snapshot of an airport
+[0:00:29.63] And immediately identify how many planes are parked in half a second.
+[0:00:33.39] They could also collect real time data on military positioning or even how many cars are in a Walmart parking lot to gauge shopping trends.
+[0:00:40.31] But the real innovation is what happens when you link two of these planet satellites together.
+[0:00:44.51] One satellite will act like the wide angle camera.
+[0:00:47.22] It's constantly looking at strips of the earth wider than most cities and scanning them every day looking for changes.
+[0:00:53.14] Then it uses that change data to tell the second satellite exactly where to zoom in for pin
+[0:00:58.52] And I know what you're thinking, privacy concerns, but think about all the benefits this could bring.
+[0:01:07.61] Imagine using this type of system to track real-time weather events like hurricanes or wildfires as they're spreading.
+[0:01:13.56] The truth is, this is the future of satellite imagery.
+[0:01:15.94] And in a few years, we will have real-time detailed maps of the world available in seconds.

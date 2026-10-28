@@ -1,0 +1,17 @@
+{
+  "_comment": "Allow-list for source_archival.py (CLAUDE.md v3.0 Step 2). Add YouTube channels only after Franco approves each one.",
+  "archive_org": {
+    "enabled": true,
+    "mediatypes": ["movies", "image"],
+    "license_url_markers": ["publicdomain", "/zero/", "/by/"]
+  },
+  "commons": {
+    "enabled": true,
+    "licenses": ["Public domain", "CC0", "CC BY", "CC BY-SA"]
+  },
+  "usgov": {
+    "enabled": true,
+    "notes": "Public-domain federal works, e.g. White House / military / NASA media. Check each item's rights note."
+  },
+  "youtube_channels": []
+}

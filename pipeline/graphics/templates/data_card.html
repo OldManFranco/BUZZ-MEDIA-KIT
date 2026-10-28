@@ -1,0 +1,55 @@
+<!-- Medellin Buzz data card, 9:16 re-layout of Alejo's long-form card system (brand-notes §3).
+     Full-bleed cream or ink, tracked warm-gray eyebrow, a hero number that rolls in (registry component number-wheel),
+     a brand heavy font label, a rule that draws on, the source line. Exactly one orange element.
+     Filled by build_graphics.py: {{id}}, {{brand_css}}, {{number_wheel_css}}, {{number_wheel_js}}, {{bg}} (cream|ink),
+     {{eyebrow}}, {{hero}} (number-wheel span or plain text), {{hero_class}}, {{label}}, {{source}}, {{dur}}.
+     All text sits inside the platform-safe band y 168-1330 and left of x 940. -->
+<template>
+  <style>
+    {{brand_css}}
+    {{number_wheel_css}}
+    #{{id}} { position: absolute; inset: 0; }
+    #{{id}} .dc-bg { position: absolute; inset: 0; }
+    #{{id}} .dc-bg.cream { background: var(--mb-cream); color: var(--mb-ink); }
+    #{{id}} .dc-bg.ink { background: var(--mb-ink); color: var(--mb-cream); }
+    #{{id}} .dc-col { position: absolute; left: 96px; top: 560px; width: 820px; }
+    #{{id}} .dc-eyebrow { font-size: 30px; line-height: 30px; }
+    #{{id}} .dc-hero { font-size: 230px; line-height: 230px; margin-top: 34px; letter-spacing: -4px; white-space: nowrap; }
+    /* the registry counter aligns columns on the baseline, which drops "," and "." below the digits */
+    #{{id}} .hf-number-wheel { align-items: flex-start; line-height: 1em; }
+    #{{id}} .dc-hero.small { font-size: 120px; line-height: 132px; white-space: normal; letter-spacing: 0; }
+    #{{id}} .dc-label { font-size: 72px; line-height: 84px; margin-top: 30px; }
+    #{{id}} .dc-rule { height: 4px; width: 820px; margin-top: 44px; background: currentColor; transform-origin: 0 50%; }
+    #{{id}} .dc-source { font-size: 28px; line-height: 34px; margin-top: 26px; color: var(--mb-gray); }
+  </style>
+  <div id="{{id}}" data-composition-id="{{id}}" data-width="1080" data-height="1920">
+    <div class="dc-bg {{bg}}">
+      <div id="{{id}}-col" class="dc-col">
+        <div id="{{id}}-eyebrow" class="dc-eyebrow mb-eyebrow">{{eyebrow}}</div>
+        <div id="{{id}}-hero" class="dc-hero mb-xb {{hero_class}}">{{hero}}</div>
+        <div id="{{id}}-label" class="dc-label mb-xb">{{label}}</div>
+        <div id="{{id}}-rule" class="dc-rule"></div>
+        <div id="{{id}}-source" class="dc-source mb-md">{{source}}</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    {{number_wheel_js}}
+    const tl = gsap.timeline({ paused: true });
+    // the background cuts in with the card; the content arrives in steps (Alejo: entrance 0.4-0.6 s, expo/quint out)
+    tl.fromTo("#{{id}}-eyebrow", { clipPath: "inset(0% 100% 0% 0%)" },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "expo.out" }, 0.05);
+    tl.fromTo("#{{id}}-hero", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, 0.12);
+    tl.fromTo("#{{id}} .hf-number-wheel-strip", { y: "0em" }, {
+      y: (_, strip) => strip.style.getPropertyValue("--hf-number-target-y"),
+      duration: 1.1, ease: "power3.out", stagger: 0.05,
+    }, 0.15);
+    tl.fromTo("#{{id}}-label", { clipPath: "inset(0% 0% 100% 0%)", y: 24 },
+      { clipPath: "inset(0% 0% 0% 0%)", y: 0, duration: 0.45, ease: "expo.out" }, 0.35);
+    tl.fromTo("#{{id}}-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.5);
+    tl.fromTo("#{{id}}-source", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.7);
+    // exit: the content leaves in 0.3 s; the card itself cuts back to the picture on its last frame
+    tl.to("#{{id}}-col", { opacity: 0, duration: 0.3, ease: "power3.in" }, Math.max({{dur}} - 0.31, 1.3));
+    window.__timelines["{{id}}"] = tl;
+  </script>
+</template>

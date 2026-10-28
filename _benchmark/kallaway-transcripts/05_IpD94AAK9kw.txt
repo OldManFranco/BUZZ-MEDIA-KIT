@@ -1,0 +1,26 @@
+[0:00:00.13] OpenAI has officially launched DOTS.
+[0:00:02.31] And this is a massive deal because DOTS is a completely different category of AI product.
+[0:00:07.33] DOTS are always-on agents inside of ChatGPT that can handle ongoing work.
+[0:00:12.13] Each DOT has its own cloud computer and browser, which means it can keep working on tasks continuously while you're away.
+[0:00:18.42] And the big question on everyone's mind is how are DOTS different from the normal ChatGPT or Codex experiences?
+[0:00:24.22] Think of it like this.
+[0:00:25.04] ChatGPT and Codex are more reactive.
+[0:00:27.38] You ask them questions or give them a task,
+[0:00:29.60] And they answer to the best of their ability.
+[0:00:31.22] So it's kind of like you're driving the car and they are the engine, but the car doesn't move unless you press the pedal down.
+[0:00:36.92] Dots, on the other hand, work completely different.
+[0:00:39.02] They're designed to be more proactive.
+[0:00:40.68] All you have to do is give them an initial objective, set boundaries, and then let them cook.
+[0:00:44.66] And they'll come back to you when they need you to weigh in or make important decisions, but they can work continuously.
+[0:00:49.35] So it's more like you get in the backseat of the car, say where you want to go, and then your dot can drive, steer, and fill up its own gas tank.
+[0:00:56.31] It's pretty awesome.
+[0:00:57.03] Essentially, the big shift here is from asking AI to complete a task to now giving your dot ongoing responsibilities.
+[0:01:03.85] And that shift from reactive to proactive will completely change how humans use AI.
+[0:01:08.52] Now, the biggest reason why dots are so compelling is because they're powered by GPT-6 Astra,
+[0:01:13.32] Essentially, their agent brain is genius level, using one of the best models in the world, which means its capacity to do things is extremely advanced.
+[0:01:21.14] For example, I gave my dot the responsibility to become my chief of staff.
+[0:01:24.90] Every morning when I first wake up, I want to see that my emails, Slack messages, and customer support requests have been triaged and answered, and that I can see the most critical items that need my attention in one single dashboard.
+[0:01:35.98] To do this, I just described with voice to my dot how I wanted it to run this admin operating system.
+[0:01:41.95] And I can't believe it, but this actually works insanely well, and it's already saving me multiple hours per day.
+[0:01:46.93] The long-term ongoing proactive monitoring from dots paired with the power of GPT-6 Astra is the combination that makes this task so seamless and easy.
+[0:01:56.63] This is the way most people envisioned working with AI and it's available now comment dots, and I'll send you more information on exactly how to get this set up so that you can take advantage of the next wave in AI.

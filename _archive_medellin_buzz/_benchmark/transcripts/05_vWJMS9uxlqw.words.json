@@ -1,0 +1,66 @@
+{
+ "clip": "05_vWJMS9uxlqw.mp4",
+ "source": "E:\\FRANCO\\MEDELLIN_BUZZ_SHORTS\\_benchmark\\opus-clip-samples\\05_vWJMS9uxlqw.mp4",
+ "start": 0.0,
+ "end": 11.693,
+ "model": "whisperx large-v3 + wav2vec2",
+ "segments": [
+  {
+   "start": 0.213,
+   "end": 1.327,
+   "text": "We call her Stephanie.",
+   "words": [
+    {
+     "w": "We",
+     "s": 0.213,
+     "e": 0.254,
+     "p": 0.372
+    },
+    {
+     "w": "call",
+     "s": 0.274,
+     "e": 0.436,
+     "p": 0.438
+    },
+    {
+     "w": "her",
+     "s": 0.456,
+     "e": 0.598,
+     "p": 0.189
+    },
+    {
+     "w": "Stephanie.",
+     "s": 0.618,
+     "e": 1.327,
+     "p": 0.554
+    }
+   ]
+  }
+ ],
+ "words": [
+  {
+   "w": "We",
+   "start": 0.213,
+   "end": 0.254,
+   "p": 0.372
+  },
+  {
+   "w": "call",
+   "start": 0.274,
+   "end": 0.436,
+   "p": 0.438
+  },
+  {
+   "w": "her",
+   "start": 0.456,
+   "end": 0.598,
+   "p": 0.189
+  },
+  {
+   "w": "Stephanie.",
+   "start": 0.618,
+   "end": 1.327,
+   "p": 0.554
+  }
+ ]
+}

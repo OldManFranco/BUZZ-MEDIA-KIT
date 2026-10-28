@@ -1,0 +1,20 @@
+[0:00:00.11] This is a prosthetic hand that runs on signals from your brain.
+[0:00:03.57] The company that invented this is called BrainCo, and they figured out something that most people don't know about losing a limb.
+[0:00:09.02] Even when your hand is gone, the brain never stops shooting nerve signals down your arm.
+[0:00:13.62] If you think about closing your fist, those neurons still fire, even though there's no fist to close.
+[0:00:18.36] Think of it like a TV remote with no TV.
+[0:00:20.43] The button still presses, but there's no TV to turn on.
+[0:00:23.11] So BrainCo built the receiver.
+[0:00:24.63] In their prosthetic, the sensors sit on your skin and receive those neural signals.
+[0:00:28.57] And an AI translates those into finger movements.
+[0:00:31.47] No surgery, no implant, no hardwired brain chip in your head.
+[0:00:35.38] And here's the part that makes this different.
+[0:00:36.80] Old prosthetics usually come with a rule book.
+[0:00:38.94] Flex this muscle to open, switch that muscle to close.
+[0:00:41.84] You had to be the one doing the learning to figure out how to use it.
+[0:00:44.74] Well now, with this prosthetic hand, it does the learning for you.
+[0:00:47.92] All you have to do is try to move like you used to, and the AI figures out what signals mean what movements.
+[0:00:53.20] Learning six different gestures only takes 10 minutes with this prosthetic,
+[0:00:56.56] And the more you use it, the easier it learns.
+[0:00:58.43] It's wild to say this, but we are entering a world where you can control prosthetics with your mind.
+[0:01:02.71] Follow for more stories like this on tech, AI, and robotics.

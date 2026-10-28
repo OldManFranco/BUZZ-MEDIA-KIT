@@ -1,0 +1,23 @@
+/* Brand tokens for HyperFrames graphics, filled per client from its _brand\brand.json by build_graphics.brand_css().
+   build_graphics.py inlines the result into every generated scene (scene styles must sit inside <template>)
+   and copies the client's font files into the project's assets/fonts/.
+   Names keep the "mb-" prefix the templates use: --mb-orange is the brand's ACCENT (Buzz Yellow for Buzz Media). */
+{{font_faces}}
+
+:root {
+  --mb-ink: {{ink}};
+  --mb-cream: {{cream}};
+  --mb-orange: {{accent}};
+  --mb-orange-text: {{accent_text}};
+  --mb-gray: {{gray}};
+  --mb-white: {{white}};
+  --brand: {{accent}};         /* registry components read --brand for their accent */
+}
+
+.mb-xb { font-family: "{{heavy_family}}"; font-weight: {{heavy_weight}}; }
+.mb-md { font-family: "{{label_family}}"; font-weight: {{label_weight}}; }
+.mb-orange { color: var(--mb-orange); }
+.mb-eyebrow {
+  font-family: "{{label_family}}"; font-weight: {{label_weight}};
+  letter-spacing: 4px; text-transform: uppercase; color: var(--mb-gray);
+}

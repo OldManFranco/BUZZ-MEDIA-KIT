@@ -1,0 +1,35 @@
+<!-- Medellin Buzz title card (CLAUDE.md §7). Filled by build_graphics.py: {{id}}, {{brand_css}}, {{plate}} (ink|cream),
+     {{eyebrow}}, {{lines}} (one <div> per line, the orange word wrapped in .mb-orange), {{dur}}.
+     Same geometry as the approved Pillow card: top y 300, brand heavy font 88/100, plate padding 44x38, radius 12. -->
+<template>
+  <style>
+    {{brand_css}}
+    #{{id}} { position: absolute; inset: 0; }
+    #{{id}} .tc-row { position: absolute; left: 0; right: 0; top: 300px; display: flex; justify-content: center; }
+    #{{id}} .tc-plate { padding: 38px 44px; border-radius: 12px; max-width: 908px; }
+    #{{id}} .tc-plate.ink { background: var(--mb-ink); color: var(--mb-white); }
+    #{{id}} .tc-plate.cream { background: var(--mb-cream); color: var(--mb-ink); }
+    #{{id}} .tc-eyebrow { font-size: 34px; line-height: 34px; margin-bottom: 26px; }
+    #{{id}} .tc-line { font-size: 88px; line-height: 100px; max-width: 820px; }
+    #{{id}} .tc-line.forced { white-space: nowrap; max-width: none; }
+  </style>
+  <div id="{{id}}" data-composition-id="{{id}}" data-width="1080" data-height="1920">
+    <div class="tc-row">
+      <div id="{{id}}-plate" class="tc-plate {{plate}}">
+        <div id="{{id}}-eyebrow" class="tc-eyebrow mb-eyebrow">{{eyebrow}}</div>
+        <div id="{{id}}-text" class="mb-xb">{{lines}}</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // in: masked reveal left to right, 0.3 s, long-tailed ease-out; the plate rises 16 px into place
+    tl.fromTo("#{{id}}-plate",
+      { clipPath: "inset(0% 100% 0% 0% round 12px)", y: 16 },
+      { clipPath: "inset(0% 0% 0% 0% round 12px)", y: 0, duration: 0.3, ease: "expo.out" }, 0);
+    // out: the mask closes back to the left, 0.2 s, accelerating
+    tl.to("#{{id}}-plate",
+      { clipPath: "inset(0% 100% 0% 0% round 12px)", duration: 0.2, ease: "power3.in" }, Math.max({{dur}} - 0.21, 0.3));
+    window.__timelines["{{id}}"] = tl;
+  </script>
+</template>

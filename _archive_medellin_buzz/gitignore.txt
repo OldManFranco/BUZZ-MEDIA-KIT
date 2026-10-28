@@ -1,0 +1,59 @@
+# Medellin Buzz Shorts — v0.1
+# Tracked: CLAUDE.md, _brand/*.md, _benchmark/*.md + scan.json + transcripts text, pipeline/*.py, _setup/,
+# and the text/code of _archive_the_standard/ (so it can be diffed). Never footage.
+
+# --- Footage and renders ---
+/input/
+/output/
+/working/
+
+# --- Benchmark: analysis files are tracked, the downloaded shorts are not ---
+/_benchmark/opus-clip-samples/*.mp4
+/_benchmark/opus-clip-samples/*.webm
+/_benchmark/opus-clip-samples/*.part
+# yt-dlp metadata is ~10 MB per file (format lists); the fields we use are in _benchmark/scan.json
+/_benchmark/opus-clip-samples/*.info.json
+/_benchmark/transcripts/audio/
+/_benchmark/*.log
+
+# --- Brand symlink (target lives in Alejo's kit; one source of truth) ---
+/brand/
+
+# --- Archived The Standard kit: keep docs/code, drop footage, renders, models ---
+/_archive_the_standard/J J Watt/
+/_archive_the_standard/Jon Jones/
+/_archive_the_standard/Kobe Bryant/
+/_archive_the_standard/Michael Jordan/
+/_archive_the_standard/Tom Brady/
+/_archive_the_standard/outbox/
+/_archive_the_standard/working/
+/_archive_the_standard/pipeline/models/
+/_archive_the_standard/Assets/trending_sounds/downloads/
+/_archive_the_standard/Assets/trending_sounds/sounds.txt
+/_archive_the_standard/pipeline/graphics/node_modules/
+
+# --- Media and binaries anywhere ---
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.m4a
+*.ogg
+*.flac
+*.exe
+
+# --- Python caches / virtual environments / ML models ---
+__pycache__/
+*.pyc
+venv*/
+*.onnx
+sherpa-onnx-*/
+node_modules/
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

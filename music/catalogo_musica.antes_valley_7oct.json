@@ -1,0 +1,2985 @@
+{
+ "como_usar": "Catálogo de música de la fábrica. Medir: musica_catalogo.py medir. Sugerir con rotación: musica_catalogo.py sugerir <hoja.json>. Anotar uso al cerrar un render: musica_catalogo.py usar <video> <pista> <rol>.",
+ "pistas": {
+  "Dark Alley Deals - Aaron Kenny.mp3": {
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": 2,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "varios",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M3",
+     "rol": "vuelta",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M4",
+     "rol": "prueba",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M8",
+     "rol": "prueba",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M2",
+     "rol": "vuelta",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 180.0,
+    "lufs": -22.74,
+    "bpm_aprox": 172,
+    "energia_db": {
+     "intro": -25.7,
+     "medio": -25.4,
+     "final": -20.6
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 14.0
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "intriga baja y constante; sube en el último tercio"
+  },
+  "Hopeful Freedom - Asher Fulero.mp3": {
+   "mood": [
+    "esperanzadora",
+    "brillante"
+   ],
+   "energia": 3,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "varios",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M5",
+     "rol": "buenas_noticias",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M9",
+     "rol": "buenas_noticias",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M3",
+     "rol": "buenas_noticias",
+     "fecha": "2026-10-03"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M5",
+     "rol": "buenas_noticias",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 176.4,
+    "lufs": -13.25,
+    "bpm_aprox": 144,
+    "energia_db": {
+     "intro": -13.6,
+     "medio": -12.9,
+     "final": -13.3
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 5.3
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "pareja y luminosa, muy comprimida"
+  },
+  "Kiss the Sky - Aakash Gandhi.mp3": {
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": 1,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "varios",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M7",
+     "rol": "emotivo",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M6",
+     "rol": "emotivo",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 144.0,
+    "lufs": -26.32,
+    "bpm_aprox": 129,
+    "energia_db": {
+     "intro": -28.4,
+     "medio": -26.7,
+     "final": -32.6
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 20.6
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "muy suave, baja al final; para momentos personales"
+  },
+  "Positive Fuse - French Fuse.mp3": {
+   "mood": [
+    "brillante",
+    "neutra"
+   ],
+   "energia": 4,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "varios",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M2",
+     "rol": "explicacion",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M4",
+     "rol": "explicacion",
+     "fecha": "2026-10-03"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M7",
+     "rol": "explicacion",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 132.1,
+    "lufs": -12.53,
+    "bpm_aprox": 70,
+    "energia_db": {
+     "intro": -11.5,
+     "medio": -11.4,
+     "final": -10.9
+    },
+    "arranca_en_s": 9,
+    "rango_dinamico_db": 9.6
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "pop alegre y parejo (poco rango dinámico): sirve para explicar"
+  },
+  "Saving the World - Aaron Kenny.mp3": {
+   "mood": [
+    "inspiradora"
+   ],
+   "energia": 3,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "varios",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M10",
+     "rol": "cta",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M8",
+     "rol": "cta",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 116.5,
+    "lufs": -12.13,
+    "bpm_aprox": 112,
+    "energia_db": {
+     "intro": -22.5,
+     "medio": -14.8,
+     "final": -13.9
+    },
+    "arranca_en_s": 23,
+    "rango_dinamico_db": 20.7
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "arranca suave, crece a los ~23 s: buena para el CTA"
+  },
+  "The New Order - Aaron Kenny.mp3": {
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": 4,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "varios",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M1",
+     "rol": "cold_open",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M6",
+     "rol": "vuelta",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M1",
+     "rol": "cold_open",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 104.6,
+    "lufs": -11.15,
+    "bpm_aprox": 161,
+    "energia_db": {
+     "intro": -19.7,
+     "medio": -12.4,
+     "final": -11.3
+    },
+    "arranca_en_s": 14,
+    "rango_dinamico_db": 14.0
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "pulso electrónico que crece; entra fuerte a los ~14 s"
+  },
+  "The Rising - Aakash Gandhi.mp3": {
+   "mood": [
+    "inspiradora",
+    "calma"
+   ],
+   "energia": 3,
+   "licencia": "YouTube Audio Library (uso libre en YouTube, sin atribución obligatoria: confirmar en la ficha de la pista)",
+   "atribucion": null,
+   "fuente": "YouTube Audio Library (descargada por Alejandro para Video 1)",
+   "usos": [
+    {
+     "video": "LIVE019_V1",
+     "rol": "cierre_banner",
+     "fecha": "2026-09-30"
+    },
+    {
+     "video": "LIVE019_V2",
+     "seccion": "M11",
+     "rol": "cierre_banner",
+     "fecha": "2026-10-02"
+    },
+    {
+     "video": "LIVE019_V3",
+     "seccion": "M9",
+     "rol": "cierre_banner",
+     "fecha": "2026-10-03"
+    }
+   ],
+   "medido": {
+    "duracion_s": 179.3,
+    "lufs": -15.15,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -17.1,
+     "medio": -12.3,
+     "final": -14.7
+    },
+    "arranca_en_s": 21,
+    "rango_dinamico_db": 18.0
+   },
+   "medido_el": "2026-10-04",
+   "nota_escucha": "lenta, crece a los ~21 s y vuelve a bajar: cierre"
+  },
+  "Sweet Latin Jazz - Chill music - Alban_Gogh.mp3": {
+   "usos": [],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "Alban_Gogh",
+   "url_pagina": "https://pixabay.com/music/traditional-jazz-sweet-latin-jazz-chill-music-270382/",
+   "verificado": "existe en el buscador oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Sweet Latin Jazz - Chill music",
+   "id_lista": "px_m_270382",
+   "archivo_original": "alban_gogh-sweet-latin-jazz-chill-music-270382.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/traditional-jazz-sweet-latin-jazz-chill-music-270382/",
+   "medido": {
+    "duracion_s": 76.0,
+    "lufs": -22.97,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -22.5,
+     "medio": -23.4,
+     "final": -23.6
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 6.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.006,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Lounge Chill Nu Jazz Restaurant - alex-morgan.mp3": {
+   "usos": [],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "alex-morgan",
+   "url_pagina": "https://pixabay.com/music/cafe-lounge-chill-nu-jazz-restaurant-587425/",
+   "verificado": "existe en el buscador oficial (4-oct-2026)",
+   "slot": "M6_lujo_sofisticado",
+   "titulo": "Lounge Chill Nu Jazz Restaurant",
+   "id_lista": "px_m_587425",
+   "archivo_original": "alex-morgan-lounge-chill-nu-jazz-restaurant-587425.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "lujo",
+    "sofisticada"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/cafe-lounge-chill-nu-jazz-restaurant-587425/",
+   "medido": {
+    "duracion_s": 189.6,
+    "lufs": -9.89,
+    "bpm_aprox": 172,
+    "energia_db": {
+     "intro": -8.9,
+     "medio": -8.4,
+     "final": -8.6
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 5.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.023,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04",
+   "ia_generada": "la página dice «AI generated»"
+  },
+  "Tension Documentary - AtlasAudio.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "cold_open",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "AtlasAudio",
+   "url_pagina": "https://pixabay.com/music/ambient-tension-documentary-519912/",
+   "verificado": "datos oficiales de la página (JSON-LD)",
+   "slot": "M1_tension_documental",
+   "titulo": "Tension Documentary",
+   "id_lista": "px_m_519912",
+   "archivo_original": "atlasaudio-tension-documentary-519912.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/ambient-tension-documentary-519912/",
+   "medido": {
+    "duracion_s": 122.0,
+    "lufs": -14.07,
+    "bpm_aprox": 144,
+    "energia_db": {
+     "intro": -14.2,
+     "medio": -13.4,
+     "final": -14.0
+    },
+    "arranca_en_s": 6,
+    "rango_dinamico_db": 4.0,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.106,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Dark Electronic Pulse Background - Databend.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "prueba",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "Databend",
+   "url_pagina": "https://pixabay.com/music/electronic-dark-electronic-pulse-background-546935/",
+   "verificado": "datos oficiales de la página (JSON-LD)",
+   "slot": "M2_misterio_ligero",
+   "titulo": "Dark Electronic Pulse Background",
+   "id_lista": "px_m_546935",
+   "archivo_original": "databend-dark-electronic-pulse-background-546935.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "misterio",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/electronic-dark-electronic-pulse-background-546935/",
+   "medido": {
+    "duracion_s": 104.9,
+    "lufs": -11.35,
+    "bpm_aprox": 96,
+    "energia_db": {
+     "intro": -10.2,
+     "medio": -10.0,
+     "final": -10.2
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 7.7,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.013,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Silent River – Intimate Bolero Guitar Instrumental - Dieu_Anh.mp3": {
+   "usos": [],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "Dieu_Anh",
+   "url_pagina": "https://pixabay.com/music/latin-silent-river-intimate-bolero-guitar-instrumental-534837/",
+   "verificado": "existe en el buscador oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Silent River – Intimate Bolero Guitar Instrumental",
+   "id_lista": "px_m_534837",
+   "archivo_original": "dieu_anh-silent-river-intimate-bolero-guitar-instrumental-534837.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/latin-silent-river-intimate-bolero-guitar-instrumental-534837/",
+   "medido": {
+    "duracion_s": 151.8,
+    "lufs": -15.01,
+    "bpm_aprox": 161,
+    "energia_db": {
+     "intro": -14.7,
+     "medio": -14.0,
+     "final": -14.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 4.2,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.035,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04",
+   "ia_generada": "la página dice «AI generated»"
+  },
+  "Acoustic Guitar Bossa Nova - JuliusH.mp3": {
+   "usos": [],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "JuliusH",
+   "url_pagina": "https://pixabay.com/music/bossa-nova-acoustic-guitar-bossa-nova-295307/",
+   "verificado": "existe en el buscador oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Acoustic Guitar Bossa Nova",
+   "id_lista": "px_m_295307",
+   "archivo_original": "juliush-acoustic-guitar-bossa-nova-295307.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/bossa-nova-acoustic-guitar-bossa-nova-295307/",
+   "medido": {
+    "duracion_s": 72.1,
+    "lufs": -18.18,
+    "bpm_aprox": 129,
+    "energia_db": {
+     "intro": -16.6,
+     "medio": -17.8,
+     "final": -16.7
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 4.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.008,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical 2 - Jonny S.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Jonny S.",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M11_cierre_banner",
+   "titulo": "Classical 2",
+   "id_lista": "mk_m_709",
+   "archivo_original": "mixkit-classical-2-709.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora",
+    "calma",
+    "cierre"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 123.9,
+    "lufs": -24.58,
+    "bpm_aprox": 99,
+    "energia_db": {
+     "intro": -25.9,
+     "medio": -25.5,
+     "final": -26.3
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 14.0,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.015,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical 3 - Jonny S.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Jonny S.",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M11_cierre_banner",
+   "titulo": "Classical 3",
+   "id_lista": "mk_m_710",
+   "archivo_original": "mixkit-classical-3-710.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora",
+    "calma",
+    "cierre"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 108.0,
+    "lufs": -26.08,
+    "bpm_aprox": 129,
+    "energia_db": {
+     "intro": -29.8,
+     "medio": -26.6,
+     "final": -28.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 12.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.016,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical 6 - Jonny S.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Jonny S.",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M7_esperanzadora",
+   "titulo": "Classical 6",
+   "id_lista": "mk_m_713",
+   "archivo_original": "mixkit-classical-6-713.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "esperanzadora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 109.8,
+    "lufs": -25.39,
+    "bpm_aprox": 117,
+    "energia_db": {
+     "intro": -28.9,
+     "medio": -27.4,
+     "final": -28.4
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 21.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.018,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical 7 - Jonny S.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Jonny S.",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M8_emotiva_calma",
+   "titulo": "Classical 7",
+   "id_lista": "mk_m_714",
+   "archivo_original": "mixkit-classical-7-714.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "medido": {
+    "duracion_s": 155.6,
+    "lufs": -23.23,
+    "bpm_aprox": 81,
+    "energia_db": {
+     "intro": -27.2,
+     "medio": -27.5,
+     "final": -25.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 16.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.022,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical vibes 2 - Grigoriy Nuzhny.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Grigoriy Nuzhny",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M10_inspiradora_cta",
+   "titulo": "Classical vibes 2",
+   "id_lista": "mk_m_682",
+   "archivo_original": "mixkit-classical-vibes-2-682.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 113.1,
+    "lufs": -12.91,
+    "bpm_aprox": 70,
+    "energia_db": {
+     "intro": -14.5,
+     "medio": -14.7,
+     "final": -14.9
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 6.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.009,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical vibes 3 - Grigoriy Nuzhny.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Grigoriy Nuzhny",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M7_esperanzadora",
+   "titulo": "Classical vibes 3",
+   "id_lista": "mk_m_683",
+   "archivo_original": "mixkit-classical-vibes-3-683.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "esperanzadora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 124.8,
+    "lufs": -12.71,
+    "bpm_aprox": 76,
+    "energia_db": {
+     "intro": -14.5,
+     "medio": -15.4,
+     "final": -15.3
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 9.7,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.044,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Classical vibes 4 - Grigoriy Nuzhny.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Grigoriy Nuzhny",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M7_esperanzadora",
+   "titulo": "Classical vibes 4",
+   "id_lista": "mk_m_684",
+   "archivo_original": "mixkit-classical-vibes-4-684.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "esperanzadora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 137.1,
+    "lufs": -12.49,
+    "bpm_aprox": 70,
+    "energia_db": {
+     "intro": -14.1,
+     "medio": -14.5,
+     "final": -14.8
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 7.7,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.095,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Close Up - Michael Ramir C.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "explicacion",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Close Up",
+   "id_lista": "mk_m_1167",
+   "archivo_original": "mixkit-close-up-1167.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 95.1,
+    "lufs": -16.02,
+    "bpm_aprox": 70,
+    "energia_db": {
+     "intro": -15.4,
+     "medio": -15.7,
+     "final": -14.6
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 6.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.024,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Curiosity - Diego Nava.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Diego Nava",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Curiosity",
+   "id_lista": "mk_m_480",
+   "archivo_original": "mixkit-curiosity-480.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 100.1,
+    "lufs": -11.3,
+    "bpm_aprox": 81,
+    "energia_db": {
+     "intro": -13.8,
+     "medio": -9.5,
+     "final": -9.2
+    },
+    "arranca_en_s": 12,
+    "rango_dinamico_db": 16.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.025,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Deep Techno Ambience - Alejandro Magaña (A. M.).mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Alejandro Magaña (A. M.)",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/elegant/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M6_lujo_sofisticado",
+   "titulo": "Deep Techno Ambience",
+   "id_lista": "mk_m_134",
+   "archivo_original": "mixkit-deep-techno-ambience-134.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "lujo",
+    "sofisticada"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/elegant/",
+   "medido": {
+    "duracion_s": 122.5,
+    "lufs": -7.28,
+    "bpm_aprox": 83,
+    "energia_db": {
+     "intro": -4.5,
+     "medio": -4.4,
+     "final": -4.6
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 5.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.003,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Delayed Flight - Michael Ramir C.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "noticias",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/news/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M4_noticias_negocios",
+   "titulo": "Delayed Flight",
+   "id_lista": "mk_m_1024",
+   "archivo_original": "mixkit-delayed-flight-1024.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "noticias",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/news/",
+   "medido": {
+    "duracion_s": 99.8,
+    "lufs": -19.47,
+    "bpm_aprox": 112,
+    "energia_db": {
+     "intro": -18.7,
+     "medio": -18.9,
+     "final": -18.7
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 3.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.049,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Delirium - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "Delirium",
+   "id_lista": "mk_m_605",
+   "archivo_original": "mixkit-delirium-605.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 289.6,
+    "lufs": -9.14,
+    "bpm_aprox": 81,
+    "energia_db": {
+     "intro": -9.2,
+     "medio": -8.6,
+     "final": -6.3
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 6.0,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.106,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Digital Clouds - Alejandro Magaña (A. M.).mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "explicacion",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Alejandro Magaña (A. M.)",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Digital Clouds",
+   "id_lista": "mk_m_175",
+   "archivo_original": "mixkit-digital-clouds-175.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 101.0,
+    "lufs": -13.17,
+    "bpm_aprox": 65,
+    "energia_db": {
+     "intro": -12.1,
+     "medio": -10.6,
+     "final": -11.7
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 9.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.028,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Dirty Thinkin' - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/motivational/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M9_energetica_montaje",
+   "titulo": "Dirty Thinkin'",
+   "id_lista": "mk_m_989",
+   "archivo_original": "mixkit-dirty-thinkin-989.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "energetica"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/motivational/",
+   "medido": {
+    "duracion_s": 89.2,
+    "lufs": -16.17,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -16.9,
+     "medio": -15.5,
+     "final": -15.5
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 6.2,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.151,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Discover - Eugenio Mininni.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "buenas_noticias",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M7_esperanzadora",
+   "titulo": "Discover",
+   "id_lista": "mk_m_587",
+   "archivo_original": "mixkit-discover-587.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "esperanzadora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 144.0,
+    "lufs": -14.23,
+    "bpm_aprox": 172,
+    "energia_db": {
+     "intro": -23.4,
+     "medio": -13.2,
+     "final": -15.1
+    },
+    "arranca_en_s": 13,
+    "rango_dinamico_db": 23.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.065,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Dreaming Big - Ahjay Stelino.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M10_inspiradora_cta",
+   "titulo": "Dreaming Big",
+   "id_lista": "mk_m_31",
+   "archivo_original": "mixkit-dreaming-big-31.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 110.4,
+    "lufs": -12.34,
+    "bpm_aprox": 89,
+    "energia_db": {
+     "intro": -16.0,
+     "medio": -14.0,
+     "final": -11.3
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 9.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.082,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Driving Ambition - Ahjay Stelino.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M10_inspiradora_cta",
+   "titulo": "Driving Ambition",
+   "id_lista": "mk_m_32",
+   "archivo_original": "mixkit-driving-ambition-32.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 102.2,
+    "lufs": -11.07,
+    "bpm_aprox": 99,
+    "energia_db": {
+     "intro": -14.2,
+     "medio": -10.9,
+     "final": -10.4
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 9.8,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.104,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Fallen (Asper) - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "Fallen (Asper)",
+   "id_lista": "mk_m_565",
+   "archivo_original": "mixkit-fallen-asper-565.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 294.9,
+    "lufs": -14.64,
+    "bpm_aprox": 112,
+    "energia_db": {
+     "intro": -16.3,
+     "medio": -17.8,
+     "final": -18.4
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 9.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.058,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Feedback Dreams - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M2_misterio_ligero",
+   "titulo": "Feedback Dreams",
+   "id_lista": "mk_m_588",
+   "archivo_original": "mixkit-feedback-dreams-588.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "misterio",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 149.3,
+    "lufs": -17.83,
+    "bpm_aprox": 161,
+    "energia_db": {
+     "intro": -27.1,
+     "medio": -18.8,
+     "final": -21.6
+    },
+    "arranca_en_s": 5,
+    "rango_dinamico_db": 22.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.154,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Feel Alive - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M9_energetica_montaje",
+   "titulo": "Feel Alive",
+   "id_lista": "mk_m_953",
+   "archivo_original": "mixkit-feel-alive-953.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "energetica"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 105.5,
+    "lufs": -17.61,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -17.3,
+     "medio": -16.7,
+     "final": -16.3
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 3.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.064,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Focus on Yourself - Eugenio Mininni.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "explicacion",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "Focus on Yourself",
+   "id_lista": "mk_m_568",
+   "archivo_original": "mixkit-focus-on-yourself-568.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 285.9,
+    "lufs": -11.81,
+    "bpm_aprox": 76,
+    "energia_db": {
+     "intro": -16.7,
+     "medio": -13.3,
+     "final": -12.5
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 8.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.105,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Forest Mist Whispers - Alejandro Magaña (A. M.).mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Alejandro Magaña (A. M.)",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M7_esperanzadora",
+   "titulo": "Forest Mist Whispers",
+   "id_lista": "mk_m_148",
+   "archivo_original": "mixkit-forest-mist-whispers-148.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "esperanzadora"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 150.9,
+    "lufs": -14.84,
+    "bpm_aprox": 117,
+    "energia_db": {
+     "intro": -18.4,
+     "medio": -13.4,
+     "final": -14.3
+    },
+    "arranca_en_s": 5,
+    "rango_dinamico_db": 15.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.087,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Forest Walk - Eugenio Mininni.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "vuelta",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M2_misterio_ligero",
+   "titulo": "Forest Walk",
+   "id_lista": "mk_m_607",
+   "archivo_original": "mixkit-forest-walk-607.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "misterio",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 174.2,
+    "lufs": -10.5,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -10.3,
+     "medio": -9.0,
+     "final": -17.2
+    },
+    "arranca_en_s": 16,
+    "rango_dinamico_db": 37.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.022,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Fright Night - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/tension/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "Fright Night",
+   "id_lista": "mk_m_871",
+   "archivo_original": "mixkit-fright-night-871.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/tension/",
+   "medido": {
+    "duracion_s": 101.3,
+    "lufs": -16.39,
+    "bpm_aprox": 92,
+    "energia_db": {
+     "intro": -23.6,
+     "medio": -16.3,
+     "final": -15.8
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 13.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.085,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Funky Triplets - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M9_energetica_montaje",
+   "titulo": "Funky Triplets",
+   "id_lista": "mk_m_1141",
+   "archivo_original": "mixkit-funky-triplets-1141.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "energetica"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 108.5,
+    "lufs": -15.13,
+    "bpm_aprox": 99,
+    "energia_db": {
+     "intro": -14.4,
+     "medio": -14.0,
+     "final": -13.3
+    },
+    "arranca_en_s": 4,
+    "rango_dinamico_db": 10.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.098,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Gimme that Groove! - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/city/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M9_energetica_montaje",
+   "titulo": "Gimme that Groove!",
+   "id_lista": "mk_m_872",
+   "archivo_original": "mixkit-gimme-that-groove-872.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "energetica"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/city/",
+   "medido": {
+    "duracion_s": 88.4,
+    "lufs": -14.47,
+    "bpm_aprox": 112,
+    "energia_db": {
+     "intro": -13.3,
+     "medio": -12.8,
+     "final": -12.6
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 4.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.021,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Happy Home - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Happy Home",
+   "id_lista": "mk_m_801",
+   "archivo_original": "mixkit-happy-home-801.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 110.0,
+    "lufs": -11.81,
+    "bpm_aprox": 70,
+    "energia_db": {
+     "intro": -12.5,
+     "medio": -10.9,
+     "final": -11.1
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 3.8,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.058,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Hazy After Hours - Alejandro Magaña (A. M.).mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Alejandro Magaña (A. M.)",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M6_lujo_sofisticado",
+   "titulo": "Hazy After Hours",
+   "id_lista": "mk_m_132",
+   "archivo_original": "mixkit-hazy-after-hours-132.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "lujo",
+    "sofisticada"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 127.2,
+    "lufs": -8.46,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -6.5,
+     "medio": -5.6,
+     "final": -7.3
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 8.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.023,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Just Keep Walking - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Just Keep Walking",
+   "id_lista": "mk_m_963",
+   "archivo_original": "mixkit-just-keep-walking-963.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 124.7,
+    "lufs": -15.39,
+    "bpm_aprox": 96,
+    "energia_db": {
+     "intro": -17.1,
+     "medio": -15.4,
+     "final": -15.1
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 5.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.097,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Latin Lovers - Ahjay Stelino.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/bossa-nova/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Latin Lovers",
+   "id_lista": "mk_m_39",
+   "archivo_original": "mixkit-latin-lovers-39.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/bossa-nova/",
+   "medido": {
+    "duracion_s": 95.1,
+    "lufs": -13.45,
+    "bpm_aprox": 136,
+    "energia_db": {
+     "intro": -11.8,
+     "medio": -12.4,
+     "final": -12.3
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 4.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.022,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Miss You - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M8_emotiva_calma",
+   "titulo": "Miss You",
+   "id_lista": "mk_m_592",
+   "archivo_original": "mixkit-miss-you-592.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/hopeful/",
+   "medido": {
+    "duracion_s": 237.9,
+    "lufs": -13.73,
+    "bpm_aprox": 89,
+    "energia_db": {
+     "intro": -15.8,
+     "medio": -16.9,
+     "final": -25.3
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 28.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.027,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Moon Walk - Eugenio Mininni.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "cold_open",
+     "fecha": "2026-10-06"
+    },
+    {
+     "video": "LIVE020_V1",
+     "rol": "vuelta",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "Moon Walk",
+   "id_lista": "mk_m_609",
+   "archivo_original": "mixkit-moon-walk-609.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 204.7,
+    "lufs": -12.12,
+    "bpm_aprox": 99,
+    "energia_db": {
+     "intro": -16.4,
+     "medio": -10.7,
+     "final": -14.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 8.7,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.028,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Motivating Mornings - Ahjay Stelino.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "hook",
+     "fecha": "2026-10-06"
+    },
+    {
+     "video": "LIVE020_V1",
+     "rol": "puente",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M4_noticias_negocios",
+   "titulo": "Motivating Mornings",
+   "id_lista": "mk_m_33",
+   "archivo_original": "mixkit-motivating-mornings-33.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "noticias",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 96.2,
+    "lufs": -9.96,
+    "bpm_aprox": 123,
+    "energia_db": {
+     "intro": -9.7,
+     "medio": -8.0,
+     "final": -8.8
+    },
+    "arranca_en_s": 12,
+    "rango_dinamico_db": 9.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.07,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "New Bass 01 - Lily J.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Lily J",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/news/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M4_noticias_negocios",
+   "titulo": "New Bass 01",
+   "id_lista": "mk_m_720",
+   "archivo_original": "mixkit-new-bass-01-720.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "noticias",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/news/",
+   "medido": {
+    "duracion_s": 96.0,
+    "lufs": -18.15,
+    "bpm_aprox": 63,
+    "energia_db": {
+     "intro": -29.0,
+     "medio": -15.6,
+     "final": -16.3
+    },
+    "arranca_en_s": 22,
+    "rango_dinamico_db": 21.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.047,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Piano Reflections - Ahjay Stelino.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "emotivo",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M8_emotiva_calma",
+   "titulo": "Piano Reflections",
+   "id_lista": "mk_m_22",
+   "archivo_original": "mixkit-piano-reflections-22.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "medido": {
+    "duracion_s": 198.9,
+    "lufs": -13.01,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -14.3,
+     "medio": -12.8,
+     "final": -12.4
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 5.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.049,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Pop 05 - Grigoriy Nuzhny.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Grigoriy Nuzhny",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/city/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M6_lujo_sofisticado",
+   "titulo": "Pop 05",
+   "id_lista": "mk_m_695",
+   "archivo_original": "mixkit-pop-05-695.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "lujo",
+    "sofisticada"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/city/",
+   "medido": {
+    "duracion_s": 154.1,
+    "lufs": -14.13,
+    "bpm_aprox": 96,
+    "energia_db": {
+     "intro": -16.3,
+     "medio": -14.6,
+     "final": -15.3
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 6.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.155,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Pop 09 - Grigoriy Nuzhny.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Grigoriy Nuzhny",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/news/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M4_noticias_negocios",
+   "titulo": "Pop 09",
+   "id_lista": "mk_m_702",
+   "archivo_original": "mixkit-pop-09-702.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "noticias",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/news/",
+   "medido": {
+    "duracion_s": 68.0,
+    "lufs": -7.82,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -9.0,
+     "medio": -8.2,
+     "final": -7.3
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 4.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.083,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Pop Track 03 - Lily J.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Lily J",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Pop Track 03",
+   "id_lista": "mk_m_729",
+   "archivo_original": "mixkit-pop-track-03-729.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 96.9,
+    "lufs": -10.89,
+    "bpm_aprox": 108,
+    "energia_db": {
+     "intro": -8.1,
+     "medio": -8.2,
+     "final": -8.6
+    },
+    "arranca_en_s": 4,
+    "rango_dinamico_db": 3.6,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.047,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Raising Me Higher - Ahjay Stelino.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/motivational/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Raising Me Higher",
+   "id_lista": "mk_m_34",
+   "archivo_original": "mixkit-raising-me-higher-34.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/motivational/",
+   "medido": {
+    "duracion_s": 97.6,
+    "lufs": -9.51,
+    "bpm_aprox": 74,
+    "energia_db": {
+     "intro": -8.8,
+     "medio": -8.4,
+     "final": -8.2
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 3.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.066,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "River Flow - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/tension/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "River Flow",
+   "id_lista": "mk_m_594",
+   "archivo_original": "mixkit-river-flow-594.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/tension/",
+   "medido": {
+    "duracion_s": 270.0,
+    "lufs": -11.04,
+    "bpm_aprox": 117,
+    "energia_db": {
+     "intro": -18.7,
+     "medio": -9.0,
+     "final": -9.7
+    },
+    "arranca_en_s": 17,
+    "rango_dinamico_db": 27.8,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.061,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Romantic 05 - Lily J.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Lily J",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Romantic 05",
+   "id_lista": "mk_m_759",
+   "archivo_original": "mixkit-romantic-05-759.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 112.0,
+    "lufs": -16.46,
+    "bpm_aprox": 89,
+    "energia_db": {
+     "intro": -16.1,
+     "medio": -14.3,
+     "final": -16.2
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 7.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.048,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "See Line Funk - Alejandro Magaña.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Alejandro Magaña",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/luxury/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M6_lujo_sofisticado",
+   "titulo": "See Line Funk",
+   "id_lista": "mk_m_105",
+   "archivo_original": "mixkit-see-line-funk-105.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "lujo",
+    "sofisticada"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/luxury/",
+   "medido": {
+    "duracion_s": 132.9,
+    "lufs": -10.57,
+    "bpm_aprox": 99,
+    "energia_db": {
+     "intro": -8.1,
+     "medio": -8.3,
+     "final": -9.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 19.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.039,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Selpan - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M1_tension_documental",
+   "titulo": "Selpan",
+   "id_lista": "mk_m_612",
+   "archivo_original": "mixkit-selpan-612.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/investigation/",
+   "medido": {
+    "duracion_s": 193.6,
+    "lufs": -11.24,
+    "bpm_aprox": 172,
+    "energia_db": {
+     "intro": -12.3,
+     "medio": -11.4,
+     "final": -13.9
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 19.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.02,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Serene View - Arulo.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "cierre_banner",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Arulo",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M11_cierre_banner",
+   "titulo": "Serene View",
+   "id_lista": "mk_m_443",
+   "archivo_original": "mixkit-serene-view-443.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora",
+    "calma",
+    "cierre"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 113.9,
+    "lufs": -14.78,
+    "bpm_aprox": 78,
+    "energia_db": {
+     "intro": -16.3,
+     "medio": -15.5,
+     "final": -34.7
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 165.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.007,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Silent Descent - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M8_emotiva_calma",
+   "titulo": "Silent Descent",
+   "id_lista": "mk_m_614",
+   "archivo_original": "mixkit-silent-descent-614.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "medido": {
+    "duracion_s": 160.4,
+    "lufs": -13.3,
+    "bpm_aprox": 144,
+    "energia_db": {
+     "intro": -23.9,
+     "medio": -13.6,
+     "final": -26.6
+    },
+    "arranca_en_s": 1,
+    "rango_dinamico_db": 24.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.171,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Skyline - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M8_emotiva_calma",
+   "titulo": "Skyline",
+   "id_lista": "mk_m_601",
+   "archivo_original": "mixkit-skyline-601.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "medido": {
+    "duracion_s": 205.8,
+    "lufs": -9.5,
+    "bpm_aprox": 172,
+    "energia_db": {
+     "intro": -14.2,
+     "medio": -14.0,
+     "final": -14.6
+    },
+    "arranca_en_s": 3,
+    "rango_dinamico_db": 8.9,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.154,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Spanish Heart - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/latin/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Spanish Heart",
+   "id_lista": "mk_m_974",
+   "archivo_original": "mixkit-spanish-heart-974.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/latin/",
+   "medido": {
+    "duracion_s": 106.9,
+    "lufs": -15.11,
+    "bpm_aprox": 60,
+    "energia_db": {
+     "intro": -15.5,
+     "medio": -14.8,
+     "final": -15.7
+    },
+    "arranca_en_s": 8,
+    "rango_dinamico_db": 5.0,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.069,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Sun and His Daughter - Eugenio Mininni.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/documentary/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Sun and His Daughter",
+   "id_lista": "mk_m_580",
+   "archivo_original": "mixkit-sun-and-his-daughter-580.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/documentary/",
+   "medido": {
+    "duracion_s": 167.8,
+    "lufs": -10.91,
+    "bpm_aprox": 172,
+    "energia_db": {
+     "intro": -9.6,
+     "medio": -8.9,
+     "final": -8.6
+    },
+    "arranca_en_s": 2,
+    "rango_dinamico_db": 3.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.009,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Tapis - Eugenio Mininni.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "vuelta",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/documentary/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M2_misterio_ligero",
+   "titulo": "Tapis",
+   "id_lista": "mk_m_615",
+   "archivo_original": "mixkit-tapis-615.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "misterio",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/documentary/",
+   "medido": {
+    "duracion_s": 163.2,
+    "lufs": -14.47,
+    "bpm_aprox": 117,
+    "energia_db": {
+     "intro": -17.1,
+     "medio": -19.6,
+     "final": -54.6
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 63.1,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.06,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Tears of Joy - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Tears of Joy",
+   "id_lista": "mk_m_839",
+   "archivo_original": "mixkit-tears-of-joy-839.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 140.2,
+    "lufs": -11.01,
+    "bpm_aprox": 123,
+    "energia_db": {
+     "intro": -10.6,
+     "medio": -10.2,
+     "final": -9.8
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 2.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.041,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "The Long Road - Ahjay Stelino.mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "emotivo",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Ahjay Stelino",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M8_emotiva_calma",
+   "titulo": "The Long Road",
+   "id_lista": "mk_m_52",
+   "archivo_original": "mixkit-the-long-road-52.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "calma",
+    "emotiva"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/emotional/",
+   "medido": {
+    "duracion_s": 97.2,
+    "lufs": -14.37,
+    "bpm_aprox": 76,
+    "energia_db": {
+     "intro": -15.7,
+     "medio": -13.5,
+     "final": -17.5
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 7.2,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.072,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Urban Grooves - Diego Nava.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "cta",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Diego Nava",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/elegant/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M6_lujo_sofisticado",
+   "titulo": "Urban Grooves",
+   "id_lista": "mk_m_501",
+   "archivo_original": "mixkit-urban-grooves-501.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "lujo",
+    "sofisticada"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/elegant/",
+   "medido": {
+    "duracion_s": 114.5,
+    "lufs": -15.49,
+    "bpm_aprox": 81,
+    "energia_db": {
+     "intro": -13.4,
+     "medio": -13.6,
+     "final": -14.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 5.7,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.015,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Valley Sunset - Alejandro Magaña (A. M.).mp3": {
+   "usos": [
+    {
+     "video": "LIVE019_V2v2",
+     "rol": "cierre_banner",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Alejandro Magaña (A. M.)",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/mysterious/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M11_cierre_banner",
+   "titulo": "Valley Sunset",
+   "id_lista": "mk_m_127",
+   "archivo_original": "mixkit-valley-sunset-127.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "inspiradora",
+    "calma",
+    "cierre"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/mysterious/",
+   "medido": {
+    "duracion_s": 133.8,
+    "lufs": -17.51,
+    "bpm_aprox": 144,
+    "energia_db": {
+     "intro": -19.2,
+     "medio": -16.8,
+     "final": -26.6
+    },
+    "arranca_en_s": 5,
+    "rango_dinamico_db": 28.5,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.06,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Vampires in the City - Michael Ramir C.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Michael Ramir C.",
+   "url_pagina": "https://mixkit.co/free-stock-music/mood/mysterious/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M2_misterio_ligero",
+   "titulo": "Vampires in the City",
+   "id_lista": "mk_m_892",
+   "archivo_original": "mixkit-vampires-in-the-city-892.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "misterio",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/mood/mysterious/",
+   "medido": {
+    "duracion_s": 99.6,
+    "lufs": -14.83,
+    "bpm_aprox": 152,
+    "energia_db": {
+     "intro": -19.0,
+     "medio": -13.5,
+     "final": -14.3
+    },
+    "arranca_en_s": 13,
+    "rango_dinamico_db": 12.3,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.102,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Villa Penthouse - Arulo.mp3": {
+   "usos": [],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Arulo",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/travel/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M5_urbano_latino",
+   "titulo": "Villa Penthouse",
+   "id_lista": "mk_m_339",
+   "archivo_original": "mixkit-villa-penthouse-339.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "latina",
+    "calida",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/travel/",
+   "medido": {
+    "duracion_s": 102.8,
+    "lufs": -15.86,
+    "bpm_aprox": 70,
+    "energia_db": {
+     "intro": -19.9,
+     "medio": -16.1,
+     "final": -15.8
+    },
+    "arranca_en_s": 17,
+    "rango_dinamico_db": 15.4,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.033,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Voxscape - Eugenio Mininni.mp3": {
+   "usos": [
+    {
+     "video": "LIVE020_V1",
+     "rol": "explicacion",
+     "fecha": "2026-10-06"
+    },
+    {
+     "video": "LIVE020_V1",
+     "rol": "explicacion",
+     "fecha": "2026-10-06"
+    }
+   ],
+   "fuente": "Mixkit (Envato)",
+   "licencia": "Mixkit Stock Music Free License",
+   "licencia_url": "https://mixkit.co/license/#musicFree",
+   "atribucion": "no requerida",
+   "content_id": "la licencia permite YouTube monetizado; no se pudo verificar si alguna pista está en Content ID: si llega un reclamo, se disputa con la licencia",
+   "autor": "Eugenio Mininni",
+   "url_pagina": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "verificado": "título, autor, duración e id vistos en la página oficial (4-oct-2026)",
+   "slot": "M3_explicacion_neutra",
+   "titulo": "Voxscape",
+   "id_lista": "mk_m_571",
+   "archivo_original": "mixkit-voxscape-571.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "neutra",
+    "brillante"
+   ],
+   "energia": null,
+   "url": "https://mixkit.co/free-stock-music/tag/corporate/",
+   "medido": {
+    "duracion_s": 299.5,
+    "lufs": -10.55,
+    "bpm_aprox": 83,
+    "energia_db": {
+     "intro": -13.8,
+     "medio": -9.7,
+     "final": -10.5
+    },
+    "arranca_en_s": 42,
+    "rango_dinamico_db": 18.0,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.017,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  },
+  "Minimal Underscore Piano Pulse - Loop Edit - Musinova.mp3": {
+   "usos": [],
+   "fuente": "Pixabay",
+   "licencia": "Pixabay Content License",
+   "licencia_url": "https://pixabay.com/service/license-summary/",
+   "atribucion": "no requerida (opcional: «by <autor> via Pixabay»)",
+   "content_id": "NO registrado (sin «Content ID Registered» en la página, 4-oct-2026, página oficial)",
+   "autor": "Musinova",
+   "url_pagina": "https://pixabay.com/music/ambient-minimal-underscore-piano-pulse-loop-edit-518250/",
+   "verificado": "datos oficiales de la página (JSON-LD)",
+   "slot": "M1_tension_documental",
+   "titulo": "Minimal Underscore Piano Pulse - Loop Edit",
+   "id_lista": "px_m_518250",
+   "archivo_original": "musinova-minimal-underscore-piano-pulse-loop-edit-518250.mp3",
+   "incorporado": "2026-10-04",
+   "mood": [
+    "oscura",
+    "tension"
+   ],
+   "energia": null,
+   "url": "https://pixabay.com/music/ambient-minimal-underscore-piano-pulse-loop-edit-518250/",
+   "medido": {
+    "duracion_s": 89.6,
+    "lufs": -9.74,
+    "bpm_aprox": 152,
+    "energia_db": {
+     "intro": -7.0,
+     "medio": -7.1,
+     "final": -7.1
+    },
+    "arranca_en_s": 0,
+    "rango_dinamico_db": 1.2,
+    "banda_voz": {
+     "fraccion_1_4khz": 0.007,
+     "choca_con_voz": false
+    }
+   },
+   "medido_el": "2026-10-04"
+  }
+ },
+ "diagnostico_2026_10_04": "Videos 1, 2 y 3 usaron las mismas 7 pistas y The Rising cerró los tres. Con 7 pistas no hay rotación posible: hace falta un lote nuevo (ver CLAUDE/reglas_fabrica.md §Música). Moods sin cubrir: latina/acústica, cálida de ciudad, suspenso ligero sin oscuridad, groove medio para listas.",
+ "excluidos": {
+  "Latin Jazz Rhythm Midnight Club - alex-morgan.mp3": {
+   "id_lista": "px_m_560052",
+   "titulo": "Latin Jazz Rhythm Midnight Club",
+   "autor": "alex-morgan",
+   "url": "https://pixabay.com/music/bossa-nova-latin-jazz-rhythm-midnight-club-560052/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  },
+  "Podcast Outro Music Ending - alex-morgan.mp3": {
+   "id_lista": "px_m_583244",
+   "titulo": "Podcast Outro Music Ending",
+   "autor": "alex-morgan",
+   "url": "https://pixabay.com/music/instrumental-podcast-outro-music-ending-583244/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  },
+  "Hopeful - AtlasAudio.mp3": {
+   "id_lista": "px_m_590152",
+   "titulo": "Hopeful",
+   "autor": "AtlasAudio",
+   "url": "https://pixabay.com/music/modern-classical-hopeful-590152/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  },
+  "Jazz Lounge - AtlasAudio.mp3": {
+   "id_lista": "px_m_589986",
+   "titulo": "Jazz Lounge",
+   "autor": "AtlasAudio",
+   "url": "https://pixabay.com/music/modern-jazz-jazz-lounge-589986/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  },
+  "Real Estate - Real Estate Music - AtlasAudio.mp3": {
+   "id_lista": "px_m_576653",
+   "titulo": "Real Estate - Real Estate Music",
+   "autor": "AtlasAudio",
+   "url": "https://pixabay.com/music/corporate-real-estate-real-estate-music-576653/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  },
+  "News - News Background - Monume.mp3": {
+   "id_lista": "px_m_556491",
+   "titulo": "News - News Background",
+   "autor": "Monume",
+   "url": "https://pixabay.com/music/ambient-news-news-background-556491/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  },
+  "Latin Afrobeat - Relaxed Afrobeat Music - Sonican.mp3": {
+   "id_lista": "px_m_600235",
+   "titulo": "Latin Afrobeat - Relaxed Afrobeat Music",
+   "autor": "Sonican",
+   "url": "https://pixabay.com/music/electronic-latin-afrobeat-relaxed-afrobeat-music-600235/",
+   "motivo": "Content ID Registered (regla: Pixabay solo sin Content ID)",
+   "content_id": "REGISTRADO («Content ID Registered» en la página, 4-oct-2026, página oficial): NO USAR",
+   "fecha": "2026-10-04"
+  }
+ }
+}
