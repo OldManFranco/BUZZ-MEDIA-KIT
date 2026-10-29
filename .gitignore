@@ -28,6 +28,9 @@
 /music/*.wav
 /music/*.mp3
 
+# --- This computer's kit user (_setup/SETUP.md step 8) ---
+/kit.local.json
+
 # --- Benchmark: analysis tracked, downloads not ---
 /_benchmark/kallaway-reels/*.mp4
 /_benchmark/kallaway-reels/*.webm
@@ -83,6 +86,8 @@
 !/_benchmark/kallaway/sheets/*.jpg
 !/_benchmark/promo-02-refs/sheets/*.jpg
 !/_archive_medellin_buzz/_benchmark/hooks_all.jpg
+# SFX synthesized for the kit (no license) ship with the repo; the rest: _setup/fetch_library.py
+!/sfx/_synth/*.wav
 
 # --- Kit tools: scripts tracked; venvs (copied from Alejo's kit, ~8.4 GB) and model files not ---
 /tools/models/

@@ -1,0 +1,19 @@
+{
+  "name": "Kit default (neutral)",
+  "source": "the kit's fallback for a client with no _brand\\brand.json yet: plain black and white, the kit's OFL fonts",
+  "colors": {
+    "ink": "#121212",
+    "cream": "#F4F1EA",
+    "accent": "#FFFFFF",
+    "accent_text": "#121212",
+    "gray": "#6B6B6B",
+    "white": "#FFFFFF"
+  },
+  "fonts": {
+    "heavy": {"file": "../../_brand_assets/fonts/SchibstedGrotesk[wght].ttf", "weight": 800, "family": "Schibsted Grotesk"},
+    "bold": {"file": "../../_brand_assets/fonts/SchibstedGrotesk[wght].ttf", "weight": 700, "family": "Schibsted Grotesk"},
+    "label": {"file": "../../_brand_assets/fonts/IBMPlexMono-Medium.ttf", "weight": 500, "family": "IBM Plex Mono"}
+  },
+  "caption_case": "sentence",
+  "notes": "Placeholder until the client's own brand is set up (CLAUDE.md §2, new client checklist). White active-word plate with ink text, so nothing reads as another brand's color."
+}

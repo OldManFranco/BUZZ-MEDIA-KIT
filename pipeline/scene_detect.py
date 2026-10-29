@@ -19,9 +19,9 @@ def detect_shots(video_path: str, threshold: float = 27.0,
         from scenedetect import open_video, SceneManager
         from scenedetect.detectors import ContentDetector
     except ImportError:
-        # Never auto-install (Franco approves every install).
+        # Never auto-install (the kit user approves every install).
         import sys
-        print('Missing: PySceneDetect. Ask Franco, then: pip install "scenedetect[opencv]"',
+        print('Missing: PySceneDetect. Ask the kit user, then: pip install "scenedetect[opencv]"',
               file=sys.stderr)
         sys.exit(2)
 
