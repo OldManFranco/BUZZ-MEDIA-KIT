@@ -8,8 +8,10 @@ A project EDL carries
 and the project folder holds raw\ broll\ assets\ working\ output\. EDLs without "project_dir" (the archived
 Medellin Buzz ones) resolve to the old input\<slug>\ working\<slug>\ output\<slug>\ layout.
 
-Fallbacks: client sfx\ / music\ when non-empty, else the kit's; client _brand\brand.json, else Buzz Media's
-(_brand_assets\brand.json).
+Fallbacks: client sfx\ / music\ when non-empty, else the kit's; client _brand\brand.json, else the kit's neutral
+default (_setup\default_brand\brand.json; Buzz Media's own brand lives in clients\buzz-media\_brand\).
+
+The kit's user (who approves plans and cuts) is "user" in kit.local.json at the kit root, one per computer, not in git.
 
 Scripts run from the kit root (relative paths in EDLs are relative to it).
 """
@@ -22,7 +24,16 @@ WHISPERX_PY = TOOLS / "venv_whisperx" / "Scripts" / "python.exe"
 WHISPERX = TOOLS / "transcribir_whisperx.py"
 RENDER_PY = TOOLS / "venv_render" / "Scripts" / "python.exe"
 FACE_DIR = TOOLS / "render"                       # cara.py (MediaPipe face landmarker, models in tools\models\)
-DEFAULT_BRAND = ROOT / "_brand_assets"
+DEFAULT_BRAND = ROOT / "_setup" / "default_brand"
+
+
+def user():
+    """The kit user's name from kit.local.json ({"user": "Franco"}), or None before setup."""
+    f = ROOT / "kit.local.json"
+    try:
+        return json.loads(f.read_text(encoding="utf-8")).get("user") if f.exists() else None
+    except ValueError:
+        return None
 
 
 class Project:
@@ -69,7 +80,7 @@ def brand(edl):
     bd = Project(edl).brand_dir() if edl.get("project_dir") else DEFAULT_BRAND
     b = json.loads((bd / "brand.json").read_text(encoding="utf-8"))
     for role, f in b["fonts"].items():
-        f["path"] = str(bd / f["file"])
+        f["path"] = str((bd / f["file"]).resolve())
     b["dir"] = str(bd)
     return b
 

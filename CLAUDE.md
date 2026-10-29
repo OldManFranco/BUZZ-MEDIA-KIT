@@ -1,8 +1,12 @@
-# Buzz Media Kit — Editing Engine (v0.3)
+# Buzz Media Kit — Editing Engine (v0.3.1)
 
 **What this is:** the procedure Claude follows to turn a client's phone footage into finished vertical reels (Instagram Reels, YouTube Shorts, TikTok, Facebook) for **Buzz Media**. When Franco asks for a reel for any client, follow this doc.
 
 **Status:** v0.3 (2026-10-28). Forked from the Medellin Buzz Shorts Kit v0.5 (3 approved shorts; everything channel-specific is in `_archive_medellin_buzz\`, see `ARCHIVED.md` there). Buzz Media's three launch promos are approved (promo-01 "Who edits my videos", promo-02 "Your competitor posts every day", promo-03 "Do the math"). v0.2 turned promo-01's audio and flow fixes into checks; v0.3 does the same for promo-02/03's frame-level problems (transitions, blank space, the face, safe zones; §13). Rules marked `[DRAFT]` haven't been tested on a Buzz Media render.
+
+**Who "Franco" is:** this doc was written for Franco, who built the kit. On any computer, "Franco" means **the kit user** named in `kit.local.json` at the kit root (`{"user": "<name>"}`, not in git): the person who approves plans and cuts and is asked before installs. Read it at the start of a session and use that name.
+
+**New computer?** If `kit.local.json`, `tools\venv_whisperx\` or `tools\models\` is missing, or the user asks to set the kit up, follow `_setup\SETUP.md` (`python _setup\check_setup.py` shows what's missing) before anything else.
 
 **Language:** Franco works in English. Chat, reports and generated files in English. On-screen text in the client's language (English unless `_instructions\` says otherwise).
 
@@ -49,7 +53,8 @@ E:\FRANCO\BUZZ MEDIA KIT\
   _brand_assets\            ← Buzz Media's OWN brand kit: PDF, brand-notes.md, brand.json (pipeline tokens), fonts\
   _benchmark\               ← studied references: kallaway-analysis.md, kallaway-inspired-rules.md, kallaway\ (scan, sheets), kallaway-reels\ (mp4 gitignored)
   _archive_medellin_buzz\   ← the forked kit's specific pieces, kept for diffing
-  _setup\                   ← install notes and setup scripts
+  _setup\                   ← SETUP.md (new computer), check_setup.py, fetch_library.py, default_brand\ (neutral fallback), install notes
+  kit.local.json            ← this computer's kit user (not in git)
   _to_delete\               ← files Franco should delete by hand (gitignored)
   clients\
     <client>\
@@ -76,7 +81,7 @@ E:\FRANCO\BUZZ MEDIA KIT\
 
 ### New client checklist
 1. `clients\<client-slug>\` with `_brand\`, `_instructions\`, `sfx\`, `music\`, `projects\`.
-2. Drop their brand kit into `_brand\` and write `_brand\brand-notes.md` (palette, fonts, caption colors, logo rules) in the shape of `_brand_assets\brand-notes.md`. Then `_brand\brand.json` (the values the pipeline reads: `ink`, `cream`, `accent`, `accent_text`, `gray`, `white`; fonts `heavy`/`bold`/`label` with file + weight + family; `caption_case` `upper` or `sentence`) and the font files in `_brand\fonts\` (free fonts only, license file alongside; ask Franco before downloading). No brand kit → ask Franco; meanwhile Buzz Media's `_brand_assets\brand.json` applies.
+2. Drop their brand kit into `_brand\` and write `_brand\brand-notes.md` (palette, fonts, caption colors, logo rules) in the shape of `_brand_assets\brand-notes.md`. Then `_brand\brand.json` (the values the pipeline reads: `ink`, `cream`, `accent`, `accent_text`, `gray`, `white`; fonts `heavy`/`bold`/`label` with file + weight + family; `caption_case` `upper` or `sentence`) and the font files in `_brand\fonts\` (free fonts only, license file alongside; ask Franco before downloading). No brand kit → ask Franco; meanwhile the kit's neutral black-and-white `_setup\default_brand\brand.json` applies. A person making reels for themselves is their own first client: they add their brand guide and notes, and you interview them (one question at a time: who they are, audience, style and example accounts, platforms, CTA, topics and words to avoid, length) to write the brief and brand files.
 3. Read everything in `_instructions\`. Write `_instructions\brief-summary.md`: offer, audience, CTA, exclusions, per-reel asks, length limit, open questions. Settle the open questions with Franco one at a time before planning (promo-01: that's how every number on screen got a real source). Always on the list: **length cap vs. full sentences** (if the lines don't fit the cap without cutting inside sentences, which wins? promo-01: full lines at 35.9 s beat a harsh 30 s), and **footage quality** (camera original, 4K or vertical?). Put words the client must never say on air in `_instructions\exclusions.json` (`"patterns"`: regexes; plan and QA scan for them).
 4. Each delivery batch is a project: `projects\<slug>\` with `raw\ broll\ assets\ working\ output\`.
 
@@ -258,7 +263,7 @@ In order of preference:
 - **The caption floor is fixed: `caption_y` 1404 is the lowest a caption can go** (its active-word plate then reaches y 1439). When a graphic needs more room, the space comes from the graphic (make it shorter at the bottom), never from moving captions down. A layout item can set `"caption_y"`.
 - **Nothing sits on top of graphic text, and nothing goes between a graphic and the captions:** the band between a graphic's bottom (shadow included) and the caption plate stays empty, ≥ ~20 px. Fine print (a source line) goes inside the graphic or into the package (promo-03).
 - Active word: accent-colored text, or an accent plate with dark text. While another accent graphic is on screen, the active word drops to white/plate so only one accent element shows (an `hf_scene`'s `"orange_from"` says when its accent appears). **Readability beats that rule over busy artwork:** while an `hf_scene` with `"background": true` (full-frame artwork) is up, the captions keep the accent plate and a dark band sits behind them (Franco's note on promo-01 0–4 s).
-- **Where the look comes from:** `build_captions.py` and `build_graphics.py` read the client's `_brand\brand.json` (falling back to `_brand_assets\brand.json`). In EDLs and in the code, `"orange"` means **the brand's accent color** (a leftover name from Medellin Buzz): `"orange": "200+"` paints that word in Buzz Yellow, `"style": "orange plate"` is an accent plate with `accent_text` lettering.
+- **Where the look comes from:** `build_captions.py` and `build_graphics.py` read the client's `_brand\brand.json` (falling back to the neutral `_setup\default_brand\brand.json`; Buzz Media's own is `clients\buzz-media\_brand\`). In EDLs and in the code, `"orange"` means **the brand's accent color** (a leftover name from Medellin Buzz): `"orange": "200+"` paints that word in Buzz Yellow, `"style": "orange plate"` is an accent plate with `accent_text` lettering.
 - **Buzz Media's own reels:** Schibsted Grotesk ExtraBold, white, sentence case, Buzz Yellow `#FFC629` active-word plate with ink text (see `_brand_assets\brand-notes.md` §4). Fonts in `_brand_assets\fonts\` (OFL). Title cards and chips print the EDL's text as written: write them in sentence case for Buzz Media (brand rule), uppercase only for brands that use it.
 
 **Title card** `[DRAFT]`: a text layer over the first shot from frame 0 (not a separate intro), 2–6 words, the key word in the accent color, y ≈ 300–600 (clear of the face and the captions). In: masked reveal 0.2–0.3 s ease-out with a hit SFX. Out: hard cut on the next shot, or 0.2 s. Says something the spoken line doesn't.
@@ -281,6 +286,7 @@ In order of preference:
 
 - **Voice first.** High-pass 80 Hz, gentle de-noise (phone/room audio), light compression 2:1, consistent level across takes.
 - **Music bed:** usually yes for promo/business reels, **−21 dB under the voice, −17 dB in gaps** (the EDL `"music"` defaults; promo-03 "perfect volume", −26/−22 was too low on promo-01/02), ducked under speech. A client brief can override. Pick tempo and mood to the script; cuts can land on its beats (§9). **License note required, and it must cover every platform the reel goes to.** Most tracks in `music\catalogo_musica.json` are YouTube Audio Library: cleared for YouTube, **not guaranteed for Instagram/TikTok/Facebook**; check the license field or add music in-app.
+- **Library files aren't in git** (Mixkit, Pixabay and YouTube Audio Library allow use, not passing the files on): a new computer downloads them from the source with `python _setup\fetch_library.py` (the Mixkit ones; Pixabay and YouTube Audio Library by hand). `sfx\_synth\` ships with the repo.
 - **SFX library:** client `sfx\` if non-empty, else shared `sfx\`: catalogued folders (`catalogo_sfx.json`: Mixkit / Pixabay licenses), `_synth\` (synthesized, no license issue). `_uncatalogued\` holds 16 Pixabay-style files with no license logged yet: **don't use until they're added to the catalog** (2 of them duplicate catalog entries). New outside sources need Franco's OK.
 - **SFX use:** see the craft rules (§9) for placement. Never on top of a number or name being said.
 - **Sound effects are chosen for the edit, not copied from the last reel.** Pick each one for what's on screen at that moment (the kind of transition, pop or hit). Reusing a sound is fine when it's the right one; defaulting to the previous reel's set isn't (promo-02 reused promo-01's exact set and it felt like autopilot).
@@ -335,7 +341,9 @@ What was checked 2026-10-27 without writing any video: both venvs run from `tool
 
 | Script | Status | Does |
 |---|---|---|
-| `kit.py` | 🟢 new | Paths, brand, SFX/music fallback, exclusions, length limits, tool locations |
+| `kit.py` | 🟢 new | Paths, brand (neutral default), SFX/music fallback, exclusions, length limits, tool locations, kit user |
+| `_setup\check_setup.py` | 🟢 new | What this computer has and lacks, with the SETUP.md step that fixes it (standard library only) |
+| `_setup\fetch_library.py` | 🟢 new | Downloads the catalogued Mixkit SFX and music from Mixkit; lists Pixabay/YouTube ones for a manual download; `--check` |
 | `inventory.py --project <p>` | 🟢 | Step 1 → `<p>\working\inventory.json` (videos + stills); narrow-crop and screen-recorder flags, `ask_client` list for the first reply |
 | `tools\transcribir_whisperx.py` | 🟢 | Step 2, WhisperX (`tools\README.md`) |
 | `scene_detect.py` | ✅ (Medellin Buzz) | Shots → `shots.json` |
@@ -363,6 +371,10 @@ Python 3.12 (system) has PySceneDetect, OpenCV, Pillow, librosa 1.0. ffmpeg 9.0.
 
 ## 13. Version history
 
+- **v0.3.1 (2026-10-29): shareable.** The repo can go to the team (Andrew, Alejo) and to people making reels for themselves:
+  - `_setup\SETUP.md`: a new computer's install, step by step (programs, Python packages, both venvs from their lock files, face models, yt-dlp, HyperFrames, the library, the kit user), with `check_setup.py` to see what's missing.
+  - `fetch_library.py`: the library's audio stays out of git; the 105 Mixkit files download from Mixkit (every link checked against the local files: same size); the 9 `_synth\` sounds ship with the repo.
+  - "Franco" means the kit user from `kit.local.json`; a client with no brand gets a neutral black-and-white default instead of Buzz Yellow (Buzz Media's own reels are unchanged: `clients\buzz-media\_brand\`). People making reels for themselves are their own first client, set up by an interview.
 - **v0.3 (2026-10-28):** lessons from promo-02 and promo-03 (both approved), mechanics only:
   - **Transitions:** times on frame boundaries; layout switches snap to A-roll cuts and graphics to picture switches within 3 frames (a `flash_in` scene to 1 frame before the cut); `move_in` pull-back between full and split in the renderer (one eased camera move, starting on the previous frame's eyes and face size).
   - **Ending:** ~0.1 s after the last word (`ending_tail_s`), 60 ms voice fade.

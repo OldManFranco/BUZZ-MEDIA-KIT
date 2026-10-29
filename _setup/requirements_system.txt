@@ -1,0 +1,9 @@
+# System Python 3.12 packages the pipeline scripts use (python pipeline\...). Versions as on the kit's first
+# machine, 2026-10-29. The two venvs in tools\ have their own lock files.
+librosa==1.0.0
+numpy==2.5.4
+opencv-python==5.0.0.93
+pillow==13.0.0
+scenedetect==0.7.2
+scipy==1.18.1
+soundfile==0.14.0

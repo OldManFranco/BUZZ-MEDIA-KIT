@@ -13,6 +13,8 @@ Copied from Alejo's kit (`E:\FRANCO\MEDELLIN_BUZZ CLAUDE KIT\CLAUDE\tools\`) on 
 
 Both venvs' `pyvenv.cfg` are real copies pointing at this folder. Their `home` is the system Python 3.12 (`C:\Users\USUARIO\AppData\Local\Programs\Python\Python312`), so that Python must stay installed.
 
+On another computer the venvs and models are rebuilt from the lock files and Google's model links: `_setup\SETUP.md` steps 3–4.
+
 ## History
 
 On 2026-10-27 drive E: first had only 5.3 GB free, so `venv_whisperx` started as NTFS hard links to Alejo's copy. Franco freed space the same day and it was replaced with a full copy (robocopy, 46,404 files, 0 failed). Every file now has a single link: nothing in `tools\` shares data with Alejo's kit. The old hard-linked folder is in `_to_delete\venv_whisperx_hardlinks\` (deleting it frees no space and doesn't touch Alejo's kit).
