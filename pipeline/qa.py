@@ -127,12 +127,13 @@ def main(mp4, edl_path, out_dir=None):
     R.add("captions don't overlap", not ov, f"{len(ov)} overlaps")
     # full-bleed data cards and "background" hf_scenes cover the frame by design; their text layout is audited by
     # `hyperframes check`. Older graphics_layout.json files lack the flag: match the EDL event by its start time
-    bg_t = [e["t"] for e in edl["events"] if e.get("background")]
+    bg_t = [e["t"] for e in edl["events"] if e.get("background") or e.get("pip_canvas")]
+    # "pip_canvas": a full-frame animation with a rounded hole for the pip (promo-06): full by design, captions stay on
     # a split-screen top panel (exactly the ink top half, y 0-960) is a background by design too (promo-01/02)
     # an hf_scene with "matte": true lays a cutout of the speaker over his own picture (promo-03 orbit opener),
     # so its box is the whole frame by design
     bg_t += [e["t"] for e in edl["events"] if e.get("matte")]
-    full = lambda o: (o.get("full_bleed") or o.get("background") or o.get("matte")
+    full = lambda o: (o.get("full_bleed") or o.get("background") or o.get("matte") or o.get("pip_canvas")
                       or any(abs(o["t"] - t) < 0.02 for t in bg_t) or o.get("bbox") == [0, 0, 1080, 960])
     badg = [o for o in ovs if not full(o) and o.get("bbox") and (
         o["bbox"][1] < SAFE["y0"] or o["bbox"][3] > SAFE["y1"] or o["bbox"][2] > SAFE["x1"])]
